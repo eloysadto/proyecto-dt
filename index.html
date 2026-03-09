@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Proyecto PEL - Xiaomi Electric Scooter 4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Urbanist:wght@400;700&family=JetBrains+Mono:wght@500;800&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #020617; 
+            color: #cbd5e1;
+            scroll-behavior: smooth; 
+        }
+        
+        /* UI Tokens */
+        .tab-active { border-bottom: 4px solid #f97316; color: #f97316; font-weight: 600; background-color: rgba(30, 41, 59, 0.5); }
+        .tab-inactive { border-bottom: 4px solid transparent; color: #94a3b8; }
+        .tab-inactive:hover { color: #cbd5e1; background-color: rgba(30, 41, 59, 0.3); }
+        
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* SVG & Animation */
+        .scooter-part { transition: all 0.3s ease; transform-origin: center; }
+        .highlight-border { stroke: #f97316 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 12px rgba(249, 115, 22, 1)); opacity: 1 !important; }
+        .highlight-bg { fill: #f97316 !important; stroke: #ffedd5 !important; stroke-width: 2px !important; filter: drop-shadow(0 0 15px rgba(249, 115, 22, 1)); opacity: 1 !important; }
+        .highlight-internal { fill: url(#diagonalHatch) !important; stroke: #f97316 !important; stroke-width: 4px !important; filter: drop-shadow(0 0 15px rgba(249, 115, 22, 1)); opacity: 1 !important; }
+
+        /* Team Highlights - PL19 (Naranja) */
+        .svg-team-pl19 .part-pl19 { fill: #f97316 !important; stroke: #ffedd5 !important; stroke-width: 2px; opacity: 1 !important; }
+        .svg-team-pl19 .border-pl19 { stroke: #f97316 !important; stroke-width: 6px !important; opacity: 1 !important; }
+        .svg-team-pl19 .internal-pl19 { fill: url(#diagonalHatch) !important; stroke: #f97316 !important; opacity: 1 !important; }
+        
+        /* Team Highlights - PL20 (Azul) */
+        .svg-team-pl20 .part-pl20 { fill: #38bdf8 !important; stroke: #e0f2fe !important; stroke-width: 2px; opacity: 1 !important; }
+        .svg-team-pl20 .border-pl20 { stroke: #38bdf8 !important; stroke-width: 6px !important; opacity: 1 !important; }
+        
+        /* Team Highlights - PL21 (Verde) */
+        .svg-team-pl21 .part-pl21 { fill: #a3e635 !important; stroke: #f7fee7 !important; stroke-width: 2px; opacity: 1 !important; }
+        .svg-team-pl21 .border-pl21 { stroke: #a3e635 !important; stroke-width: 4px !important; opacity: 1 !important; }
+        
+        /* Team Highlights - Dirección (Morado) */
+        .svg-team-dir .part-dir { fill: #a855f7 !important; stroke: #faf5ff !important; stroke-width: 2px; opacity: 1 !important; }
+        .svg-team-dir .border-dir { stroke: #a855f7 !important; stroke-width: 6px !important; opacity: 1 !important; }
+
+        .team-svg-base .scooter-part:not(.highlighted) { opacity: 0.2; fill: #475569; stroke: #1e293b; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+        .chart-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto; height: 320px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative">
+
+    <!-- NAVIGATION -->
+    <div class="sticky top-4 sm:top-6 z-50 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl shadow-slate-950/50 transition-all duration-300">
+            <div class="px-6 py-3 flex flex-wrap items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <span class="text-2xl drop-shadow-md">🛴</span>
+                    <span class="font-bold text-lg tracking-tight uppercase text-white font-['Urbanist']">Ingeniería <span class="text-orange-500">Scooter 4</span></span>
+                </div>
+                
+                <!-- Botón Hamburguesa Móvil -->
+                <button id="mobile-menu-btn" class="lg:hidden text-slate-400 hover:text-white focus:outline-none p-2 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+
+                <!-- Menú Desktop -->
+                <div class="hidden lg:flex items-center space-x-1">
+                    <a href="#dashboard" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Dashboard</a>
+                    <a href="#calendario" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Plazos</a>
+                    <a href="#flujo" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Flujo Tareas</a>
+                    <a href="#equipos" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Equipos</a>
+                    <a href="#tareas" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Matriz</a>
+                    <a href="#protocolos" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Normativa</a>
+                    <div class="pl-2 border-l border-slate-700/50 ml-2">
+                        <a href="#bibliografia" class="block px-4 py-2 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all shadow-lg shadow-orange-500/25">Documentación</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menú Móvil Desplegable -->
+            <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-700/50 px-4 py-3 space-y-1 bg-slate-900/95 rounded-b-2xl shadow-inner">
+                <a href="#dashboard" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Dashboard</a>
+                <a href="#calendario" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Plazos</a>
+                <a href="#flujo" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Flujo Tareas</a>
+                <a href="#equipos" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Equipos</a>
+                <a href="#tareas" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Matriz</a>
+                <a href="#protocolos" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Normativa</a>
+                <a href="#bibliografia" class="block px-4 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all text-center mt-2">Documentación</a>
+            </div>
+        </nav>
+    </div>
+
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <!-- DASHBOARD SECTION -->
+        <section id="dashboard" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+                <div>
+                    <h1 class="text-4xl font-bold text-slate-100 font-['Urbanist'] tracking-tight">Centro de Control PEL</h1>
+                    <p class="mt-2 text-slate-400">Guía de Ingeniería Inversa y Modelado • Ref. Xiaomi Scooter 4</p>
+                </div>
+                <div class="bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full text-emerald-400 text-xs font-bold uppercase tracking-widest">
+                    Asignación 100% Completada
+                </div>
+            </div>
+
+            <div class="bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 p-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <h2 class="text-2xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight border-b border-slate-800 pb-4">Análisis de Esfuerzo de Ingeniería</h2>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        La hoja de ruta ha sido diseñada para equilibrar el tiempo de modelado en AutoCAD. Las piezas con curvas de Bézier complejas (carcasas) se han nivelado con piezas más sencillas de extrusión. <strong>Los Jefes de equipo han recibido piezas de Dificultad Baja</strong> para compensar su tiempo dedicado a la coordinación.
+                    </p>
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:border-red-500/30 transition">
+                            <span class="text-sm font-medium text-slate-300">Nivel de Complejidad: <strong>ALTA</strong></span>
+                            <span class="px-4 py-1 bg-red-500/20 text-red-500 text-xs font-bold rounded-full">9 Tareas</span>
+                        </div>
+                        <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:border-orange-500/30 transition">
+                            <span class="text-sm font-medium text-slate-300">Nivel de Complejidad: <strong>MEDIA</strong></span>
+                            <span class="px-4 py-1 bg-orange-500/20 text-orange-500 text-xs font-bold rounded-full">13 Tareas</span>
+                        </div>
+                        <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:border-green-500/30 transition">
+                            <span class="text-sm font-medium text-slate-300">Nivel de Complejidad: <strong>BAJA (Para Jefatura)</strong></span>
+                            <span class="px-4 py-1 bg-green-500/20 text-green-500 text-xs font-bold rounded-full">3 Tareas</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center"><div class="chart-container"><canvas id="complexityChart"></canvas></div></div>
+            </div>
+        </section>
+
+        <!-- CALENDARIO Y ADSCRIPCIÓN -->
+        <section id="calendario" class="scroll-mt-24">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">Calendario y Adscripción</h2>
+                <p class="mt-2 text-slate-400 text-sm">Expresión Gráfica • Curso 2025-26 | Grupos D y F</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                <!-- Fechas clave (span 2 cols) -->
+                <div class="lg:col-span-2 bg-slate-900 rounded-3xl border border-slate-800 p-8 shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+                    <h3 class="text-xl font-bold text-slate-100 mb-8 font-['Urbanist'] flex items-center gap-3">
+                        <span class="bg-orange-500/20 text-orange-500 p-2 rounded-lg">📅</span> Hitos y Fechas Límite Inaplazables
+                    </h3>
+                    
+                    <div class="space-y-4 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
+                        <!-- Event 1 -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-orange-500 text-slate-900 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">1</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950 p-5 rounded-2xl border border-orange-500/30 shadow-lg transition duration-300 hover:border-orange-500/60">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+                                    <h4 class="font-bold text-slate-200 text-sm">Adscripción al Trabajo Grupal</h4>
+                                    <span class="px-3 py-1 bg-orange-500/10 text-orange-400 text-[10px] font-bold uppercase rounded-full tracking-widest border border-orange-500/20 whitespace-nowrap">13 MAR 2026</span>
+                                </div>
+                                <p class="text-xs text-slate-400">Fin del plazo para el envío del formulario oficial.</p>
+                            </div>
+                        </div>
+                        <!-- Event 2 -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 text-slate-400 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">2</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950/50 p-5 rounded-2xl border border-slate-800 shadow-sm transition duration-300 hover:border-slate-600">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+                                    <h4 class="font-bold text-slate-200 text-sm">Asignación de Trabajos</h4>
+                                    <span class="px-3 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-full tracking-widest border border-slate-700 whitespace-nowrap">20 MAR 2026</span>
+                                </div>
+                                <p class="text-xs text-slate-400">Entrega de listas de piezas y asignación final.</p>
+                            </div>
+                        </div>
+                        <!-- Event 3 -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 text-slate-400 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">3</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950/50 p-5 rounded-2xl border border-slate-800 shadow-sm transition duration-300 hover:border-slate-600">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+                                    <h4 class="font-bold text-slate-200 text-sm">Entrega de Croquis</h4>
+                                    <span class="px-3 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-full tracking-widest border border-slate-700 whitespace-nowrap">09 ABR 2026</span>
+                                </div>
+                                <p class="text-xs text-slate-400">Entrega personal en la clase de teoría.</p>
+                            </div>
+                        </div>
+                        <!-- Event 4 -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-emerald-500 text-slate-900 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">4</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-emerald-950/20 p-5 rounded-2xl border border-emerald-500/20 shadow-sm transition duration-300 hover:border-emerald-500/40">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+                                    <h4 class="font-bold text-emerald-400 text-sm">Fin del Trabajo: Planos</h4>
+                                    <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase rounded-full tracking-widest border border-emerald-500/20 whitespace-nowrap">30 ABR 2026</span>
+                                </div>
+                                <p class="text-xs text-slate-400">Entrega de planos y finalización formal del proyecto.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-6 italic text-center md:text-left">* Los plazos vencen puntualmente en la clase de teoría o a las 12:00 de la noche del día correspondiente.</p>
+                </div>
+
+                <!-- Info y Formulario Envío (1 col) -->
+                <div class="space-y-6">
+                    <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-lg hover:border-orange-500/30 transition">
+                        <h4 class="text-sm font-bold text-slate-200 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <span class="text-orange-500">📚</span> Información General
+                        </h4>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-3">
+                            El trabajo fue presentado el <strong class="text-slate-200">5 de marzo de 2026</strong> en la clase de teoría.
+                        </p>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                            Toda la información oficial está en la plataforma <strong class="text-orange-400">LIBROO</strong> (sección <em>asignatura | trabajo grupal</em>). El seguimiento se realizará obligatoriamente en las tutorías grupales (prácticas de aula).
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-lg hover:border-blue-500/30 transition relative">
+                        <h4 class="text-sm font-bold text-slate-200 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <span class="text-blue-400">📨</span> Formulario de Adscripción
+                        </h4>
+                        <ul class="text-[11px] text-slate-400 space-y-3">
+                            <li class="flex gap-2"><span class="text-slate-600 font-bold">1.</span> <span>Cumplimentar exclusivamente usando <strong class="text-slate-200">Adobe Acrobat Reader</strong> (no usar el navegador web).</span></li>
+                            <li class="flex gap-2"><span class="text-slate-600 font-bold">2.</span> <span>Marca <strong>sólo</strong> tu cargo asignado tras consensuar la directiva.</span></li>
+                            <li class="flex gap-2"><span class="text-slate-600 font-bold">3.</span> <div class="w-full">Nombra el archivo PDF guardado así: <br><code class="bg-slate-950 p-1.5 rounded mt-1.5 mb-1 block text-[10px] border border-slate-800 text-orange-300 w-full overflow-hidden text-ellipsis whitespace-nowrap">Apellidos Nombre DNI-NIE.pdf</code><span class="text-[9px] text-slate-500 block">Ej: Alvarez Cuervo Rafael 123456789A.pdf</span></div></li>
+                            <li class="flex gap-2"><span class="text-slate-600 font-bold">4.</span> <span>Envía a: <a href="mailto:archivos.eg.epig@gmail.com" class="text-blue-400 hover:text-blue-300 font-medium">archivos.eg.epig@gmail.com</a></span></li>
+                            <li class="flex gap-2"><span class="text-slate-600 font-bold">5.</span> <span>Asunto estricto del correo: <code class="bg-slate-950 px-2 py-0.5 rounded border border-slate-800 text-white">ATG</code> <br><span class="text-slate-500 italic">(Dejar el cuerpo del correo totalmente vacío).</span></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FLUJO DE TRABAJO -->
+        <section id="flujo" class="scroll-mt-24">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">¿Qué tengo que hacer? Flujo de Trabajo</h2>
+                <p class="mt-2 text-slate-400 text-sm">Organización de responsabilidades y entregas en función de tu cargo en la empresa.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- COLUMNA 1: DIRECTOR -->
+                <div class="bg-slate-900 rounded-3xl border-t-4 border-purple-500 shadow-xl overflow-hidden flex flex-col h-full">
+                    <div class="p-6 bg-slate-950 border-b border-slate-800">
+                        <span class="px-3 py-1 bg-purple-500/10 text-purple-400 text-[10px] font-bold uppercase tracking-widest rounded border border-purple-500/20 mb-3 inline-block">Gestión Global</span>
+                        <h3 class="text-xl font-bold text-slate-100 font-['Urbanist']">Director/a de Proyecto</h3>
+                        <p class="text-[11px] text-slate-500 mt-2 leading-relaxed">Dirige el diseño global, estima tiempos y envía los documentos compilados finales.</p>
+                    </div>
+                    <div class="p-6 flex-grow relative">
+                        <div class="absolute left-[35px] top-8 bottom-8 w-px bg-slate-800"></div>
+                        <ul class="space-y-6 relative">
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-purple-500 flex items-center justify-center text-[10px] font-bold text-purple-400">1</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Planificación y Asignación</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Estima los tiempos de dibujo de cada pieza. Define la lista de subsistemas y piezas, asigna las tareas formalmente a todo el equipo y <strong>envía esta lista al profesor</strong>.</p>
+                            </li>
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-purple-500 flex items-center justify-center text-[10px] font-bold text-purple-400">2</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Dibujo General y Formatos</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Dibuja y distribuye los <strong>formatos de los planos (cajetines)</strong> para todo el equipo. Realiza el croquis y el plano general de conjunto del patinete.</p>
+                            </li>
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-purple-500 flex items-center justify-center text-[10px] font-bold text-purple-400">3</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Entrega Final</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Entrega personalmente sus croquis. Recopila <strong>todos los planos</strong> (A4, A3, A2) del equipo en un único PDF maestro y lo envía al profesor.</p>
+                            </li>
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-purple-500 flex items-center justify-center text-[10px] font-bold text-purple-400">4</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Tareas de Ingeniería Raso</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Además de la gestión, debe realizar el <strong>croquizado, modelado 3D y plano de despiece</strong> de su pieza asignada en la matriz (ID 0.1).</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- COLUMNA 2: JEFE DE EQUIPO -->
+                <div class="bg-slate-900 rounded-3xl border-t-4 border-orange-500 shadow-xl overflow-hidden flex flex-col h-full">
+                    <div class="p-6 bg-slate-950 border-b border-slate-800">
+                        <span class="px-3 py-1 bg-orange-500/10 text-orange-400 text-[10px] font-bold uppercase tracking-widest rounded border border-orange-500/20 mb-3 inline-block">Mando Intermedio</span>
+                        <h3 class="text-xl font-bold text-slate-100 font-['Urbanist']">Jefe/a de Equipo</h3>
+                        <p class="text-[11px] text-slate-500 mt-2 leading-relaxed">Supervisa técnicos, dibuja los conjuntos de sus subsistemas y evita colisiones.</p>
+                    </div>
+                    <div class="p-6 flex-grow relative">
+                        <div class="absolute left-[35px] top-8 bottom-8 w-px bg-slate-800"></div>
+                        <ul class="space-y-6 relative">
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-orange-500 flex items-center justify-center text-[10px] font-bold text-orange-400">1</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Coordinación de Piezas</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Supervisa a sus ingenieros. Debe verificar que las dimensiones y formas aseguren el ensamblaje final sin que se produzcan interferencias entre piezas.</p>
+                            </li>
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-orange-500 flex items-center justify-center text-[10px] font-bold text-orange-400">2</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Croquis de Conjunto</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Realiza los croquis y los planos de conjunto específicos de <strong>todos los subsistemas</strong> que tenga asignados su equipo.</p>
+                            </li>
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-orange-500 flex items-center justify-center text-[10px] font-bold text-orange-400">3</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Proceso de Entrega</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Envía personalmente sus croquis originales definitivos al profesor. Exporta sus planos de conjunto a PDF y se los pasa al Director/a.</p>
+                            </li>
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-orange-500 flex items-center justify-center text-[10px] font-bold text-orange-400">4</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Tareas de Ingeniería Raso</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Al igual que el resto del equipo, debe realizar el <strong>croquizado, modelado 3D y plano de despiece</strong> de su propia pieza (Dificultad Baja).</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- COLUMNA 3: INGENIERO -->
+                <div class="bg-slate-900 rounded-3xl border-t-4 border-emerald-500 shadow-xl overflow-hidden flex flex-col h-full">
+                    <div class="p-6 bg-slate-950 border-b border-slate-800">
+                        <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-widest rounded border border-emerald-500/20 mb-3 inline-block">Equipo Técnico</span>
+                        <h3 class="text-xl font-bold text-slate-100 font-['Urbanist']">Ingeniero/a Raso</h3>
+                        <p class="text-[11px] text-slate-500 mt-2 leading-relaxed">Desarrollo directo del producto: realiza croquis y planos de despiece detallados.</p>
+                    </div>
+                    <div class="p-6 flex-grow relative">
+                        <div class="absolute left-[35px] top-8 bottom-8 w-px bg-slate-800"></div>
+                        <ul class="space-y-6 relative">
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-emerald-500 flex items-center justify-center text-[10px] font-bold text-emerald-400">1</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Croquización</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Recibe la asignación de piezas del Director. Realiza, a mano alzada y coordinadamente, los <strong>croquis de diseño individuales</strong> de dichas piezas.</p>
+                            </li>
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-emerald-500 flex items-center justify-center text-[10px] font-bold text-emerald-400">2</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Modelado y Planos</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Dibuja en AutoCAD los planos de <strong>despiece de las piezas</strong> asignadas, utilizando obligatoriamente los formatos de plano (cajetines) facilitados por el Director.</p>
+                            </li>
+                            <li class="relative pl-12">
+                                <span class="absolute left-0 top-1 w-6 h-6 rounded-full bg-slate-950 border-2 border-emerald-500 flex items-center justify-center text-[10px] font-bold text-emerald-400">3</span>
+                                <h4 class="text-sm font-bold text-slate-200 mb-1">Proceso de Entrega</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed">Envía <strong>personalmente</strong> sus croquis originales al profesor. Genera los PDFs de sus planos (con su nombre en el cajetín) y se los entrega a su Director/a.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORGANIGRAMA & SUBSYSTEMS -->
+        <section id="equipos" class="scroll-mt-24">
+            <h2 class="text-3xl font-bold text-slate-100 mb-8 font-['Urbanist']">Organigrama de Equipos y Subsistemas</h2>
+            <div class="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
+                <div class="flex border-b border-slate-800 bg-slate-950 overflow-x-auto">
+                    <button id="btn-dir" class="tab-btn tab-inactive px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('dir')">Junta Directiva</button>
+                    <button id="btn-eq1" class="tab-btn tab-active px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('eq1')">PL 19: Chasis</button>
+                    <button id="btn-eq2" class="tab-btn tab-inactive px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('eq2')">PL 20: Dirección</button>
+                    <button id="btn-eq3" class="tab-btn tab-inactive px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('eq3')">PL 21: Tracción</button>
+                </div>
+                <div class="p-12">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                        <div id="team-info-box" class="fade-in space-y-12">
+                            <!-- JS Inject -->
+                        </div>
+                        <div class="bg-slate-950 rounded-3xl border border-slate-800 p-8 flex items-center justify-center min-h-[450px] relative shadow-inner overflow-hidden self-center">
+                            <div id="team-svg-target" class="w-full h-full flex items-center justify-center scale-125"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MATRIZ DE TAREAS -->
+        <section id="tareas" class="scroll-mt-24">
+            <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist']">Matriz Detallada de Asignación</h2>
+                    <p class="mt-2 text-slate-400 text-sm">Listado unificado de piezas y dificultad. Haz clic en una pieza para ver sus especificaciones.</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs font-bold uppercase text-slate-500 tracking-widest">Filtrar por Grupo:</span>
+                    <select id="filter-team" class="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-xl p-3 outline-none focus:border-orange-500 shadow-lg min-w-[200px]">
+                        <option value="all">Toda la Empresa (25)</option>
+                        <option value="Dirección">Dirección</option>
+                        <option value="PL 19">PL 19: Chasis</option>
+                        <option value="PL 20">PL 20: Dirección</option>
+                        <option value="PL 21">PL 21: Tracción</option>
+                    </select>
+                </div>
+            </div>
+            <div class="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-slate-400">
+                        <thead class="text-[10px] text-slate-500 uppercase tracking-widest bg-slate-800/50 border-b border-slate-700">
+                            <tr>
+                                <th class="px-6 py-6 text-center font-bold">ID</th>
+                                <th class="px-6 py-6">Pieza o Subconjunto</th>
+                                <th class="px-6 py-6">Responsable</th>
+                                <th class="px-6 py-6 text-center">Dificultad</th>
+                                <th class="px-6 py-6 text-center">Ver</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body" class="divide-y divide-slate-800">
+                            <!-- JS populates -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROTOCOLOS SECTION -->
+        <section id="protocolos" class="scroll-mt-24">
+            <h2 class="text-3xl font-bold text-slate-100 mb-10 font-['Urbanist'] uppercase tracking-tight">Normativa de Calidad y Entrega</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group">
+                    <div class="text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform">📏</div>
+                    <h3 class="font-bold text-slate-100 mb-3 text-lg font-['Urbanist']">Normalización UNE</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Obligatorio aplicar la normativa de acotación UNE 1-032-82. Uso estricto de cajetines proporcionados por Dirección.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group">
+                    <div class="text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform">🧩</div>
+                    <h3 class="font-bold text-slate-100 mb-3 text-lg font-['Urbanist']">Tolerancias H7/g6</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Todas las piezas de rotación (ejes, vástago, motor) deben especificar sus ajustes y tolerancias para asegurar el giro fluido.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group">
+                    <div class="text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform">✍️</div>
+                    <h3 class="font-bold text-slate-100 mb-3 text-lg font-['Urbanist']">Control de Croquis</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Los croquis a mano alzada son el corazón del proyecto. Deben contener secciones críticas de las piezas inyectadas o extruidas.</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group">
+                    <div class="text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform">📄</div>
+                    <h3 class="font-bold text-slate-100 mb-3 text-lg font-['Urbanist']">Entrega Conjunta</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">El Director revisará que los ensamblajes de cada equipo no tengan "clashes" (colisiones) antes de la compilación en el PDF maestro.</p>
+                </div>
+            </div>
+
+            <!-- Estandarización y Elementos Normalizados -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Tabla de Capas -->
+                <div class="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl flex flex-col">
+                    <div class="p-6 bg-slate-950 border-b border-slate-800 flex items-center gap-3">
+                        <span class="text-2xl">🎨</span>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-100 font-['Urbanist']">Estandarización de Capas (AutoCAD)</h3>
+                            <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-widest">Uso obligatorio para todo el equipo</p>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto flex-grow">
+                        <table class="w-full text-sm text-left text-slate-400">
+                            <thead class="text-[10px] text-slate-500 uppercase bg-slate-800/30 border-b border-slate-700">
+                                <tr><th class="px-6 py-4">Nombre Capa</th><th class="px-6 py-4 text-center">Color</th><th class="px-6 py-4 text-center">Grosor</th><th class="px-6 py-4">Tipo de Línea</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800">
+                                <tr class="hover:bg-slate-800/50 transition"><td class="px-6 py-4 font-mono text-slate-300">01_Contornos</td><td class="px-6 py-4 text-center"><span class="w-4 h-4 inline-block bg-white rounded-full border border-slate-600 shadow-[0_0_8px_rgba(255,255,255,0.3)]"></span></td><td class="px-6 py-4 text-center">0.50 mm</td><td class="px-6 py-4">Continua</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="px-6 py-4 font-mono text-slate-300">02_Ocultas</td><td class="px-6 py-4 text-center"><span class="w-4 h-4 inline-block bg-cyan-400 rounded-full border border-slate-600 shadow-[0_0_8px_rgba(34,211,238,0.4)]"></span></td><td class="px-6 py-4 text-center">0.25 mm</td><td class="px-6 py-4"><span class="border-b-2 border-dashed border-slate-400 w-8 inline-block mb-1"></span></td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="px-6 py-4 font-mono text-slate-300">03_Ejes</td><td class="px-6 py-4 text-center"><span class="w-4 h-4 inline-block bg-red-500 rounded-full border border-slate-600 shadow-[0_0_8px_rgba(239,68,68,0.4)]"></span></td><td class="px-6 py-4 text-center">0.18 mm</td><td class="px-6 py-4">Trazo y punto</td></tr>
+                                <tr class="hover:bg-slate-800/50 transition"><td class="px-6 py-4 font-mono text-slate-300">04_Cotas</td><td class="px-6 py-4 text-center"><span class="w-4 h-4 inline-block bg-green-500 rounded-full border border-slate-600 shadow-[0_0_8px_rgba(34,197,94,0.4)]"></span></td><td class="px-6 py-4 text-center">0.18 mm</td><td class="px-6 py-4">Continua</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-blue-900/20 border-t border-slate-800 p-4 text-center">
+                        <p class="text-xs text-blue-200">💡 <a href="#bibliografia" class="font-bold text-blue-400 hover:text-blue-300 transition underline">Descarga la plantilla .dwt (abajo)</a> con todas estas capas ya configuradas.</p>
+                    </div>
+                </div>
+
+                <!-- Nomenclatura y Conflictos -->
+                <div class="space-y-8 flex flex-col justify-between">
+                    <div class="bg-slate-900 p-8 rounded-3xl border border-blue-500/30 shadow-lg relative overflow-hidden group hover:border-blue-500/60 transition">
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition"></div>
+                        <h3 class="text-lg font-bold text-slate-100 mb-3 font-['Urbanist'] flex items-center gap-3"><span class="text-blue-400 bg-blue-500/10 p-2 rounded-xl">🏷️</span> Sistema de Nomenclatura</h3>
+                        <p class="text-xs text-slate-400 mb-4 leading-relaxed">Para evitar la pérdida de versiones, todos los archivos CAD y PDF deben nombrarse con esta estructura exacta antes de ser enviados a Jefatura/Dirección:</p>
+                        <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl text-center shadow-inner">
+                            <code class="block w-full text-sm text-blue-400 font-mono tracking-wide">[ID]_[Nombre_Pieza]_[Apellidos].dwg</code>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-4 text-center">Ejemplo correcto: <span class="text-slate-300 font-mono">1.2_Cuello_Union_PerezJuan.dwg</span></p>
+                    </div>
+
+                    <div class="bg-slate-900 p-8 rounded-3xl border border-red-500/30 shadow-lg group hover:border-red-500/60 transition relative overflow-hidden flex-grow">
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl group-hover:bg-red-500/20 transition"></div>
+                        <h3 class="text-lg font-bold text-slate-100 mb-3 font-['Urbanist'] flex items-center gap-3"><span class="text-red-400 bg-red-500/10 p-2 rounded-xl">⚠️</span> Protocolo de Colisiones</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-4">Si al ensamblar las piezas de dos ingenieros se produce una interferencia geométrica, rige la norma de prelación:</p>
+                        <div class="bg-red-500/10 border-l-4 border-red-500 p-4 rounded-r-xl text-xs text-slate-300 italic font-medium">
+                            "La pieza interior o dinámica (ejes, rodamientos, motor) MANDA sobre la exterior (horquillas, carcasas). El ingeniero de la pieza exterior deberá adaptar sus dimensiones."
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NUEVO: Uso de Elementos Normalizados -->
+            <div class="mt-8 bg-slate-950 border-l-4 border-orange-500 p-6 md:p-8 rounded-r-3xl shadow-inner flex flex-col md:flex-row items-start md:items-center gap-6">
+                <div class="text-4xl bg-orange-500/10 p-4 rounded-2xl border border-orange-500/20 shrink-0">🔩</div>
+                <div>
+                    <h3 class="text-xl font-bold text-slate-100 font-['Urbanist'] tracking-tight">Uso de Elementos Normalizados (ISO/DIN)</h3>
+                    <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+                        <strong>¡Regla de Oro!</strong> La tornillería comercial, los rodamientos de bolas, las tuercas y las arandelas <strong>no se croquizan ni se modelan tridimensionalmente desde cero</strong>. Todos los ingenieros deben insertar estos componentes estándar directamente desde la biblioteca (<span class="font-mono text-xs bg-slate-800 px-1 rounded">Design Center</span>) de AutoCAD durante la fase de ensamblaje.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- BIBLIOGRAFÍA -->
+        <section id="bibliografia" class="scroll-mt-24 pb-20">
+            <h2 class="text-3xl font-bold text-slate-100 mb-10 font-['Urbanist'] tracking-tight uppercase">Documentación y Referencias de Búsqueda</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition">
+                    <div class="text-orange-500 mb-6 text-3xl">🌐</div>
+                    <h3 class="text-xl font-bold text-slate-100 mb-4 font-['Urbanist']">Xiaomi España</h3>
+                    <p class="text-sm text-slate-400 mb-8 leading-relaxed italic">Dimensiones de transporte, peso neto y certificación oficial.</p>
+                    <a href="https://www.mi.com/es/product/xiaomi-electric-scooter-4/specs" target="_blank" class="bg-slate-800 px-4 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-orange-500 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Ver Especificaciones</a>
+                </div>
+                
+                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-blue-500/50 transition">
+                    <div class="text-blue-400 mb-6 text-3xl font-mono font-bold">.dwt</div>
+                    <h3 class="text-xl font-bold text-slate-100 mb-4 font-['Urbanist']">Plantilla Base</h3>
+                    <p class="text-sm text-slate-400 mb-8 leading-relaxed italic">Pasos: 1. Descargar archivo. 2. En AutoCAD hacer clic en "Nuevo" o "New". 3. Seleccionar este archivo .dwt como plantilla inicial.</p>
+                    <a href="https://drive.google.com/file/d/1HsgPx3gDKjBt9xEQJLBQGdqunP5zaEAJ/view?usp=drive_link" target="_blank" class="bg-slate-800 px-4 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-blue-400 border border-slate-700 hover:bg-blue-600 hover:text-white transition-all block text-center">Descargar .dwt</a>
+                </div>
+
+                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition">
+                    <div class="text-orange-400 mb-6 text-3xl font-mono font-bold">.dwg</div>
+                    <h3 class="text-xl font-bold text-slate-100 mb-4 font-['Urbanist']">Cajetines A1-A4</h3>
+                    <p class="text-sm text-slate-400 mb-8 leading-relaxed italic">Pasos: 1. Descargar archivo. 2. En AutoCAD ir a Inserción > Insertar (Bloques de otros dibujos). 3. Colocar en tu Layout.</p>
+                    <a href="https://drive.google.com/file/d/1FIXbP3Uvoo5ilLpU-YwwsMYpmltRfUeb/view?usp=drive_link" target="_blank" class="bg-slate-800 px-4 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-orange-400 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Descargar .dwg</a>
+                </div>
+
+                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition">
+                    <div class="text-orange-500 mb-6 text-3xl">🧊</div>
+                    <h3 class="text-xl font-bold text-slate-100 mb-4 font-['Urbanist']">Modelo 3D</h3>
+                    <p class="text-sm text-slate-400 mb-8 leading-relaxed italic">Visor interactivo en la nube para consultar cotas y distancias reales.</p>
+                    <a href="https://viewer.autodesk.com/id/dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YTM2MHZpZXdlci1wcm90ZWN0ZWQvdDE3NzMwMDU2NThfZjg5MmI1MzgtMjNiZS00MDAyLTk1YTUtOTQ1YTY5YjRiMzRkLmZieA?sheetId=Yzg1NjJmMDctMTc4NS00NDkzLWI2OWEtODE2OTJiMDEyNjE0" target="_blank" class="bg-slate-800 px-4 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-orange-500 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Abrir Modelo 3D</a>
+                </div>
+
+            </div>
+
+            <!-- NUEVO: NUBE CORPORATIVA / GOOGLE DRIVE -->
+            <div class="mt-12 bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 p-8 rounded-3xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden group">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-green-500/10 rounded-full blur-3xl group-hover:bg-green-500/20 transition-all duration-500 pointer-events-none"></div>
+                
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-6 relative z-10 text-center md:text-left">
+                    <div class="w-16 h-16 bg-slate-950 border border-slate-700 rounded-2xl flex items-center justify-center text-3xl shadow-inner shrink-0">
+                        📁
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-100 font-['Urbanist'] tracking-tight">Nube Corporativa del Equipo</h3>
+                        <p class="text-sm text-slate-400 mt-2 leading-relaxed max-w-3xl">Directorio centralizado en Google Drive. Una vez finalices tu trabajo, sube aquí tus croquis escaneados y los planos .dwg/.pdf definitivos dentro de la carpeta correspondiente a tu subsistema (PL 19, PL 20 o PL 21).</p>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 w-full md:w-auto shrink-0">
+                    <a href="https://drive.google.com/drive/folders/1JfkjiYthC8e3bqFayAsAxME3U2Hi9gs1?usp=sharing" target="_blank" class="block w-full md:w-auto bg-green-600 hover:bg-green-500 text-white px-8 py-4 rounded-xl text-sm font-bold uppercase tracking-widest transition shadow-lg shadow-green-500/30 text-center whitespace-nowrap">
+                        Abrir Google Drive
+                    </a>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-20">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-8">
+            <p class="text-xs text-slate-500 tracking-[0.5em] uppercase font-bold">Documentación Técnica Proyecto PEL</p>
+            <div class="w-16 h-1.5 bg-orange-600 mx-auto rounded-full"></div>
+            <p class="text-sm text-slate-400 max-w-2xl mx-auto">Esta plataforma ha sido diseñada para centralizar la ingeniería del Xiaomi Electric Scooter 4. Todo el contenido está optimizado para facilitar el flujo de trabajo entre los 25 integrantes de la empresa.</p>
+            <p class="text-[10px] text-slate-700 font-mono">Creado por Eloy Santos de Tourdonnet • 2026</p>
+        </div>
+    </footer>
+
+    <!-- MODAL DE PIEZA -->
+    <div id="partModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="closeModal()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 shadow-2xl rounded-3xl w-full max-w-6xl p-8 lg:p-12 flex flex-col md:flex-row gap-10 z-10 fade-in max-h-[95vh] overflow-y-auto">
+            <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] text-slate-400 hover:text-white bg-slate-800 border border-slate-600 rounded-full p-3 transition shadow-xl hover:rotate-90 duration-300"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+            
+            <!-- Columna Izquierda: Información de Pieza -->
+            <div class="w-full md:w-1/2 flex flex-col justify-center">
+                <div class="flex gap-3 mb-3">
+                    <div id="modal-subsys" class="text-xs font-bold text-orange-500 tracking-widest uppercase bg-orange-500/10 px-4 py-1.5 rounded-full w-fit">SUBSISTEMA</div>
+                    <div id="modal-diff" class="text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full border w-fit">ALTA</div>
+                </div>
+                
+                <h2 id="modal-title" class="text-4xl font-bold text-slate-100 mb-6 leading-tight font-['Urbanist'] tracking-tight">NOMBRE PIEZA</h2>
+                
+                <div class="bg-slate-950/50 p-6 rounded-3xl border border-slate-800 mb-6 space-y-4 text-sm">
+                    <p class="flex justify-between border-b border-slate-800 pb-3"><span class="text-slate-500 uppercase tracking-tighter text-[10px] font-bold">Referencia ID</span> <span id="modal-id" class="text-slate-100 font-mono font-bold">X.X</span></p>
+                    <p class="flex flex-col border-b border-slate-800 pb-3 gap-1"><span class="text-slate-500 uppercase tracking-tighter text-[10px] font-bold">Referencia de Búsqueda</span> <span id="modal-search" class="text-orange-500 font-bold italic tracking-tight">Cargando...</span></p>
+                    <p class="flex justify-between border-b border-slate-800 pb-3"><span class="text-slate-500 uppercase tracking-tighter text-[10px] font-bold">Responsable</span> <span id="modal-assigned" class="text-slate-100 font-medium font-['Urbanist'] text-lg">Nombre</span></p>
+                    <p class="flex justify-between"><span class="text-slate-500 uppercase tracking-tighter text-[10px] font-bold">Clasificación Técnica</span> <span id="modal-type" class="text-slate-300 italic">Exterior</span></p>
+                </div>
+
+                <div class="space-y-4 mb-2">
+                    <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">Tareas de Ingeniería y Piezas Incluidas</h4>
+                    <p id="modal-desc" class="text-sm text-slate-300 leading-relaxed border-l-4 border-orange-500 pl-4 bg-slate-900/50 py-3 pr-3 rounded-r-xl shadow-inner">Descripción avanzada...</p>
+                </div>
+
+                <!-- SECCIÓN IA -->
+                <div class="mt-6 border-t border-slate-800 pt-5">
+                    <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-3 flex items-center gap-2">
+                        <span class="text-purple-400 text-sm">✨</span> Asistente IA de Modelado
+                    </h4>
+                    
+                    <div id="ai-prompt-container">
+                        <button id="btn-generate-prompt" onclick="generateAIPrompt()" class="w-full bg-slate-950 hover:bg-purple-600/20 text-purple-400 border border-purple-500/30 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 group">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                            Generar Prompt de Contexto CAD
+                        </button>
+                        
+                        <div id="ai-loading" class="hidden flex-col items-center justify-center py-4 gap-3 text-slate-400">
+                            <svg class="animate-spin h-6 w-6 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            <span class="text-[10px] font-mono uppercase tracking-widest">Compilando parámetros de pieza...</span>
+                        </div>
+                        
+                        <div id="ai-result" class="hidden relative bg-slate-950 border border-purple-500/30 p-4 rounded-xl mt-2">
+                            <p id="ai-prompt-text" class="text-[11px] text-slate-300 font-mono leading-relaxed select-all pr-8 overflow-y-auto max-h-32"></p>
+                            <button onclick="copyPrompt()" class="absolute top-2 right-2 text-slate-500 hover:text-purple-400 transition-colors p-2 bg-slate-900 rounded-lg border border-slate-700 hover:border-purple-500" title="Copiar al portapapeles">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: SVG interactivo -->
+            <div id="modal-svg-container" class="w-full md:w-1/2 bg-slate-950 rounded-3xl border border-slate-800 p-12 flex items-center justify-center min-h-[500px] shadow-inner relative overflow-hidden">
+                <p class="absolute top-6 left-8 text-[9px] text-slate-800 uppercase font-mono tracking-widest">Esquema Visual del Componente</p>
+                <!-- SVG Inyectado -->
+            </div>
+        </div>
+    </div>
+
+    <!-- SHARED SVG TEMPLATE -->
+    <template id="scooter-svg-template">
+        <svg viewBox="0 0 800 600" class="scooter-svg w-full h-full">
+            <defs>
+                <pattern id="diagonalHatch" width="10" height="10" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+                    <line x1="0" y1="0" x2="0" y2="10" stroke="#f97316" stroke-width="4" />
+                </pattern>
+            </defs>
+            
+            <!-- Suelo -->
+            <line x1="80" y1="560" x2="720" y2="560" class="scooter-part highlighted" stroke="#1e293b" stroke-width="4" stroke-linecap="round" />
+            
+            <!-- ================= S5: RUEDAS Y MOTOR (PL 21) ================= -->
+            <circle id="zone-rueda-trasera" class="scooter-part border-pl21 highlighted" data-hl="border" cx="220" cy="480" r="60" fill="none" stroke="#334155" stroke-width="18" />
+            <circle id="zone-rueda-delantera" class="scooter-part border-pl21 highlighted" data-hl="border" cx="620" cy="480" r="60" fill="none" stroke="#334155" stroke-width="18" />
+            <circle id="zone-motor" class="scooter-part part-pl21 highlighted" data-hl="bg" cx="620" cy="480" r="42" fill="#1e293b" stroke="#475569" stroke-width="2" />
+            <circle id="zone-eje-trasero" class="scooter-part part-pl21 highlighted" data-hl="bg" cx="220" cy="480" r="8" fill="#94a3b8" />
+            <circle id="zone-eje-delantero" class="scooter-part part-pl21 highlighted" data-hl="bg" cx="620" cy="480" r="8" fill="#94a3b8" />
+
+            <!-- ================= S4: FRENADO (PL 20) ================= -->
+            <circle id="zone-disco-freno" class="scooter-part border-pl20 highlighted" data-hl="border" cx="220" cy="480" r="32" fill="none" stroke="#64748b" stroke-width="6" stroke-dasharray="8,5" />
+            <rect id="zone-pinza" class="scooter-part part-pl20 highlighted" data-hl="bg" x="170" y="445" width="28" height="24" rx="4" fill="#334155" stroke="#0f172a" stroke-width="2"/>
+
+            <!-- ================= S6: CARENADO (PL 21) ================= -->
+            <path id="zone-guardabarros-tras" class="scooter-part border-pl21 highlighted" data-hl="border" d="M 220 395 C 120 395 105 460 110 540" fill="none" stroke="#475569" stroke-width="14" stroke-linecap="round" />
+            <path id="zone-luz-trasera" class="scooter-part part-pl21 highlighted" data-hl="bg" d="M 108 535 C 108 535 115 520 120 525 Z" fill="#ef4444" />
+            <line id="zone-tirante" class="scooter-part border-pl21 highlighted" data-hl="border" x1="220" y1="480" x2="150" y2="445" stroke="#64748b" stroke-width="5" stroke-linecap="round" />
+            <path id="zone-guardabarros-del" class="scooter-part border-pl21 highlighted" data-hl="border" d="M 620 395 C 550 395 535 440 530 500" fill="none" stroke="#475569" stroke-width="12" stroke-linecap="round" />
+            <polygon id="zone-caballete" class="scooter-part border-pl21 highlighted" data-hl="border" points="320,488 340,488 305,550 290,550" fill="#475569" />
+            <line id="zone-muelle-caballete" class="scooter-part border-pl21 highlighted" data-hl="border" x1="315" y1="488" x2="295" y2="520" stroke="#94a3b8" stroke-width="2" stroke-dasharray="2,2" />
+
+            <!-- ================= S1 & S2: CHASIS Y PLEGADO (DIR / PL 19) ================= -->
+            <rect id="zone-chasis" class="scooter-part part-dir highlighted" data-hl="bg" x="220" y="458" width="290" height="30" rx="8" fill="#475569" />
+            <line id="zone-alfombrilla" class="scooter-part border-dir highlighted" data-hl="border" x1="230" y1="456" x2="480" y2="456" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+            <circle id="zone-puerto-carga" class="scooter-part part-dir highlighted" data-hl="bg" cx="240" cy="473" r="4" fill="#ef4444" />
+            
+            <rect id="zone-bateria" class="scooter-part internal-pl19 highlighted" data-hl="internal" x="250" y="465" width="180" height="15" rx="3" fill="#1e293b" />
+            <rect id="zone-controlador" class="scooter-part internal-pl19 highlighted" data-hl="internal" x="440" y="465" width="40" height="15" rx="3" fill="#1e293b" />
+            <rect id="zone-tapa-bateria" class="scooter-part internal-pl19 highlighted" data-hl="internal" x="240" y="488" width="250" height="8" rx="3" fill="#0f172a" stroke="#64748b" stroke-width="2" stroke-dasharray="6,3" />
+            
+            <!-- Cuello (hacemos visible el espacio para el vástago interno acortando la horquilla exterior visualmente) -->
+            <path id="zone-cuello" class="scooter-part part-pl19 highlighted" data-hl="bg" d="M 480 458 C 530 458 555 440 565 390 L 530 390 C 525 425 500 440 470 440 Z" fill="#334155" />
+            <polygon id="zone-horquilla" class="scooter-part part-pl19 highlighted" data-hl="bg" points="620,480 590,480 540,430 562,430" fill="#475569" />
+            <polygon id="zone-plegado" class="scooter-part part-pl19 highlighted" data-hl="bg" points="530,390 565,390 558,335 523,335" fill="#475569" />
+
+            <!-- ================= S3: DIRECCIÓN Y MANILLAR (PL 20 / PL 19 / DIR) ================= -->
+            <polygon id="zone-mastil" class="scooter-part part-pl20 highlighted" data-hl="bg" points="523,335 558,335 535,135 500,135" fill="#475569" />
+            <path id="zone-cableado" class="scooter-part border-pl20 highlighted" data-hl="border" d="M 490 150 C 520 200 480 280 535 340" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round" stroke-dasharray="2,3" />
+            
+            <!-- Eje Interno de Dirección y Rodamientos (Alojados en el cuello) -->
+            <line id="zone-eje-interno" class="scooter-part border-pl19 highlighted" data-hl="border" x1="551" y1="430" x2="547" y2="390" stroke="#cbd5e1" stroke-width="6" stroke-dasharray="4,3" />
+            <rect id="zone-rodamientos-1" class="scooter-part part-pl19 highlighted" data-hl="bg" x="538" y="426" width="26" height="8" rx="2" fill="#cbd5e1" transform="rotate(-6, 551, 430)" />
+            <rect id="zone-rodamientos-2" class="scooter-part part-pl19 highlighted" data-hl="bg" x="534" y="386" width="26" height="8" rx="2" fill="#cbd5e1" transform="rotate(-6, 547, 390)" />
+
+            <rect id="zone-manillar" class="scooter-part part-pl20 highlighted" data-hl="bg" x="460" y="125" width="110" height="20" rx="10" fill="#64748b" />
+            <polygon id="zone-display" class="scooter-part part-pl20 highlighted" data-hl="bg" points="500,135 535,135 525,90 485,90" fill="#1e293b" />
+            <path id="zone-faro" class="scooter-part part-pl20 highlighted" data-hl="bg" d="M 530 135 L 555 135 C 565 135 565 115 550 115 L 522 115 Z" fill="#cbd5e1" />
+            <path id="zone-maneta-freno" class="scooter-part part-pl20 highlighted" data-hl="bg" d="M 470 135 L 430 160 L 435 168 L 478 142 Z" fill="#94a3b8" />
+            
+            <!-- Acelerador (PL 21) -->
+            <path id="zone-acelerador" class="scooter-part part-pl21 highlighted" data-hl="bg" d="M 535 125 L 535 116 C 535 114 537 112 539 112 L 548 112 C 550 112 552 114 552 116 L 552 125 Z M 545 112 L 558 98 L 563 103 L 550 116 Z" fill="#1e293b" />
+        </svg>
+    </template>
+
+    <script>
+        // --- LÓGICA DE NAVEGACIÓN Y SCROLL ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Toggle Menú Móvil
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cerrar menú móvil al hacer clic en un enlace
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Control de Scroll: Active Links (ScrollSpy)
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            // Detectar sección actual en base al scroll
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            // Resaltar link activo quitando y poniendo clases de Tailwind
+            navLinks.forEach(link => {
+                link.classList.remove('text-orange-500', 'bg-slate-800/80');
+                if (link.getAttribute('href').includes(current) && current !== '') {
+                    link.classList.add('text-orange-500', 'bg-slate-800/80');
+                }
+            });
+        });
+
+        const partsData = [
+            { id: "0.1", name: "Plataforma Base", search: "Xiaomi Scooter 4 deck body frame", subsys: "Estructura Portante", team: "Dirección", assigned: "Director/a", diff: "ALTA", zone: ["zone-chasis", "zone-alfombrilla", "zone-puerto-carga"], type: "Estructural (Aluminio)", desc: "Chasis principal del patinete. INCLUYE ADEMÁS: El modelado del hueco interior para alojar las baterías, la alfombrilla superior de silicona (Deck mat) y el puerto de carga exterior." },
+            { id: "1.1", name: "Vástago central", search: "Xiaomi Scooter 4 steering stem column", subsys: "S1: Chasis y Cuello", team: "PL 19", assigned: "Ingeniero/a 1.1", diff: "ALTA", zone: ["zone-eje-interno", "zone-rodamientos-1", "zone-rodamientos-2"], type: "Pieza Interior (Acero)", desc: "Eje pasante central interno. INCLUYE ADEMÁS: El juego de dirección completo (rodamientos de bolas superior/inferior y cazoletas) para asegurar el giro libre de fricción." },
+            { id: "1.2", name: "Cuello de unión", search: "Xiaomi Scooter 4 folding pole base neck", subsys: "S1: Chasis y Cuello", team: "PL 19", assigned: "Ingeniero/a 1.2", diff: "ALTA", zone: ["zone-cuello"], type: "Estructural (Forja)", desc: "Unión crítica entre chasis y mástil. Geometría compleja de fundición. Transición de superficies fundamental para asegurar una estética fiel al Xiaomi Electric Scooter 4." },
+            { id: "1.3", name: "Horquilla delantera", search: "Xiaomi Scooter 4 front fork replacement", subsys: "S1: Chasis y Cuello", team: "PL 19", assigned: "Ingeniero/a 1.3", diff: "MEDIA", zone: ["zone-horquilla"], type: "Estructural (Acero)", desc: "Brazos de soporte que abrazan el eje motor. Dibujo simétrico que debe incluir los orificios de anclaje para el guardabarros delantero." },
+            { id: "1.4", name: "Base móvil plegado", search: "Xiaomi Scooter 4 folding mechanism base", subsys: "S2: Plegado", team: "PL 19", assigned: "Ingeniero/a 1.4", diff: "MEDIA", zone: ["zone-plegado"], type: "Mecanismo (Acero)", desc: "Bisagra inferior del mástil. Es vital modelar geométricamente el tope físico que impide que el manillar sobrepase su ángulo vertical ideal." },
+            { id: "1.5", name: "Palanca bloqueo", search: "Xiaomi Scooter 4 folding lever handle", subsys: "S2: Plegado", team: "PL 19", assigned: "Ingeniero/a 1.5", diff: "MEDIA", zone: ["zone-plegado"], type: "Mecanismo (Ergonomía)", desc: "Cierre rápido vertical y diseño curvo adaptado a la mano del usuario." },
+            { id: "1.6", name: "Pasador y eje transv.", search: "Xiaomi Scooter 4 folding pole pin bolt", subsys: "S2: Plegado", team: "PL 19", assigned: "Ingeniero/a 1.6", diff: "MEDIA", zone: ["zone-plegado"], type: "Eje de Precisión", desc: "Perno técnico de pivotamiento del plegado. INCLUYE ADEMÁS: El eje pasante transversal de ajuste (tornillo para apretar horizontalmente el mecanismo)." },
+            { id: "1.7", name: "Tapa batería e Int.", search: "Xiaomi Scooter 4 bottom battery cover controller", subsys: "S1: Chasis y Cuello", team: "PL 19", assigned: "Ingeniero/a 1.7", diff: "MEDIA", zone: ["zone-tapa-bateria", "zone-bateria", "zone-controlador"], type: "Protección y Electrónica", desc: "Cierre inferior estanco. INCLUYE ADEMÁS: La volumetría en bloque del pack interno de baterías de litio y de la placa base (controlador electrónico) que cierran el conjunto." },
+            { id: "1.8", name: "Anillo seguridad", search: "Xiaomi Scooter 4 folding lock ring plastic", subsys: "S2: Plegado", team: "PL 19", assigned: "Jefe/a PL 19", diff: "BAJA", zone: ["zone-plegado"], type: "Seguridad (Plástico)", desc: "Anillo redundante sencillo. Modelar las pestañas internas que traban el movimiento de la palanca. *Pieza designada a jefatura.*" },
+            { id: "2.1", name: "Mástil principal", search: "Xiaomi Scooter 4 vertical folding pole", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.1", diff: "MEDIA", zone: ["zone-mastil", "zone-cableado"], type: "Estructural", desc: "Tubo cilíndrico inclinado de conducción con ventana de salida. INCLUYE ADEMÁS: Modelado del ruteado exterior del cableado visible con su funda protectora espiral." },
+            { id: "2.2", name: "Tubo transv. (T-Bar)", search: "Xiaomi Scooter 4 handlebar T-bar tube", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.2", diff: "MEDIA", zone: ["zone-manillar"], type: "Estructural (Aluminio)", desc: "Eje horizontal de dirección. Debe incluir el detalle de los extremos mecanizados para el encaje a presión de los puños y las manetas." },
+            { id: "2.3", name: "Carcasa Display", search: "Xiaomi Scooter 4 dashboard cover case", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.3", diff: "ALTA", zone: ["zone-display"], type: "Carenado (Policarbonato)", desc: "Protector de pantalla superior. Diseño curvo estético con ventana transparente. Debe modelarse el encaje por clips con la estructura inferior." },
+            { id: "2.4", name: "Carcasa Faro y LED", search: "Xiaomi Scooter 4 front light bottom cover", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.4", diff: "ALTA", zone: ["zone-faro"], type: "Carenado e Iluminación", desc: "Protector frontal con diseño de disipación de calor. INCLUYE ADEMÁS: El diseño volumétrico y la posición de la placa LED interna de iluminación." },
+            { id: "2.5", name: "Cuerpo maneta", search: "Xiaomi Scooter 4 brake handle lever base", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.5", diff: "ALTA", zone: ["zone-maneta-freno"], type: "Mecanismo (Fundición)", desc: "Soporte de freno al manillar. Modelar el alojamiento interno para el sensor de corte eléctrico y la rosca del tensor del cable." },
+            { id: "2.6", name: "Palanca de freno", search: "Xiaomi Scooter 4 brake lever arm", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.6", diff: "MEDIA", zone: ["zone-maneta-freno"], type: "Ergonomía", desc: "Gatillo de freno optimizado en curva para accionamiento con dos dedos. Incluir el eje de pivotamiento pasante y el muelle de retorno." },
+            { id: "2.7", name: "Soporte pinza", search: "Xiaomi Scooter 4 rear brake caliper bracket", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.7", diff: "MEDIA", zone: ["zone-pinza"], type: "Soporte Técnico", desc: "Adaptador de mecanizado que alinea la pinza con el disco, y la propia pastilla/cuerpo de la pinza de freno trasero." },
+            { id: "2.8", name: "Disco 130mm", search: "Xiaomi Scooter 4 brake disc rotor 130mm", subsys: "S4: Frenado", team: "PL 20", assigned: "Jefe/a PL 20", diff: "BAJA", zone: ["zone-disco-freno"], type: "Dinámico (Chapa)", desc: "Rotor de acero inoxidable de 2mm con patrón de ventilación. Operación técnica de corte 2D plano. *Pieza designada a jefatura.*" },
+            { id: "3.1", name: "Llanta trasera", search: "Xiaomi Scooter 4 rear wheel rim", subsys: "S5: Tren de Rodaje", team: "PL 21", assigned: "Ingeniero/a 3.1", diff: "ALTA", zone: ["zone-rueda-trasera"], type: "Rotacional (Aleación)", desc: "Núcleo de aleación. Modelar las paredes para el alojamiento de la válvula del neumático, los rodamientos y la tornillería del disco de freno." },
+            { id: "3.2", name: "Neumáticos 10\"", search: "Xiaomi Scooter 4 10 inch tubeless tire", subsys: "S5: Tren de Rodaje", team: "PL 21", assigned: "Ingeniero/a 3.2", diff: "ALTA", zone: ["zone-rueda-delantera", "zone-rueda-trasera"], type: "Caucho (Tubeless)", desc: "Perfil original de neumático de 10 pulgadas. Modelado del vaciado interior y el patrón exterior de dibujo de la huella para drenaje." },
+            { id: "3.3", name: "Tapas motor", search: "Xiaomi Scooter 4 front motor wheel cover", subsys: "S5: Tren de Rodaje", team: "PL 21", assigned: "Ingeniero/a 3.3", diff: "MEDIA", zone: ["zone-motor"], type: "Embellecedor (ABS)", desc: "Embellecedores laterales plásticos con diseño radial coherente con la estética del Scooter 4. Ocultan las tuercas de sujeción." },
+            { id: "3.4", name: "Motor Hub", search: "Xiaomi Scooter 4 front motor internal", subsys: "S5: Tren de Rodaje", team: "PL 21", assigned: "Ingeniero/a 3.4", diff: "MEDIA", zone: ["zone-motor"], type: "Electro-mecánico", desc: "Bloque de tracción de la rueda delantera. Geometría cilíndrica sólida exterior con salida lateral de mazo de cables." },
+            { id: "3.5", name: "Ejes y espaciadores", search: "Xiaomi Scooter 4 wheel axle spacers set", subsys: "S5: Tren de Rodaje", team: "PL 21", assigned: "Ingeniero/a 3.5", diff: "MEDIA", zone: ["zone-eje-delantero", "zone-eje-trasero"], type: "Ejes Técnicos", desc: "Casquillos, separadores de precisión y tornillería técnica que aseguran el centrado perfecto de las dos ruedas respecto al chasis." },
+            { id: "3.6", name: "Guardabarros y Luz", search: "Xiaomi Scooter 4 rear mudguard with taillight", subsys: "S6: Carenado", team: "PL 21", assigned: "Ingeniero/a 3.6", diff: "ALTA", zone: ["zone-guardabarros-tras", "zone-luz-trasera", "zone-guardabarros-del"], type: "Carenado e Iluminación", desc: "Pieza envolvente plástica (delantero/trasero). INCLUYE ADEMÁS: La integración volumétrica del piloto LED de freno trasero en la cola del guardabarros." },
+            { id: "3.7", name: "Caballete y Muelle", search: "Xiaomi Scooter 4 kickstand replacement", subsys: "S6: Carenado", team: "PL 21", assigned: "Ingeniero/a 3.7", diff: "MEDIA", zone: ["zone-caballete", "zone-muelle-caballete"], type: "Mecanismo (Acero)", desc: "Pata retráctil, brazo de apoyo curvo y placa de anclaje. INCLUYE ADEMÁS: Modelado tridimensional del muelle de tracción en espiral para el retorno automático." },
+            { id: "3.8", name: "Acelerador y Tirante", search: "Xiaomi Scooter 4 thumb throttle fender bracket", subsys: "S6: Carenado", team: "PL 21", assigned: "Jefe/a PL 21", diff: "BAJA", zone: ["zone-acelerador", "zone-tirante"], type: "Soporte e Interfaz", desc: "Varilla de refuerzo anti-vibración trasera y gatillo estriado del acelerador Hall. Piezas geométricas muy simples. *Piezas designadas a jefatura.*" }
+        ];
+
+        const diffColors = {
+            'ALTA': 'bg-red-500/10 text-red-400 border-red-500/20',
+            'MEDIA': 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+            'BAJA': 'bg-green-500/10 text-green-400 border-green-500/20'
+        };
+
+        const teamsInfo = {
+            dir: { title: "Dirección de Proyecto", colorClass: "svg-team-dir", desc: "Coordinación global. Modela el bloque central del patinete (Plataforma base y hueco de baterías).", subsystems: ["Transversal: Chasis y Ensamblajes"], items: ["Plataforma Base", "Hueco y Puerto Carga"], note: "Foco: Garantizar que la extrusión del chasis es el ancla perfecta para el resto de subsistemas." },
+            eq1: { title: "PL 19: Chasis y Mecanismos", colorClass: "svg-team-pl19", desc: "Responsables de los mecanismos internos vitales y la portabilidad del vehículo.", subsystems: ["S1: Chasis y Cuello", "S2: Mecanismo de Plegado"], items: ["Tapa de Batería y Controlador", "Bisagra Plegado", "Vástago y Rodamientos"], note: "Crítico: El ajuste entre los rodamientos y el vástago debe ser perfecto o el patinete bailará." },
+            eq2: { title: "PL 20: Control y Seguridad", colorClass: "svg-team-pl20", desc: "Gestión de la interfaz de usuario, conducción y sistemas de frenado.", subsystems: ["S3: Manillar y Dirección", "S4: Sistema de Frenado"], items: ["Mástil principal", "Carcasas de Pantalla y LED", "Manetas y Pinza de Freno"], note: "Crítico: Prestar atención a los huecos en el mástil y las carcasas para el ruteado de cables." },
+            eq3: { title: "PL 21: Tracción y Carenado", colorClass: "svg-team-pl21", desc: "Dinámica de rodadura, motores eléctricos y carenados envolventes.", subsystems: ["S5: Tren de Rodaje", "S6: Carenado y Accesorios"], items: ["Neumáticos y Llantas", "Bloque Motor", "Guardabarros y Luces LED"], note: "Foco: Asegurar las tolerancias de la tornillería y ejes pasantes con el grosor de la horquilla." }
+        };
+
+        let currentPartForAI = null;
+
+        function showTab(id) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn tab-inactive px-10 py-5 text-xs font-bold uppercase tracking-widest transition');
+            document.getElementById('btn-' + id).className = 'tab-btn tab-active px-10 py-5 text-xs font-bold uppercase tracking-widest transition';
+            const info = teamsInfo[id];
+            document.getElementById('team-info-box').innerHTML = `
+                <div class="space-y-4"><h3 class="text-3xl font-bold text-slate-100 font-['Urbanist'] tracking-tight">${info.title}</h3><p class="text-slate-400 text-sm italic leading-relaxed">${info.desc}</p></div>
+                <div class="space-y-4">
+                    <h4 class="text-orange-500 uppercase tracking-widest text-[10px] font-bold">Subsistemas a Cargo</h4>
+                    <div class="flex flex-col gap-2">${info.subsystems.map(s => `<div class="bg-orange-500/10 border border-orange-500/20 px-4 py-3 rounded-2xl text-slate-200 text-xs flex items-center font-bold italic"><span class="w-2 h-2 bg-orange-500 rounded-full mr-4 shadow-lg shadow-orange-500"></span> ${s}</div>`).join('')}</div>
+                </div>
+                <div class="space-y-4">
+                    <h4 class="text-slate-500 uppercase tracking-widest text-[10px] font-bold">Piezas Clave</h4>
+                    <div class="grid grid-cols-1 gap-2">${info.items.map(p => `<div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700 text-xs text-slate-300 flex items-center"><span class="w-1 h-1 bg-slate-500 rounded-full mr-4"></span> ${p}</div>`).join('')}</div>
+                </div>
+                <div class="bg-slate-950/80 border border-slate-800 p-5 rounded-2xl">
+                    <p class="text-[10px] text-slate-500 font-mono uppercase leading-tight tracking-widest">⚠️ Nota del Director: ${info.note}</p>
+                </div>`;
+            const svgTemplate = document.getElementById('scooter-svg-template').content.cloneNode(true);
+            const svg = svgTemplate.querySelector('svg');
+            svg.classList.add('team-svg-base', info.colorClass);
+            document.getElementById('team-svg-target').innerHTML = '';
+            document.getElementById('team-svg-target').appendChild(svg);
+        }
+
+        function renderTable(data) {
+            const tableBody = document.getElementById('table-body');
+            tableBody.innerHTML = '';
+            data.forEach(part => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/50 transition cursor-pointer group';
+                tr.onclick = () => openModal(part);
+                const isBoss = part.assigned.includes('Director') || part.assigned.includes('Jefe');
+                tr.innerHTML = `
+                    <td class="px-6 py-6 text-center font-mono text-xs text-slate-500 font-bold">${part.id}</td>
+                    <td class="px-6 py-6 font-medium text-slate-200 group-hover:text-orange-400 transition-colors">${part.name}<br><span class="text-[10px] uppercase font-bold text-slate-500 italic tracking-tighter">${part.subsys}</span></td>
+                    <td class="px-6 py-6 text-xs ${isBoss ? 'text-orange-400 font-bold' : ''}">${part.assigned}</td>
+                    <td class="px-6 py-6 text-center"><span class="px-3 py-1 text-[10px] font-bold uppercase rounded-full border tracking-widest ${diffColors[part.diff]}">${part.diff}</span></td>
+                    <td class="px-6 py-6 text-center"><button class="text-orange-500 bg-orange-500/10 p-3 rounded-full border border-orange-500/20 shadow-lg group-hover:bg-orange-500 group-hover:text-white transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg></button></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function openModal(part) {
+            currentPartForAI = part;
+            document.getElementById('modal-id').innerText = part.id;
+            document.getElementById('modal-title').innerText = part.name;
+            document.getElementById('modal-subsys').innerText = part.subsys;
+            document.getElementById('modal-assigned').innerText = part.assigned;
+            document.getElementById('modal-desc').innerText = part.desc;
+            document.getElementById('modal-type').innerText = part.type;
+            document.getElementById('modal-search').innerText = part.search;
+            
+            const diffEl = document.getElementById('modal-diff');
+            diffEl.innerText = 'Dificultad: ' + part.diff;
+            diffEl.className = `text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded border w-fit ${diffColors[part.diff]}`;
+
+            // Reset AI Prompt State
+            document.getElementById('btn-generate-prompt').classList.remove('hidden');
+            document.getElementById('ai-loading').classList.add('hidden');
+            document.getElementById('ai-loading').classList.remove('flex');
+            document.getElementById('ai-result').classList.add('hidden');
+
+            const svgTemplate = document.getElementById('scooter-svg-template').content.cloneNode(true);
+            const svg = svgTemplate.querySelector('svg');
+            svg.querySelectorAll('.scooter-part').forEach(el => {
+                el.classList.remove('highlighted');
+                if (part.zone.includes(el.id)) {
+                    const hlType = el.getAttribute('data-hl');
+                    el.classList.add(hlType === 'border' ? 'highlight-border' : hlType === 'bg' ? 'highlight-bg' : 'highlight-internal');
+                } else { el.style.opacity = "0.2"; }
+            });
+            const container = document.getElementById('modal-svg-container');
+            container.innerHTML = '<p class="absolute top-6 left-8 text-[9px] text-slate-800 uppercase font-mono tracking-widest">Esquema Visual Interactivo</p>';
+            container.appendChild(svg);
+            document.getElementById('partModal').classList.replace('hidden', 'flex');
+        }
+
+        function closeModal() { document.getElementById('partModal').classList.replace('flex', 'hidden'); }
+
+        function generateAIPrompt() {
+            document.getElementById('btn-generate-prompt').classList.add('hidden');
+            document.getElementById('ai-loading').classList.remove('hidden');
+            document.getElementById('ai-loading').classList.add('flex');
+            
+            setTimeout(() => {
+                const promptText = `Actúa como un ingeniero de diseño industrial experto en modelado CAD (AutoCAD/SolidWorks). Necesito que me expliques la morfología tridimensional, las operaciones geométricas necesarias (extrusiones, revoluciones, vaciados, empalmes) y la función mecánica de la siguiente pieza/subconjunto de un patinete eléctrico tipo Xiaomi Electric Scooter 4:
+
+► PIEZA A MODELAR: ${currentPartForAI.name}
+► CLASIFICACIÓN/MATERIAL: ${currentPartForAI.type}
+► CONTEXTO TÉCNICO Y PIEZAS INCLUIDAS: ${currentPartForAI.desc}
+
+⚠️ REGLA ESTRICTA E INQUEBRANTABLE: NO inventes, no deduzcas y no proporciones ninguna medida numérica exacta (ni milímetros, ni centímetros, ni grados de ángulo). Si lo haces, el modelado fallará. Limítate estrictamente a explicar:
+1. CÓMO se diseña la forma base tridimensional paso a paso.
+2. Qué detalles morfológicos (agujeros, roscas, estrías) son críticos para su funcionamiento.
+3. Cómo interactúa y se ensambla mecánicamente con el resto del patinete.
+Tu objetivo es guiar espacialmente a un ingeniero que va a croquizar la pieza desde cero, dándole contexto visual, no darle la solución matemática.`;
+                
+                document.getElementById('ai-loading').classList.add('hidden');
+                document.getElementById('ai-loading').classList.remove('flex');
+                
+                document.getElementById('ai-prompt-text').innerText = promptText;
+                document.getElementById('ai-result').classList.remove('hidden');
+            }, 1500);
+        }
+
+        function copyPrompt() {
+            const text = document.getElementById('ai-prompt-text').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector('#ai-result button');
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
+                btn.classList.add('border-green-500');
+                setTimeout(() => {
+                    btn.innerHTML = originalHtml;
+                    btn.classList.remove('border-green-500');
+                }, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('complexityChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: ['Alta', 'Media', 'Baja'], datasets: [{ data: [9, 13, 3], backgroundColor: ['#ef4444', '#f97316', '#22c55e'], borderWidth: 0 }] },
+                options: { responsive: true, cutout: '85%', plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } } }
+            });
+            showTab('eq1');
+            renderTable(partsData);
+        });
+
+        document.getElementById('filter-team').addEventListener('change', (e) => {
+            renderTable(partsData.filter(p => e.target.value === 'all' || p.team === e.target.value));
+        });
+        document.addEventListener('keydown', e => { if(e.key === "Escape") closeModal(); });
+    </script>
+</body>
+</html>
