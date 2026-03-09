@@ -24,6 +24,17 @@
         .fade-in { animation: fadeIn 0.4s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
+        /* --- Nuevas animaciones dinámicas --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        .floating { animation: float 3s ease-in-out infinite; }
+        
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 50% { box-shadow: 0 0 15px 5px rgba(16, 185, 129, 0.1); } }
+        .pulse-glow { animation: pulse-glow 2s infinite; }
+        /* ---------------------------------- */
+        
         /* SVG & Animation */
         .scooter-part { transition: all 0.3s ease; transform-origin: center; }
         .highlight-border { stroke: #f97316 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 12px rgba(249, 115, 22, 1)); opacity: 1 !important; }
@@ -108,12 +119,12 @@
                     <h1 class="text-4xl font-bold text-slate-100 font-['Urbanist'] tracking-tight">Centro de Control PEL</h1>
                     <p class="mt-2 text-slate-400">Guía de Ingeniería Inversa y Modelado • Ref. Xiaomi Scooter 4</p>
                 </div>
-                <div class="bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full text-emerald-400 text-xs font-bold uppercase tracking-widest">
+                <div class="pulse-glow bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full text-emerald-400 text-xs font-bold uppercase tracking-widest">
                     Asignación 100% Completada
                 </div>
             </div>
 
-            <div class="bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 p-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="reveal bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 p-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="space-y-8">
                     <h2 class="text-2xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight border-b border-slate-800 pb-4">Análisis de Esfuerzo de Ingeniería</h2>
                     <p class="text-slate-400 leading-relaxed text-sm">
@@ -140,17 +151,17 @@
 
         <!-- CALENDARIO Y ADSCRIPCIÓN -->
         <section id="calendario" class="scroll-mt-24">
-            <div class="mb-10">
+            <div class="reveal mb-10">
                 <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">Calendario y Adscripción</h2>
                 <p class="mt-2 text-slate-400 text-sm">Expresión Gráfica • Curso 2025-26 | Grupos D y F</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
                 <!-- Fechas clave (span 2 cols) -->
-                <div class="lg:col-span-2 bg-slate-900 rounded-3xl border border-slate-800 p-8 shadow-2xl relative overflow-hidden">
+                <div class="reveal lg:col-span-2 bg-slate-900 rounded-3xl border border-slate-800 p-8 shadow-2xl relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
                     <h3 class="text-xl font-bold text-slate-100 mb-8 font-['Urbanist'] flex items-center gap-3">
-                        <span class="bg-orange-500/20 text-orange-500 p-2 rounded-lg">📅</span> Hitos y Fechas Límite Inaplazables
+                        <span class="floating bg-orange-500/20 text-orange-500 p-2 rounded-lg">📅</span> Hitos y Fechas Límite Inaplazables
                     </h3>
                     
                     <div class="space-y-4 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
@@ -204,9 +215,9 @@
 
                 <!-- Info y Formulario Envío (1 col) -->
                 <div class="space-y-6">
-                    <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-lg hover:border-orange-500/30 transition">
+                    <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-lg hover:border-orange-500/30 transition" style="transition-delay: 100ms;">
                         <h4 class="text-sm font-bold text-slate-200 uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <span class="text-orange-500">📚</span> Información General
+                            <span class="floating text-orange-500">📚</span> Información General
                         </h4>
                         <p class="text-xs text-slate-400 leading-relaxed mb-3">
                             El trabajo fue presentado el <strong class="text-slate-200">5 de marzo de 2026</strong> en la clase de teoría.
@@ -216,9 +227,9 @@
                         </p>
                     </div>
 
-                    <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-lg hover:border-blue-500/30 transition relative">
+                    <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 shadow-lg hover:border-blue-500/30 transition relative" style="transition-delay: 200ms;">
                         <h4 class="text-sm font-bold text-slate-200 uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <span class="text-blue-400">📨</span> Formulario de Adscripción
+                            <span class="floating text-blue-400">📨</span> Formulario de Adscripción
                         </h4>
                         <ul class="text-[11px] text-slate-400 space-y-3">
                             <li class="flex gap-2"><span class="text-slate-600 font-bold">1.</span> <span>Cumplimentar exclusivamente usando <strong class="text-slate-200">Adobe Acrobat Reader</strong> (no usar el navegador web).</span></li>
@@ -234,14 +245,14 @@
 
         <!-- FLUJO DE TRABAJO -->
         <section id="flujo" class="scroll-mt-24">
-            <div class="mb-10">
+            <div class="reveal mb-10">
                 <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">¿Qué tengo que hacer? Flujo de Trabajo</h2>
                 <p class="mt-2 text-slate-400 text-sm">Organización de responsabilidades y entregas en función de tu cargo en la empresa.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- COLUMNA 1: DIRECTOR -->
-                <div class="bg-slate-900 rounded-3xl border-t-4 border-purple-500 shadow-xl overflow-hidden flex flex-col h-full">
+                <div class="reveal bg-slate-900 rounded-3xl border-t-4 border-purple-500 shadow-xl overflow-hidden flex flex-col h-full">
                     <div class="p-6 bg-slate-950 border-b border-slate-800">
                         <span class="px-3 py-1 bg-purple-500/10 text-purple-400 text-[10px] font-bold uppercase tracking-widest rounded border border-purple-500/20 mb-3 inline-block">Gestión Global</span>
                         <h3 class="text-xl font-bold text-slate-100 font-['Urbanist']">Director/a de Proyecto</h3>
@@ -275,7 +286,7 @@
                 </div>
 
                 <!-- COLUMNA 2: JEFE DE EQUIPO -->
-                <div class="bg-slate-900 rounded-3xl border-t-4 border-orange-500 shadow-xl overflow-hidden flex flex-col h-full">
+                <div class="reveal bg-slate-900 rounded-3xl border-t-4 border-orange-500 shadow-xl overflow-hidden flex flex-col h-full" style="transition-delay: 150ms;">
                     <div class="p-6 bg-slate-950 border-b border-slate-800">
                         <span class="px-3 py-1 bg-orange-500/10 text-orange-400 text-[10px] font-bold uppercase tracking-widest rounded border border-orange-500/20 mb-3 inline-block">Mando Intermedio</span>
                         <h3 class="text-xl font-bold text-slate-100 font-['Urbanist']">Jefe/a de Equipo</h3>
@@ -309,7 +320,7 @@
                 </div>
 
                 <!-- COLUMNA 3: INGENIERO -->
-                <div class="bg-slate-900 rounded-3xl border-t-4 border-emerald-500 shadow-xl overflow-hidden flex flex-col h-full">
+                <div class="reveal bg-slate-900 rounded-3xl border-t-4 border-emerald-500 shadow-xl overflow-hidden flex flex-col h-full" style="transition-delay: 300ms;">
                     <div class="p-6 bg-slate-950 border-b border-slate-800">
                         <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-widest rounded border border-emerald-500/20 mb-3 inline-block">Equipo Técnico</span>
                         <h3 class="text-xl font-bold text-slate-100 font-['Urbanist']">Ingeniero/a Raso</h3>
@@ -341,8 +352,8 @@
 
         <!-- ORGANIGRAMA & SUBSYSTEMS -->
         <section id="equipos" class="scroll-mt-24">
-            <h2 class="text-3xl font-bold text-slate-100 mb-8 font-['Urbanist']">Organigrama de Equipos y Subsistemas</h2>
-            <div class="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
+            <h2 class="reveal text-3xl font-bold text-slate-100 mb-8 font-['Urbanist']">Organigrama de Equipos y Subsistemas</h2>
+            <div class="reveal bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
                 <div class="flex border-b border-slate-800 bg-slate-950 overflow-x-auto">
                     <button id="btn-dir" class="tab-btn tab-inactive px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('dir')">Junta Directiva</button>
                     <button id="btn-eq1" class="tab-btn tab-active px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('eq1')">PL 19: Chasis</button>
@@ -364,7 +375,7 @@
 
         <!-- MATRIZ DE TAREAS -->
         <section id="tareas" class="scroll-mt-24">
-            <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="reveal mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
                     <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist']">Matriz Detallada de Asignación</h2>
                     <p class="mt-2 text-slate-400 text-sm">Listado unificado de piezas y dificultad. Haz clic en una pieza para ver sus especificaciones.</p>
@@ -380,7 +391,7 @@
                     </select>
                 </div>
             </div>
-            <div class="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
+            <div class="reveal bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left text-slate-400">
                         <thead class="text-[10px] text-slate-500 uppercase tracking-widest bg-slate-800/50 border-b border-slate-700">
@@ -402,26 +413,26 @@
 
         <!-- PROTOCOLOS SECTION -->
         <section id="protocolos" class="scroll-mt-24">
-            <h2 class="text-3xl font-bold text-slate-100 mb-10 font-['Urbanist'] uppercase tracking-tight">Normativa de Calidad y Entrega</h2>
+            <h2 class="reveal text-3xl font-bold text-slate-100 mb-10 font-['Urbanist'] uppercase tracking-tight">Normativa de Calidad y Entrega</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group">
-                    <div class="text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform">📏</div>
+                <div class="reveal bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group">
+                    <div class="floating text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform">📏</div>
                     <h3 class="font-bold text-slate-100 mb-3 text-lg font-['Urbanist']">Normalización UNE</h3>
                     <p class="text-xs text-slate-400 leading-relaxed">Obligatorio aplicar la normativa de acotación UNE 1-032-82. Uso estricto de cajetines proporcionados por Dirección.</p>
                 </div>
-                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group">
-                    <div class="text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform">🧩</div>
+                <div class="reveal bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group" style="transition-delay: 100ms;">
+                    <div class="floating text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform" style="animation-delay: 0.2s;">🧩</div>
                     <h3 class="font-bold text-slate-100 mb-3 text-lg font-['Urbanist']">Tolerancias H7/g6</h3>
                     <p class="text-xs text-slate-400 leading-relaxed">Todas las piezas de rotación (ejes, vástago, motor) deben especificar sus ajustes y tolerancias para asegurar el giro fluido.</p>
                 </div>
-                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group">
-                    <div class="text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform">✍️</div>
+                <div class="reveal bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group" style="transition-delay: 200ms;">
+                    <div class="floating text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform" style="animation-delay: 0.4s;">✍️</div>
                     <h3 class="font-bold text-slate-100 mb-3 text-lg font-['Urbanist']">Control de Croquis</h3>
                     <p class="text-xs text-slate-400 leading-relaxed">Los croquis a mano alzada son el corazón del proyecto. Deben contener secciones críticas de las piezas inyectadas o extruidas.</p>
                 </div>
-                <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group">
-                    <div class="text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform">📄</div>
+                <div class="reveal bg-slate-900 border border-slate-800 p-8 rounded-3xl hover:border-orange-500/40 transition group" style="transition-delay: 300ms;">
+                    <div class="floating text-4xl mb-6 bg-orange-500/10 w-16 h-16 flex items-center justify-center rounded-2xl border border-orange-500/20 group-hover:scale-110 transition-transform" style="animation-delay: 0.6s;">📄</div>
                     <h3 class="font-bold text-slate-100 mb-3 text-lg font-['Urbanist']">Entrega Conjunta</h3>
                     <p class="text-xs text-slate-400 leading-relaxed">El Director revisará que los ensamblajes de cada equipo no tengan "clashes" (colisiones) antes de la compilación en el PDF maestro.</p>
                 </div>
@@ -430,9 +441,9 @@
             <!-- Estandarización y Elementos Normalizados -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                 <!-- Tabla de Capas -->
-                <div class="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl flex flex-col">
+                <div class="reveal bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl flex flex-col">
                     <div class="p-6 bg-slate-950 border-b border-slate-800 flex items-center gap-3">
-                        <span class="text-2xl">🎨</span>
+                        <span class="floating text-2xl">🎨</span>
                         <div>
                             <h3 class="text-lg font-bold text-slate-100 font-['Urbanist']">Estandarización de Capas (AutoCAD)</h3>
                             <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-widest">Uso obligatorio para todo el equipo</p>
@@ -458,9 +469,9 @@
 
                 <!-- Nomenclatura y Conflictos -->
                 <div class="space-y-8 flex flex-col justify-between">
-                    <div class="bg-slate-900 p-8 rounded-3xl border border-blue-500/30 shadow-lg relative overflow-hidden group hover:border-blue-500/60 transition">
+                    <div class="reveal bg-slate-900 p-8 rounded-3xl border border-blue-500/30 shadow-lg relative overflow-hidden group hover:border-blue-500/60 transition" style="transition-delay: 150ms;">
                         <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition"></div>
-                        <h3 class="text-lg font-bold text-slate-100 mb-3 font-['Urbanist'] flex items-center gap-3"><span class="text-blue-400 bg-blue-500/10 p-2 rounded-xl">🏷️</span> Sistema de Nomenclatura</h3>
+                        <h3 class="text-lg font-bold text-slate-100 mb-3 font-['Urbanist'] flex items-center gap-3"><span class="floating text-blue-400 bg-blue-500/10 p-2 rounded-xl">🏷️</span> Sistema de Nomenclatura</h3>
                         <p class="text-xs text-slate-400 mb-4 leading-relaxed">Para evitar la pérdida de versiones, todos los archivos CAD y PDF deben nombrarse con esta estructura exacta antes de ser enviados a Jefatura/Dirección:</p>
                         <div class="bg-slate-950 border border-slate-800 p-4 rounded-xl text-center shadow-inner">
                             <code class="block w-full text-sm text-blue-400 font-mono tracking-wide">[ID]_[Nombre_Pieza]_[Apellidos].dwg</code>
@@ -468,9 +479,9 @@
                         <p class="text-[11px] text-slate-500 mt-4 text-center">Ejemplo correcto: <span class="text-slate-300 font-mono">1.2_Cuello_Union_PerezJuan.dwg</span></p>
                     </div>
 
-                    <div class="bg-slate-900 p-8 rounded-3xl border border-red-500/30 shadow-lg group hover:border-red-500/60 transition relative overflow-hidden flex-grow">
+                    <div class="reveal bg-slate-900 p-8 rounded-3xl border border-red-500/30 shadow-lg group hover:border-red-500/60 transition relative overflow-hidden flex-grow" style="transition-delay: 250ms;">
                         <div class="absolute -right-10 -top-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl group-hover:bg-red-500/20 transition"></div>
-                        <h3 class="text-lg font-bold text-slate-100 mb-3 font-['Urbanist'] flex items-center gap-3"><span class="text-red-400 bg-red-500/10 p-2 rounded-xl">⚠️</span> Protocolo de Colisiones</h3>
+                        <h3 class="text-lg font-bold text-slate-100 mb-3 font-['Urbanist'] flex items-center gap-3"><span class="pulse-glow text-red-400 bg-red-500/10 p-2 rounded-xl">⚠️</span> Protocolo de Colisiones</h3>
                         <p class="text-xs text-slate-400 leading-relaxed mb-4">Si al ensamblar las piezas de dos ingenieros se produce una interferencia geométrica, rige la norma de prelación:</p>
                         <div class="bg-red-500/10 border-l-4 border-red-500 p-4 rounded-r-xl text-xs text-slate-300 italic font-medium">
                             "La pieza interior o dinámica (ejes, rodamientos, motor) MANDA sobre la exterior (horquillas, carcasas). El ingeniero de la pieza exterior deberá adaptar sus dimensiones."
@@ -480,8 +491,8 @@
             </div>
 
             <!-- NUEVO: Uso de Elementos Normalizados -->
-            <div class="mt-8 bg-slate-950 border-l-4 border-orange-500 p-6 md:p-8 rounded-r-3xl shadow-inner flex flex-col md:flex-row items-start md:items-center gap-6">
-                <div class="text-4xl bg-orange-500/10 p-4 rounded-2xl border border-orange-500/20 shrink-0">🔩</div>
+            <div class="reveal mt-8 bg-slate-950 border-l-4 border-orange-500 p-6 md:p-8 rounded-r-3xl shadow-inner flex flex-col md:flex-row items-start md:items-center gap-6">
+                <div class="floating text-4xl bg-orange-500/10 p-4 rounded-2xl border border-orange-500/20 shrink-0">🔩</div>
                 <div>
                     <h3 class="text-xl font-bold text-slate-100 font-['Urbanist'] tracking-tight">Uso de Elementos Normalizados (ISO/DIN)</h3>
                     <p class="text-sm text-slate-400 mt-2 leading-relaxed">
@@ -494,33 +505,34 @@
 
         <!-- BIBLIOGRAFÍA -->
         <section id="bibliografia" class="scroll-mt-24 pb-20">
-            <h2 class="text-3xl font-bold text-slate-100 mb-10 font-['Urbanist'] tracking-tight uppercase">Documentación y Referencias de Búsqueda</h2>
+            <h2 class="reveal text-3xl font-bold text-slate-100 mb-10 font-['Urbanist'] tracking-tight uppercase">Documentación y Referencias de Búsqueda</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 
-                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition">
-                    <div class="text-orange-500 mb-6 text-3xl">🌐</div>
+                <div class="reveal bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition">
+                    <div class="floating text-orange-500 mb-6 text-3xl">🌐</div>
                     <h3 class="text-xl font-bold text-slate-100 mb-4 font-['Urbanist']">Xiaomi España</h3>
                     <p class="text-sm text-slate-400 mb-8 leading-relaxed italic">Dimensiones de transporte, peso neto y certificación oficial.</p>
                     <a href="https://www.mi.com/es/product/xiaomi-electric-scooter-4/specs" target="_blank" class="bg-slate-800 px-4 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-orange-500 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Ver Especificaciones</a>
                 </div>
                 
-                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-blue-500/50 transition">
+                <div class="reveal bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-blue-500/50 transition" style="transition-delay: 100ms;">
                     <div class="text-blue-400 mb-6 text-3xl font-mono font-bold">.dwt</div>
-                    <h3 class="text-xl font-bold text-slate-100 mb-4 font-['Urbanist']">Plantilla Base</h3>
+                    <h3 class="text-xl font-bold text-slate-100 mb-4 font-['Urbanist']">Plantillas</h3>
                     <p class="text-sm text-slate-400 mb-8 leading-relaxed italic">Pasos: 1. Descargar archivo. 2. En AutoCAD hacer clic en "Nuevo" o "New". 3. Seleccionar este archivo .dwt como plantilla inicial.</p>
-                    <a href="https://drive.google.com/file/d/1HsgPx3gDKjBt9xEQJLBQGdqunP5zaEAJ/view?usp=drive_link" target="_blank" class="bg-slate-800 px-4 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-blue-400 border border-slate-700 hover:bg-blue-600 hover:text-white transition-all block text-center">Descargar .dwt</a>
+                    <a href="https://drive.google.com/drive/folders/1jCRmfmVTliphG7PWYLE09uV6ixNEGQle?usp=sharing" target="_blank" class="bg-slate-800 px-4 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-blue-400 border border-slate-700 hover:bg-blue-600 hover:text-white transition-all block text-center">Descargar .dwt</a>
                 </div>
 
-                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition">
+                <div class="reveal bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition" style="transition-delay: 200ms;">
                     <div class="text-orange-400 mb-6 text-3xl font-mono font-bold">.dwg</div>
-                    <h3 class="text-xl font-bold text-slate-100 mb-4 font-['Urbanist']">Cajetines A1-A4</h3>
-                    <p class="text-sm text-slate-400 mb-8 leading-relaxed italic">Pasos: 1. Descargar archivo. 2. En AutoCAD ir a Inserción > Insertar (Bloques de otros dibujos). 3. Colocar en tu Layout.</p>
-                    <a href="https://drive.google.com/file/d/1FIXbP3Uvoo5ilLpU-YwwsMYpmltRfUeb/view?usp=drive_link" target="_blank" class="bg-slate-800 px-4 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-orange-400 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Descargar .dwg</a>
+                    <h3 class="text-xl font-bold text-slate-100 mb-4 font-['Urbanist']">Medidas</h3>
+                    <p class="text-sm text-slate-400 mb-4 leading-relaxed italic">Pasos: 1. Descargar archivo. 2. En AutoCAD ir a Inserción > Insertar (Bloques de otros dibujos). 3. Colocar en tu Layout.</p>
+                    <div class="bg-orange-500/10 border-l-2 border-orange-500 p-3 mb-6 rounded-r-lg text-xs text-orange-200 font-medium">⚠️ Aclaración: Este archivo no vale como modelo a entregar y es meramente orientativo.</div>
+                    <a href="https://drive.google.com/drive/folders/1l5_YLuG7IZmcTOw9MvurcG9EyUES3kOC?usp=drive_link" target="_blank" class="bg-slate-800 px-4 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-orange-400 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Descargar .dwg</a>
                 </div>
 
-                <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition">
-                    <div class="text-orange-500 mb-6 text-3xl">🧊</div>
+                <div class="reveal bg-slate-900 p-8 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition" style="transition-delay: 300ms;">
+                    <div class="floating text-orange-500 mb-6 text-3xl">🧊</div>
                     <h3 class="text-xl font-bold text-slate-100 mb-4 font-['Urbanist']">Modelo 3D</h3>
                     <p class="text-sm text-slate-400 mb-8 leading-relaxed italic">Visor interactivo en la nube para consultar cotas y distancias reales.</p>
                     <a href="https://viewer.autodesk.com/id/dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YTM2MHZpZXdlci1wcm90ZWN0ZWQvdDE3NzMwMDU2NThfZjg5MmI1MzgtMjNiZS00MDAyLTk1YTUtOTQ1YTY5YjRiMzRkLmZieA?sheetId=Yzg1NjJmMDctMTc4NS00NDkzLWI2OWEtODE2OTJiMDEyNjE0" target="_blank" class="bg-slate-800 px-4 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest text-orange-500 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Abrir Modelo 3D</a>
@@ -529,11 +541,11 @@
             </div>
 
             <!-- NUEVO: NUBE CORPORATIVA / GOOGLE DRIVE -->
-            <div class="mt-12 bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 p-8 rounded-3xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden group">
+            <div class="reveal mt-12 bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 p-8 rounded-3xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden group">
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-green-500/10 rounded-full blur-3xl group-hover:bg-green-500/20 transition-all duration-500 pointer-events-none"></div>
                 
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6 relative z-10 text-center md:text-left">
-                    <div class="w-16 h-16 bg-slate-950 border border-slate-700 rounded-2xl flex items-center justify-center text-3xl shadow-inner shrink-0">
+                    <div class="floating w-16 h-16 bg-slate-950 border border-slate-700 rounded-2xl flex items-center justify-center text-3xl shadow-inner shrink-0">
                         📁
                     </div>
                     <div>
@@ -895,12 +907,50 @@ Tu objetivo es guiar espacialmente a un ingeniero que va a croquizar la pieza de
         document.addEventListener('DOMContentLoaded', () => {
             const ctx = document.getElementById('complexityChart').getContext('2d');
             new Chart(ctx, {
-                type: 'doughnut',
-                data: { labels: ['Alta', 'Media', 'Baja'], datasets: [{ data: [9, 13, 3], backgroundColor: ['#ef4444', '#f97316', '#22c55e'], borderWidth: 0 }] },
-                options: { responsive: true, cutout: '85%', plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } } }
+                type: 'bar',
+                data: { 
+                    labels: ['Alta', 'Media', 'Baja'], 
+                    datasets: [{ 
+                        label: 'Número de Tareas',
+                        data: [9, 13, 3], 
+                        backgroundColor: ['rgba(239, 68, 68, 0.8)', 'rgba(249, 115, 22, 0.8)', 'rgba(34, 197, 94, 0.8)'],
+                        borderColor: ['#ef4444', '#f97316', '#22c55e'],
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }] 
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false } 
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(51, 65, 85, 0.4)' },
+                            ticks: { color: '#94a3b8', stepSize: 3 }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#cbd5e1', font: { weight: 'bold' } }
+                        }
+                    }
+                }
             });
             showTab('eq1');
             renderTable(partsData);
+
+            // Observador de Intersección para las animaciones Reveal
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
 
         document.getElementById('filter-team').addEventListener('change', (e) => {
