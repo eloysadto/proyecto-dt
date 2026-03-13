@@ -53,6 +53,7 @@
         /* Team Highlights - PL21 (Verde) */
         .svg-team-pl21 .part-pl21 { fill: #a3e635 !important; stroke: #f7fee7 !important; stroke-width: 2px; opacity: 1 !important; }
         .svg-team-pl21 .border-pl21 { stroke: #a3e635 !important; stroke-width: 4px !important; opacity: 1 !important; }
+        .svg-team-pl21 .internal-pl21 { fill: url(#diagonalHatch) !important; stroke: #a3e635 !important; stroke-width: 4px !important; opacity: 1 !important; }
         
         /* Team Highlights - Dirección (Morado) */
         .svg-team-dir .part-dir { fill: #a855f7 !important; stroke: #faf5ff !important; stroke-width: 2px; opacity: 1 !important; }
@@ -133,11 +134,11 @@
                     <div class="grid grid-cols-1 gap-4">
                         <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:border-red-500/30 transition">
                             <span class="text-sm font-medium text-slate-300">Nivel de Complejidad: <strong>ALTA</strong></span>
-                            <span class="px-4 py-1 bg-red-500/20 text-red-500 text-xs font-bold rounded-full">9 Tareas</span>
+                            <span class="px-4 py-1 bg-red-500/20 text-red-500 text-xs font-bold rounded-full">10 Tareas</span>
                         </div>
                         <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:border-orange-500/30 transition">
                             <span class="text-sm font-medium text-slate-300">Nivel de Complejidad: <strong>MEDIA</strong></span>
-                            <span class="px-4 py-1 bg-orange-500/20 text-orange-500 text-xs font-bold rounded-full">13 Tareas</span>
+                            <span class="px-4 py-1 bg-orange-500/20 text-orange-500 text-xs font-bold rounded-full">14 Tareas</span>
                         </div>
                         <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:border-green-500/30 transition">
                             <span class="text-sm font-medium text-slate-300">Nivel de Complejidad: <strong>BAJA (Para Jefatura)</strong></span>
@@ -356,9 +357,9 @@
             <div class="reveal bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
                 <div class="flex border-b border-slate-800 bg-slate-950 overflow-x-auto">
                     <button id="btn-dir" class="tab-btn tab-inactive px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('dir')">Junta Directiva</button>
-                    <button id="btn-eq1" class="tab-btn tab-active px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('eq1')">PL 19: Chasis</button>
+                    <button id="btn-eq1" class="tab-btn tab-active px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('eq1')">PL 19: Tracción</button>
                     <button id="btn-eq2" class="tab-btn tab-inactive px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('eq2')">PL 20: Dirección</button>
-                    <button id="btn-eq3" class="tab-btn tab-inactive px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('eq3')">PL 21: Tracción</button>
+                    <button id="btn-eq3" class="tab-btn tab-inactive px-10 py-5 text-xs font-bold uppercase tracking-widest transition" onclick="showTab('eq3')">PL 21: Chasis</button>
                 </div>
                 <div class="p-12">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
@@ -383,11 +384,11 @@
                 <div class="flex items-center gap-4">
                     <span class="text-xs font-bold uppercase text-slate-500 tracking-widest">Filtrar por Grupo:</span>
                     <select id="filter-team" class="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-xl p-3 outline-none focus:border-orange-500 shadow-lg min-w-[200px]">
-                        <option value="all">Toda la Empresa (25)</option>
+                        <option value="all">Toda la Empresa (28)</option>
                         <option value="Dirección">Dirección</option>
-                        <option value="PL 19">PL 19: Chasis</option>
+                        <option value="PL 19">PL 19: Tracción</option>
                         <option value="PL 20">PL 20: Dirección</option>
-                        <option value="PL 21">PL 21: Tracción</option>
+                        <option value="PL 21">PL 21: Chasis</option>
                     </select>
                 </div>
             </div>
@@ -398,7 +399,8 @@
                             <tr>
                                 <th class="px-6 py-6 text-center font-bold">ID</th>
                                 <th class="px-6 py-6">Pieza o Subconjunto</th>
-                                <th class="px-6 py-6">Responsable</th>
+                                <th class="px-6 py-6">Puesto</th>
+                                <th class="px-6 py-6">Nombre Alumno</th>
                                 <th class="px-6 py-6 text-center">Dificultad</th>
                                 <th class="px-6 py-6 text-center">Ver</th>
                             </tr>
@@ -570,7 +572,7 @@
         <div class="max-w-7xl mx-auto px-4 text-center space-y-8">
             <p class="text-xs text-slate-500 tracking-[0.5em] uppercase font-bold">Documentación Técnica Proyecto PEL</p>
             <div class="w-16 h-1.5 bg-orange-600 mx-auto rounded-full"></div>
-            <p class="text-sm text-slate-400 max-w-2xl mx-auto">Esta plataforma ha sido diseñada para centralizar la ingeniería del Xiaomi Electric Scooter 4. Todo el contenido está optimizado para facilitar el flujo de trabajo entre los 25 integrantes de la empresa.</p>
+            <p class="text-sm text-slate-400 max-w-2xl mx-auto">Esta plataforma ha sido diseñada para centralizar la ingeniería del Xiaomi Electric Scooter 4. Todo el contenido está optimizado para facilitar el flujo de trabajo entre los 28 integrantes de la empresa.</p>
             <p class="text-[10px] text-slate-700 font-mono">Creado por Eloy Santos de Tourdonnet • 2026</p>
         </div>
     </footer>
@@ -593,7 +595,8 @@
                 <div class="bg-slate-950/50 p-6 rounded-3xl border border-slate-800 mb-6 space-y-4 text-sm">
                     <p class="flex justify-between border-b border-slate-800 pb-3"><span class="text-slate-500 uppercase tracking-tighter text-[10px] font-bold">Referencia ID</span> <span id="modal-id" class="text-slate-100 font-mono font-bold">X.X</span></p>
                     <p class="flex flex-col border-b border-slate-800 pb-3 gap-1"><span class="text-slate-500 uppercase tracking-tighter text-[10px] font-bold">Referencia de Búsqueda</span> <span id="modal-search" class="text-orange-500 font-bold italic tracking-tight">Cargando...</span></p>
-                    <p class="flex justify-between border-b border-slate-800 pb-3"><span class="text-slate-500 uppercase tracking-tighter text-[10px] font-bold">Responsable</span> <span id="modal-assigned" class="text-slate-100 font-medium font-['Urbanist'] text-lg">Nombre</span></p>
+                    <p class="flex justify-between border-b border-slate-800 pb-3"><span class="text-slate-500 uppercase tracking-tighter text-[10px] font-bold">Puesto</span> <span id="modal-assigned" class="text-slate-300">Puesto</span></p>
+                    <p class="flex justify-between border-b border-slate-800 pb-3"><span class="text-slate-500 uppercase tracking-tighter text-[10px] font-bold">Alumno/a</span> <span id="modal-person" class="text-slate-100 font-medium font-['Urbanist'] text-lg">Nombre</span></p>
                     <p class="flex justify-between"><span class="text-slate-500 uppercase tracking-tighter text-[10px] font-bold">Clasificación Técnica</span> <span id="modal-type" class="text-slate-300 italic">Exterior</span></p>
                 </div>
 
@@ -649,55 +652,45 @@
             <!-- Suelo -->
             <line x1="80" y1="560" x2="720" y2="560" class="scooter-part highlighted" stroke="#1e293b" stroke-width="4" stroke-linecap="round" />
             
-            <!-- ================= S5: RUEDAS Y MOTOR (PL 21) ================= -->
-            <circle id="zone-rueda-trasera" class="scooter-part border-pl21 highlighted" data-hl="border" cx="220" cy="480" r="60" fill="none" stroke="#334155" stroke-width="18" />
-            <circle id="zone-rueda-delantera" class="scooter-part border-pl21 highlighted" data-hl="border" cx="620" cy="480" r="60" fill="none" stroke="#334155" stroke-width="18" />
-            <circle id="zone-motor" class="scooter-part part-pl21 highlighted" data-hl="bg" cx="620" cy="480" r="42" fill="#1e293b" stroke="#475569" stroke-width="2" />
-            <circle id="zone-eje-trasero" class="scooter-part part-pl21 highlighted" data-hl="bg" cx="220" cy="480" r="8" fill="#94a3b8" />
-            <circle id="zone-eje-delantero" class="scooter-part part-pl21 highlighted" data-hl="bg" cx="620" cy="480" r="8" fill="#94a3b8" />
+            <!-- ================= S1 & S2: RUEDAS, MOTOR Y CARENADO (PL 19) ================= -->
+            <circle id="zone-rueda-trasera" class="scooter-part border-pl19 highlighted" data-hl="border" cx="220" cy="480" r="60" fill="none" stroke="#334155" stroke-width="18" />
+            <circle id="zone-rueda-delantera" class="scooter-part border-pl19 highlighted" data-hl="border" cx="620" cy="480" r="60" fill="none" stroke="#334155" stroke-width="18" />
+            <circle id="zone-motor" class="scooter-part part-pl19 highlighted" data-hl="bg" cx="620" cy="480" r="42" fill="#1e293b" stroke="#475569" stroke-width="2" />
+            <circle id="zone-eje-trasero" class="scooter-part part-pl19 highlighted" data-hl="bg" cx="220" cy="480" r="8" fill="#94a3b8" />
+            <circle id="zone-eje-delantero" class="scooter-part part-pl19 highlighted" data-hl="bg" cx="620" cy="480" r="8" fill="#94a3b8" />
+            <path id="zone-guardabarros-tras" class="scooter-part border-pl19 highlighted" data-hl="border" d="M 220 395 C 120 395 105 460 110 540" fill="none" stroke="#475569" stroke-width="14" stroke-linecap="round" />
+            <path id="zone-luz-trasera" class="scooter-part part-pl19 highlighted" data-hl="bg" d="M 108 535 C 108 535 115 520 120 525 Z" fill="#ef4444" />
+            <line id="zone-tirante" class="scooter-part border-pl19 highlighted" data-hl="border" x1="220" y1="480" x2="150" y2="445" stroke="#64748b" stroke-width="5" stroke-linecap="round" />
+            <path id="zone-guardabarros-del" class="scooter-part border-pl19 highlighted" data-hl="border" d="M 620 395 C 550 395 535 440 530 500" fill="none" stroke="#475569" stroke-width="12" stroke-linecap="round" />
+            <polygon id="zone-caballete" class="scooter-part border-pl19 highlighted" data-hl="border" points="320,488 340,488 305,550 290,550" fill="#475569" />
+            <line id="zone-muelle-caballete" class="scooter-part border-pl19 highlighted" data-hl="border" x1="315" y1="488" x2="295" y2="520" stroke="#94a3b8" stroke-width="2" stroke-dasharray="2,2" />
 
-            <!-- ================= S4: FRENADO (PL 20) ================= -->
+            <!-- ================= S3 & S4: DIRECCIÓN Y MANILLAR (PL 20) ================= -->
             <circle id="zone-disco-freno" class="scooter-part border-pl20 highlighted" data-hl="border" cx="220" cy="480" r="32" fill="none" stroke="#64748b" stroke-width="6" stroke-dasharray="8,5" />
             <rect id="zone-pinza" class="scooter-part part-pl20 highlighted" data-hl="bg" x="170" y="445" width="28" height="24" rx="4" fill="#334155" stroke="#0f172a" stroke-width="2"/>
-
-            <!-- ================= S6: CARENADO (PL 21) ================= -->
-            <path id="zone-guardabarros-tras" class="scooter-part border-pl21 highlighted" data-hl="border" d="M 220 395 C 120 395 105 460 110 540" fill="none" stroke="#475569" stroke-width="14" stroke-linecap="round" />
-            <path id="zone-luz-trasera" class="scooter-part part-pl21 highlighted" data-hl="bg" d="M 108 535 C 108 535 115 520 120 525 Z" fill="#ef4444" />
-            <line id="zone-tirante" class="scooter-part border-pl21 highlighted" data-hl="border" x1="220" y1="480" x2="150" y2="445" stroke="#64748b" stroke-width="5" stroke-linecap="round" />
-            <path id="zone-guardabarros-del" class="scooter-part border-pl21 highlighted" data-hl="border" d="M 620 395 C 550 395 535 440 530 500" fill="none" stroke="#475569" stroke-width="12" stroke-linecap="round" />
-            <polygon id="zone-caballete" class="scooter-part border-pl21 highlighted" data-hl="border" points="320,488 340,488 305,550 290,550" fill="#475569" />
-            <line id="zone-muelle-caballete" class="scooter-part border-pl21 highlighted" data-hl="border" x1="315" y1="488" x2="295" y2="520" stroke="#94a3b8" stroke-width="2" stroke-dasharray="2,2" />
-
-            <!-- ================= S1 & S2: CHASIS Y PLEGADO (DIR / PL 19) ================= -->
-            <rect id="zone-chasis" class="scooter-part part-dir highlighted" data-hl="bg" x="220" y="458" width="290" height="30" rx="8" fill="#475569" />
-            <line id="zone-alfombrilla" class="scooter-part border-dir highlighted" data-hl="border" x1="230" y1="456" x2="480" y2="456" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
-            <circle id="zone-puerto-carga" class="scooter-part part-dir highlighted" data-hl="bg" cx="240" cy="473" r="4" fill="#ef4444" />
-            
-            <rect id="zone-bateria" class="scooter-part internal-pl19 highlighted" data-hl="internal" x="250" y="465" width="180" height="15" rx="3" fill="#1e293b" />
-            <rect id="zone-controlador" class="scooter-part internal-pl19 highlighted" data-hl="internal" x="440" y="465" width="40" height="15" rx="3" fill="#1e293b" />
-            <rect id="zone-tapa-bateria" class="scooter-part internal-pl19 highlighted" data-hl="internal" x="240" y="488" width="250" height="8" rx="3" fill="#0f172a" stroke="#64748b" stroke-width="2" stroke-dasharray="6,3" />
-            
-            <!-- Cuello (hacemos visible el espacio para el vástago interno acortando la horquilla exterior visualmente) -->
-            <path id="zone-cuello" class="scooter-part part-pl19 highlighted" data-hl="bg" d="M 480 458 C 530 458 555 440 565 390 L 530 390 C 525 425 500 440 470 440 Z" fill="#334155" />
-            <polygon id="zone-horquilla" class="scooter-part part-pl19 highlighted" data-hl="bg" points="620,480 590,480 540,430 562,430" fill="#475569" />
-            <polygon id="zone-plegado" class="scooter-part part-pl19 highlighted" data-hl="bg" points="530,390 565,390 558,335 523,335" fill="#475569" />
-
-            <!-- ================= S3: DIRECCIÓN Y MANILLAR (PL 20 / PL 19 / DIR) ================= -->
             <polygon id="zone-mastil" class="scooter-part part-pl20 highlighted" data-hl="bg" points="523,335 558,335 535,135 500,135" fill="#475569" />
             <path id="zone-cableado" class="scooter-part border-pl20 highlighted" data-hl="border" d="M 490 150 C 520 200 480 280 535 340" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round" stroke-dasharray="2,3" />
-            
-            <!-- Eje Interno de Dirección y Rodamientos (Alojados en el cuello) -->
-            <line id="zone-eje-interno" class="scooter-part border-pl19 highlighted" data-hl="border" x1="551" y1="430" x2="547" y2="390" stroke="#cbd5e1" stroke-width="6" stroke-dasharray="4,3" />
-            <rect id="zone-rodamientos-1" class="scooter-part part-pl19 highlighted" data-hl="bg" x="538" y="426" width="26" height="8" rx="2" fill="#cbd5e1" transform="rotate(-6, 551, 430)" />
-            <rect id="zone-rodamientos-2" class="scooter-part part-pl19 highlighted" data-hl="bg" x="534" y="386" width="26" height="8" rx="2" fill="#cbd5e1" transform="rotate(-6, 547, 390)" />
-
             <rect id="zone-manillar" class="scooter-part part-pl20 highlighted" data-hl="bg" x="460" y="125" width="110" height="20" rx="10" fill="#64748b" />
             <polygon id="zone-display" class="scooter-part part-pl20 highlighted" data-hl="bg" points="500,135 535,135 525,90 485,90" fill="#1e293b" />
             <path id="zone-faro" class="scooter-part part-pl20 highlighted" data-hl="bg" d="M 530 135 L 555 135 C 565 135 565 115 550 115 L 522 115 Z" fill="#cbd5e1" />
             <path id="zone-maneta-freno" class="scooter-part part-pl20 highlighted" data-hl="bg" d="M 470 135 L 430 160 L 435 168 L 478 142 Z" fill="#94a3b8" />
+            <path id="zone-acelerador" class="scooter-part part-pl20 highlighted" data-hl="bg" d="M 535 125 L 535 116 C 535 114 537 112 539 112 L 548 112 C 550 112 552 114 552 116 L 552 125 Z M 545 112 L 558 98 L 563 103 L 550 116 Z" fill="#1e293b" />
+
+            <!-- ================= S5 & S6: CHASIS Y PLEGADO (DIR / PL 21) ================= -->
+            <rect id="zone-chasis" class="scooter-part part-dir highlighted" data-hl="bg" x="220" y="458" width="290" height="30" rx="8" fill="#475569" />
+            <line id="zone-alfombrilla" class="scooter-part border-dir highlighted" data-hl="border" x1="230" y1="456" x2="480" y2="456" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+            <circle id="zone-puerto-carga" class="scooter-part part-dir highlighted" data-hl="bg" cx="240" cy="473" r="4" fill="#ef4444" />
             
-            <!-- Acelerador (PL 21) -->
-            <path id="zone-acelerador" class="scooter-part part-pl21 highlighted" data-hl="bg" d="M 535 125 L 535 116 C 535 114 537 112 539 112 L 548 112 C 550 112 552 114 552 116 L 552 125 Z M 545 112 L 558 98 L 563 103 L 550 116 Z" fill="#1e293b" />
+            <rect id="zone-bateria" class="scooter-part internal-pl21 highlighted" data-hl="internal" x="250" y="465" width="180" height="15" rx="3" fill="#1e293b" />
+            <rect id="zone-controlador" class="scooter-part internal-pl21 highlighted" data-hl="internal" x="440" y="465" width="40" height="15" rx="3" fill="#1e293b" />
+            <rect id="zone-tapa-bateria" class="scooter-part internal-pl21 highlighted" data-hl="internal" x="240" y="488" width="250" height="8" rx="3" fill="#0f172a" stroke="#64748b" stroke-width="2" stroke-dasharray="6,3" />
+            
+            <path id="zone-cuello" class="scooter-part part-pl21 highlighted" data-hl="bg" d="M 480 458 C 530 458 555 440 565 390 L 530 390 C 525 425 500 440 470 440 Z" fill="#334155" />
+            <polygon id="zone-horquilla" class="scooter-part part-pl19 highlighted" data-hl="bg" points="620,480 590,480 540,430 562,430" fill="#475569" />
+            <polygon id="zone-plegado" class="scooter-part part-pl21 highlighted" data-hl="bg" points="530,390 565,390 558,335 523,335" fill="#475569" />
+            <line id="zone-eje-interno" class="scooter-part border-pl21 highlighted" data-hl="border" x1="551" y1="430" x2="547" y2="390" stroke="#cbd5e1" stroke-width="6" stroke-dasharray="4,3" />
+            <rect id="zone-rodamientos-1" class="scooter-part part-pl21 highlighted" data-hl="bg" x="538" y="426" width="26" height="8" rx="2" fill="#cbd5e1" transform="rotate(-6, 551, 430)" />
+            <rect id="zone-rodamientos-2" class="scooter-part part-pl21 highlighted" data-hl="bg" x="534" y="386" width="26" height="8" rx="2" fill="#cbd5e1" transform="rotate(-6, 547, 390)" />
         </svg>
     </template>
 
@@ -742,31 +735,47 @@
         });
 
         const partsData = [
-            { id: "0.1", name: "Plataforma Base", search: "Xiaomi Scooter 4 deck body frame", subsys: "Estructura Portante", team: "Dirección", assigned: "Director/a", diff: "ALTA", zone: ["zone-chasis", "zone-alfombrilla", "zone-puerto-carga"], type: "Estructural (Aluminio)", desc: "Chasis principal del patinete. INCLUYE ADEMÁS: El modelado del hueco interior para alojar las baterías, la alfombrilla superior de silicona (Deck mat) y el puerto de carga exterior." },
-            { id: "1.1", name: "Vástago central", search: "Xiaomi Scooter 4 steering stem column", subsys: "S1: Chasis y Cuello", team: "PL 19", assigned: "Ingeniero/a 1.1", diff: "ALTA", zone: ["zone-eje-interno", "zone-rodamientos-1", "zone-rodamientos-2"], type: "Pieza Interior (Acero)", desc: "Eje pasante central interno. INCLUYE ADEMÁS: El juego de dirección completo (rodamientos de bolas superior/inferior y cazoletas) para asegurar el giro libre de fricción." },
-            { id: "1.2", name: "Cuello de unión", search: "Xiaomi Scooter 4 folding pole base neck", subsys: "S1: Chasis y Cuello", team: "PL 19", assigned: "Ingeniero/a 1.2", diff: "ALTA", zone: ["zone-cuello"], type: "Estructural (Forja)", desc: "Unión crítica entre chasis y mástil. Geometría compleja de fundición. Transición de superficies fundamental para asegurar una estética fiel al Xiaomi Electric Scooter 4." },
-            { id: "1.3", name: "Horquilla delantera", search: "Xiaomi Scooter 4 front fork replacement", subsys: "S1: Chasis y Cuello", team: "PL 19", assigned: "Ingeniero/a 1.3", diff: "MEDIA", zone: ["zone-horquilla"], type: "Estructural (Acero)", desc: "Brazos de soporte que abrazan el eje motor. Dibujo simétrico que debe incluir los orificios de anclaje para el guardabarros delantero." },
-            { id: "1.4", name: "Base móvil plegado", search: "Xiaomi Scooter 4 folding mechanism base", subsys: "S2: Plegado", team: "PL 19", assigned: "Ingeniero/a 1.4", diff: "MEDIA", zone: ["zone-plegado"], type: "Mecanismo (Acero)", desc: "Bisagra inferior del mástil. Es vital modelar geométricamente el tope físico que impide que el manillar sobrepase su ángulo vertical ideal." },
-            { id: "1.5", name: "Palanca bloqueo", search: "Xiaomi Scooter 4 folding lever handle", subsys: "S2: Plegado", team: "PL 19", assigned: "Ingeniero/a 1.5", diff: "MEDIA", zone: ["zone-plegado"], type: "Mecanismo (Ergonomía)", desc: "Cierre rápido vertical y diseño curvo adaptado a la mano del usuario." },
-            { id: "1.6", name: "Pasador y eje transv.", search: "Xiaomi Scooter 4 folding pole pin bolt", subsys: "S2: Plegado", team: "PL 19", assigned: "Ingeniero/a 1.6", diff: "MEDIA", zone: ["zone-plegado"], type: "Eje de Precisión", desc: "Perno técnico de pivotamiento del plegado. INCLUYE ADEMÁS: El eje pasante transversal de ajuste (tornillo para apretar horizontalmente el mecanismo)." },
-            { id: "1.7", name: "Tapa batería e Int.", search: "Xiaomi Scooter 4 bottom battery cover controller", subsys: "S1: Chasis y Cuello", team: "PL 19", assigned: "Ingeniero/a 1.7", diff: "MEDIA", zone: ["zone-tapa-bateria", "zone-bateria", "zone-controlador"], type: "Protección y Electrónica", desc: "Cierre inferior estanco. INCLUYE ADEMÁS: La volumetría en bloque del pack interno de baterías de litio y de la placa base (controlador electrónico) que cierran el conjunto." },
-            { id: "1.8", name: "Anillo seguridad", search: "Xiaomi Scooter 4 folding lock ring plastic", subsys: "S2: Plegado", team: "PL 19", assigned: "Jefe/a PL 19", diff: "BAJA", zone: ["zone-plegado"], type: "Seguridad (Plástico)", desc: "Anillo redundante sencillo. Modelar las pestañas internas que traban el movimiento de la palanca. *Pieza designada a jefatura.*" },
-            { id: "2.1", name: "Mástil principal", search: "Xiaomi Scooter 4 vertical folding pole", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.1", diff: "MEDIA", zone: ["zone-mastil", "zone-cableado"], type: "Estructural", desc: "Tubo cilíndrico inclinado de conducción con ventana de salida. INCLUYE ADEMÁS: Modelado del ruteado exterior del cableado visible con su funda protectora espiral." },
-            { id: "2.2", name: "Tubo transv. (T-Bar)", search: "Xiaomi Scooter 4 handlebar T-bar tube", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.2", diff: "MEDIA", zone: ["zone-manillar"], type: "Estructural (Aluminio)", desc: "Eje horizontal de dirección. Debe incluir el detalle de los extremos mecanizados para el encaje a presión de los puños y las manetas." },
-            { id: "2.3", name: "Carcasa Display", search: "Xiaomi Scooter 4 dashboard cover case", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.3", diff: "ALTA", zone: ["zone-display"], type: "Carenado (Policarbonato)", desc: "Protector de pantalla superior. Diseño curvo estético con ventana transparente. Debe modelarse el encaje por clips con la estructura inferior." },
-            { id: "2.4", name: "Carcasa Faro y LED", search: "Xiaomi Scooter 4 front light bottom cover", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.4", diff: "ALTA", zone: ["zone-faro"], type: "Carenado e Iluminación", desc: "Protector frontal con diseño de disipación de calor. INCLUYE ADEMÁS: El diseño volumétrico y la posición de la placa LED interna de iluminación." },
-            { id: "2.5", name: "Cuerpo maneta", search: "Xiaomi Scooter 4 brake handle lever base", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.5", diff: "ALTA", zone: ["zone-maneta-freno"], type: "Mecanismo (Fundición)", desc: "Soporte de freno al manillar. Modelar el alojamiento interno para el sensor de corte eléctrico y la rosca del tensor del cable." },
-            { id: "2.6", name: "Palanca de freno", search: "Xiaomi Scooter 4 brake lever arm", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.6", diff: "MEDIA", zone: ["zone-maneta-freno"], type: "Ergonomía", desc: "Gatillo de freno optimizado en curva para accionamiento con dos dedos. Incluir el eje de pivotamiento pasante y el muelle de retorno." },
-            { id: "2.7", name: "Soporte pinza", search: "Xiaomi Scooter 4 rear brake caliper bracket", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.7", diff: "MEDIA", zone: ["zone-pinza"], type: "Soporte Técnico", desc: "Adaptador de mecanizado que alinea la pinza con el disco, y la propia pastilla/cuerpo de la pinza de freno trasero." },
-            { id: "2.8", name: "Disco 130mm", search: "Xiaomi Scooter 4 brake disc rotor 130mm", subsys: "S4: Frenado", team: "PL 20", assigned: "Jefe/a PL 20", diff: "BAJA", zone: ["zone-disco-freno"], type: "Dinámico (Chapa)", desc: "Rotor de acero inoxidable de 2mm con patrón de ventilación. Operación técnica de corte 2D plano. *Pieza designada a jefatura.*" },
-            { id: "3.1", name: "Llanta trasera", search: "Xiaomi Scooter 4 rear wheel rim", subsys: "S5: Tren de Rodaje", team: "PL 21", assigned: "Ingeniero/a 3.1", diff: "ALTA", zone: ["zone-rueda-trasera"], type: "Rotacional (Aleación)", desc: "Núcleo de aleación. Modelar las paredes para el alojamiento de la válvula del neumático, los rodamientos y la tornillería del disco de freno." },
-            { id: "3.2", name: "Neumáticos 10\"", search: "Xiaomi Scooter 4 10 inch tubeless tire", subsys: "S5: Tren de Rodaje", team: "PL 21", assigned: "Ingeniero/a 3.2", diff: "ALTA", zone: ["zone-rueda-delantera", "zone-rueda-trasera"], type: "Caucho (Tubeless)", desc: "Perfil original de neumático de 10 pulgadas. Modelado del vaciado interior y el patrón exterior de dibujo de la huella para drenaje." },
-            { id: "3.3", name: "Tapas motor", search: "Xiaomi Scooter 4 front motor wheel cover", subsys: "S5: Tren de Rodaje", team: "PL 21", assigned: "Ingeniero/a 3.3", diff: "MEDIA", zone: ["zone-motor"], type: "Embellecedor (ABS)", desc: "Embellecedores laterales plásticos con diseño radial coherente con la estética del Scooter 4. Ocultan las tuercas de sujeción." },
-            { id: "3.4", name: "Motor Hub", search: "Xiaomi Scooter 4 front motor internal", subsys: "S5: Tren de Rodaje", team: "PL 21", assigned: "Ingeniero/a 3.4", diff: "MEDIA", zone: ["zone-motor"], type: "Electro-mecánico", desc: "Bloque de tracción de la rueda delantera. Geometría cilíndrica sólida exterior con salida lateral de mazo de cables." },
-            { id: "3.5", name: "Ejes y espaciadores", search: "Xiaomi Scooter 4 wheel axle spacers set", subsys: "S5: Tren de Rodaje", team: "PL 21", assigned: "Ingeniero/a 3.5", diff: "MEDIA", zone: ["zone-eje-delantero", "zone-eje-trasero"], type: "Ejes Técnicos", desc: "Casquillos, separadores de precisión y tornillería técnica que aseguran el centrado perfecto de las dos ruedas respecto al chasis." },
-            { id: "3.6", name: "Guardabarros y Luz", search: "Xiaomi Scooter 4 rear mudguard with taillight", subsys: "S6: Carenado", team: "PL 21", assigned: "Ingeniero/a 3.6", diff: "ALTA", zone: ["zone-guardabarros-tras", "zone-luz-trasera", "zone-guardabarros-del"], type: "Carenado e Iluminación", desc: "Pieza envolvente plástica (delantero/trasero). INCLUYE ADEMÁS: La integración volumétrica del piloto LED de freno trasero en la cola del guardabarros." },
-            { id: "3.7", name: "Caballete y Muelle", search: "Xiaomi Scooter 4 kickstand replacement", subsys: "S6: Carenado", team: "PL 21", assigned: "Ingeniero/a 3.7", diff: "MEDIA", zone: ["zone-caballete", "zone-muelle-caballete"], type: "Mecanismo (Acero)", desc: "Pata retráctil, brazo de apoyo curvo y placa de anclaje. INCLUYE ADEMÁS: Modelado tridimensional del muelle de tracción en espiral para el retorno automático." },
-            { id: "3.8", name: "Acelerador y Tirante", search: "Xiaomi Scooter 4 thumb throttle fender bracket", subsys: "S6: Carenado", team: "PL 21", assigned: "Jefe/a PL 21", diff: "BAJA", zone: ["zone-acelerador", "zone-tirante"], type: "Soporte e Interfaz", desc: "Varilla de refuerzo anti-vibración trasera y gatillo estriado del acelerador Hall. Piezas geométricas muy simples. *Piezas designadas a jefatura.*" }
+            // DIRECCIÓN
+            { id: "0.1", name: "Plataforma Base", search: "Xiaomi Scooter 4 deck body frame extrusion", subsys: "Estructura Portante", team: "Dirección", assigned: "Director/a", personName: "Director/a", diff: "ALTA", zone: ["zone-chasis"], type: "Estructural (Aluminio)", desc: "Perfil de extrusión de aluminio que forma el chasis principal. Es la espina dorsal del patinete y debe incluir el vaciado interno donde se alojan las baterías." },
+            
+            // PL 19: S1 - Tren de Rodaje
+            { id: "1.1", name: "Llanta trasera", search: "Xiaomi Scooter 4 rear wheel rim", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.1", personName: "Darío", diff: "ALTA", zone: ["zone-rueda-trasera"], type: "Rotacional (Aleación)", desc: "Núcleo de aleación. Modelar las paredes para el alojamiento de la válvula del neumático, los rodamientos y la tornillería del disco de freno." },
+            { id: "1.2", name: "Neumáticos 10\"", search: "Xiaomi Scooter 4 10 inch tubeless tire", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.2", personName: "Javier", diff: "ALTA", zone: ["zone-rueda-delantera", "zone-rueda-trasera"], type: "Caucho (Tubeless)", desc: "Perfil original de neumático de 10 pulgadas. Modelado del vaciado interior y el patrón exterior de dibujo de la huella para drenaje." },
+            { id: "1.3", name: "Tapas motor", search: "Xiaomi Scooter 4 front motor wheel cover", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.3", personName: "Nicole", diff: "MEDIA", zone: ["zone-motor"], type: "Embellecedor (ABS)", desc: "Embellecedores laterales plásticos con diseño radial coherente con la estética del Scooter 4. Ocultan las tuercas de sujeción." },
+            { id: "1.4", name: "Rotor Exterior Motor", search: "Xiaomi Scooter 4 front motor wheel hub", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.4", personName: "Paula", diff: "ALTA", zone: ["zone-motor"], type: "Electromecánico (Rotor)", desc: "Carcasa giratoria externa del motor de tracción. Incluye la llanta donde asienta el neumático delantero y el alojamiento interior cilíndrico para los imanes." },
+            { id: "1.5", name: "Estator y Eje Motor", search: "Xiaomi Scooter 4 front motor stator axle", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.5", personName: "Daniel", diff: "MEDIA", zone: ["zone-motor", "zone-eje-delantero"], type: "Electromecánico (Estator)", desc: "Núcleo interior fijo del motor (modelado base del bobinado) y el eje principal asimétrico delantero que lo ancla a la horquilla, con su salida especial para cableado." },
+            { id: "1.6", name: "Horquilla delantera", search: "Xiaomi Scooter 4 front fork replacement", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.6", personName: "Miguel", diff: "MEDIA", zone: ["zone-horquilla"], type: "Estructural (Acero)", desc: "Brazos de soporte que abrazan el eje del motor delantero. Dibujo simétrico que debe incluir los orificios de anclaje para el guardabarros." },
+            { id: "1.7", name: "Eje Trasero y Espaciadores", search: "Xiaomi Scooter 4 rear wheel axle spacers", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.7", personName: "Daniel", diff: "MEDIA", zone: ["zone-eje-trasero"], type: "Ejes Técnicos", desc: "Eje pasante trasero, casquillos cilíndricos de precisión y pletinas tensoras para centrar perfectamente la rueda trasera en el chasis." },
+            
+            // PL 19: S2 - Carenado
+            { id: "1.8", name: "Guardabarros Trasero y Luz", search: "Xiaomi Scooter 4 rear mudguard with taillight", subsys: "S2: Carenado", team: "PL 19", assigned: "Ingeniero/a 1.8", personName: "Jacobo", diff: "ALTA", zone: ["zone-guardabarros-tras", "zone-luz-trasera"], type: "Carenado e Iluminación", desc: "Superficie plástica curva trasera. INCLUYE ADEMÁS: La integración volumétrica del piloto LED de freno y el alojamiento para la matrícula." },
+            { id: "1.9", name: "Guardabarros Delantero", search: "Xiaomi Scooter 4 front mudguard", subsys: "S2: Carenado", team: "PL 19", assigned: "Ingeniero/a 1.9", personName: "Claudiu", diff: "MEDIA", zone: ["zone-guardabarros-del"], type: "Carenado (ABS)", desc: "Pieza envolvente plástica frontal. Requiere modelado de superficies (curvas de Bézier) y sus anclajes asimétricos a la horquilla." },
+            { id: "1.10", name: "Caballete y Tirante", search: "Xiaomi Scooter 4 kickstand fender bracket", subsys: "S2: Carenado", team: "PL 19", assigned: "Jefe/a PL 19", personName: "Marcos", diff: "BAJA", zone: ["zone-caballete", "zone-muelle-caballete", "zone-tirante"], type: "Mecanismo y Soporte", desc: "Pata retráctil de apoyo y varilla metálica de refuerzo anti-vibración del guardabarros trasero. *Piezas designadas a jefatura.*" },
+
+            // PL 20: S3 - Manillar
+            { id: "2.1", name: "Mástil principal", search: "Xiaomi Scooter 4 vertical folding pole", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.1", personName: "Lorenzo", diff: "MEDIA", zone: ["zone-mastil", "zone-cableado"], type: "Estructural", desc: "Tubo cilíndrico inclinado de conducción con ventana de salida. INCLUYE ADEMÁS: Modelado del ruteado exterior del cableado visible con su funda protectora espiral." },
+            { id: "2.2", name: "Tubo transv. (T-Bar)", search: "Xiaomi Scooter 4 handlebar T-bar tube", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.2", personName: "Andrea", diff: "MEDIA", zone: ["zone-manillar"], type: "Estructural (Aluminio)", desc: "Eje horizontal de dirección. Debe incluir el detalle de los extremos mecanizados para el encaje a presión de los puños y las manetas." },
+            { id: "2.3", name: "Carcasa Display", search: "Xiaomi Scooter 4 dashboard cover case", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.3", personName: "Julio", diff: "ALTA", zone: ["zone-display"], type: "Carenado (Policarbonato)", desc: "Protector de pantalla superior. Diseño curvo estético con ventana transparente. Debe modelarse el encaje por clips con la estructura inferior." },
+            { id: "2.4", name: "Carcasa Faro y LED", search: "Xiaomi Scooter 4 front light bottom cover", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.4", personName: "Carlos", diff: "ALTA", zone: ["zone-faro"], type: "Carenado e Iluminación", desc: "Protector frontal con diseño de disipación de calor. INCLUYE ADEMÁS: El diseño volumétrico y la posición de la placa LED interna de iluminación." },
+            { id: "2.5", name: "Acelerador Hall", search: "Xiaomi Scooter 4 thumb throttle", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.5", personName: "Iyan", diff: "MEDIA", zone: ["zone-acelerador"], type: "Interfaz (ABS y Electrónica)", desc: "Gatillo estriado del acelerador. Encaja en el tubo transversal derecho del manillar. Incluye la volumetría del sensor interno." },
+            
+            // PL 20: S4 - Frenado
+            { id: "2.6", name: "Cuerpo maneta", search: "Xiaomi Scooter 4 brake handle lever base", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.6", personName: "Pablo", diff: "ALTA", zone: ["zone-maneta-freno"], type: "Mecanismo (Fundición)", desc: "Soporte de freno al manillar. Modelar el alojamiento interno para el sensor de corte eléctrico y la rosca del tensor del cable." },
+            { id: "2.7", name: "Palanca de freno", search: "Xiaomi Scooter 4 brake lever arm", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.7", personName: "Lola", diff: "MEDIA", zone: ["zone-maneta-freno"], type: "Ergonomía", desc: "Gatillo de freno optimizado en curva para accionamiento con dos dedos. Incluir el eje de pivotamiento pasante y el muelle de retorno." },
+            { id: "2.8", name: "Soporte pinza", search: "Xiaomi Scooter 4 rear brake caliper bracket", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.8", personName: "Alejandro", diff: "MEDIA", zone: ["zone-pinza"], type: "Soporte Técnico", desc: "Adaptador de mecanizado que alinea la pinza con el disco, y la propia pastilla/cuerpo de la pinza de freno trasero." },
+            { id: "2.9", name: "Disco 130mm", search: "Xiaomi Scooter 4 brake disc rotor 130mm", subsys: "S4: Frenado", team: "PL 20", assigned: "Jefe/a PL 20", personName: "Pablo", diff: "BAJA", zone: ["zone-disco-freno"], type: "Dinámico (Chapa)", desc: "Rotor de acero inoxidable de 2mm con patrón de ventilación. Operación técnica de corte 2D plano. *Pieza designada a jefatura.*" },
+            
+            // PL 21: S5 - Chasis y Cuello
+            { id: "3.1", name: "Alfombrilla y Carga", search: "Xiaomi Scooter 4 deck rubber mat charge port", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.1", personName: "Ivan", diff: "MEDIA", zone: ["zone-alfombrilla", "zone-puerto-carga"], type: "Recubrimiento y Eléc.", desc: "Alfombrilla superior de silicona (Deck mat) texturizada y tapón/puerto de carga exterior. Piezas extraídas de la asignación original de Dirección." },
+            { id: "3.2", name: "Vástago central", search: "Xiaomi Scooter 4 steering stem column", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.2", personName: "Fran", diff: "ALTA", zone: ["zone-eje-interno", "zone-rodamientos-1", "zone-rodamientos-2"], type: "Pieza Interior (Acero)", desc: "Eje pasante central interno. INCLUYE ADEMÁS: El juego de dirección completo (rodamientos de bolas superior/inferior y cazoletas) para asegurar el giro libre de fricción." },
+            { id: "3.3", name: "Cuello de unión", search: "Xiaomi Scooter 4 folding pole base neck", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.3", personName: "Ian", diff: "ALTA", zone: ["zone-cuello"], type: "Estructural (Forja)", desc: "Unión crítica entre chasis y mástil. Geometría compleja de fundición. Transición de superficies fundamental para asegurar una estética fiel al Xiaomi Electric Scooter 4." },
+            { id: "3.4", name: "Tapa batería e Int.", search: "Xiaomi Scooter 4 bottom battery cover controller", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.4", personName: "Vega", diff: "MEDIA", zone: ["zone-tapa-bateria", "zone-bateria", "zone-controlador"], type: "Protección y Electrónica", desc: "Cierre inferior estanco. INCLUYE ADEMÁS: La volumetría en bloque del pack interno de baterías de litio y de la placa base (controlador electrónico) que cierran el conjunto." },
+            
+            // PL 21: S6 - Plegado
+            { id: "3.5", name: "Base móvil plegado", search: "Xiaomi Scooter 4 folding mechanism base", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.5", personName: "Chej", diff: "MEDIA", zone: ["zone-plegado"], type: "Mecanismo (Acero)", desc: "Bisagra inferior del mástil. Es vital modelar geométricamente el tope físico que impide que el manillar sobrepase su ángulo vertical ideal." },
+            { id: "3.6", name: "Palanca bloqueo", search: "Xiaomi Scooter 4 folding lever handle", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.6", personName: "Hugo", diff: "MEDIA", zone: ["zone-plegado"], type: "Mecanismo (Ergonomía)", desc: "Cierre rápido vertical y diseño curvo adaptado a la mano del usuario." },
+            { id: "3.7", name: "Pasador y eje transv.", search: "Xiaomi Scooter 4 folding pole pin bolt", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.7", personName: "Mark", diff: "MEDIA", zone: ["zone-plegado"], type: "Eje de Precisión", desc: "Perno técnico de pivotamiento del plegado. INCLUYE ADEMÁS: El eje pasante transversal de ajuste (tornillo para apretar horizontalmente el mecanismo)." },
+            { id: "3.8", name: "Anillo seguridad", search: "Xiaomi Scooter 4 folding lock ring plastic", subsys: "S6: Plegado", team: "PL 21", assigned: "Jefe/a PL 21", personName: "Marta", diff: "BAJA", zone: ["zone-plegado"], type: "Seguridad (Plástico)", desc: "Anillo redundante sencillo. Modelar las pestañas internas que traban el movimiento de la palanca. *Pieza designada a jefatura.*" }
         ];
 
         const diffColors = {
@@ -776,10 +785,10 @@
         };
 
         const teamsInfo = {
-            dir: { title: "Dirección de Proyecto", colorClass: "svg-team-dir", desc: "Coordinación global. Modela el bloque central del patinete (Plataforma base y hueco de baterías).", subsystems: ["Transversal: Chasis y Ensamblajes"], items: ["Plataforma Base", "Hueco y Puerto Carga"], note: "Foco: Garantizar que la extrusión del chasis es el ancla perfecta para el resto de subsistemas." },
-            eq1: { title: "PL 19: Chasis y Mecanismos", colorClass: "svg-team-pl19", desc: "Responsables de los mecanismos internos vitales y la portabilidad del vehículo.", subsystems: ["S1: Chasis y Cuello", "S2: Mecanismo de Plegado"], items: ["Tapa de Batería y Controlador", "Bisagra Plegado", "Vástago y Rodamientos"], note: "Crítico: El ajuste entre los rodamientos y el vástago debe ser perfecto o el patinete bailará." },
-            eq2: { title: "PL 20: Control y Seguridad", colorClass: "svg-team-pl20", desc: "Gestión de la interfaz de usuario, conducción y sistemas de frenado.", subsystems: ["S3: Manillar y Dirección", "S4: Sistema de Frenado"], items: ["Mástil principal", "Carcasas de Pantalla y LED", "Manetas y Pinza de Freno"], note: "Crítico: Prestar atención a los huecos en el mástil y las carcasas para el ruteado de cables." },
-            eq3: { title: "PL 21: Tracción y Carenado", colorClass: "svg-team-pl21", desc: "Dinámica de rodadura, motores eléctricos y carenados envolventes.", subsystems: ["S5: Tren de Rodaje", "S6: Carenado y Accesorios"], items: ["Neumáticos y Llantas", "Bloque Motor", "Guardabarros y Luces LED"], note: "Foco: Asegurar las tolerancias de la tornillería y ejes pasantes con el grosor de la horquilla." }
+            dir: { title: "Dirección de Proyecto", colorClass: "svg-team-dir", desc: "Coordinación global. Modela el bloque central estructural del patinete (Extrusión principal de aluminio).", subsystems: ["Transversal: Chasis Estructural"], items: ["Plataforma Base"], note: "Foco: Garantizar que la extrusión del chasis es el ancla perfecta para el resto de subsistemas." },
+            eq1: { title: "PL 19: Tracción y Carenado", colorClass: "svg-team-pl19", desc: "Dinámica de rodadura, motores eléctricos y carenados envolventes.", subsystems: ["S1: Tren de Rodaje", "S2: Carenado y Accesorios"], items: ["Rotor, Estator y Horquilla", "Guardabarros divididos", "Neumáticos y Ejes"], note: "Foco: Asegurar las tolerancias de la tornillería y ejes pasantes con el grosor de la horquilla." },
+            eq2: { title: "PL 20: Control y Seguridad", colorClass: "svg-team-pl20", desc: "Gestión de la interfaz de usuario, conducción y sistemas de frenado.", subsystems: ["S3: Manillar y Dirección", "S4: Sistema de Frenado"], items: ["Mástil principal", "Carcasas de Pantalla", "Frenos y Acelerador"], note: "Crítico: Prestar atención a los huecos en el mástil y las carcasas para el ruteado de cables." },
+            eq3: { title: "PL 21: Chasis y Mecanismos", colorClass: "svg-team-pl21", desc: "Responsables de los mecanismos internos vitales y la portabilidad del vehículo.", subsystems: ["S5: Chasis y Cuello", "S6: Mecanismo de Plegado"], items: ["Tapa de Batería y Alfombrilla", "Bisagra Plegado", "Vástago y Cuello"], note: "Crítico: El ajuste entre los rodamientos y el vástago debe ser perfecto o el patinete bailará." }
         };
 
         let currentPartForAI = null;
@@ -819,7 +828,8 @@
                 tr.innerHTML = `
                     <td class="px-6 py-6 text-center font-mono text-xs text-slate-500 font-bold">${part.id}</td>
                     <td class="px-6 py-6 font-medium text-slate-200 group-hover:text-orange-400 transition-colors">${part.name}<br><span class="text-[10px] uppercase font-bold text-slate-500 italic tracking-tighter">${part.subsys}</span></td>
-                    <td class="px-6 py-6 text-xs ${isBoss ? 'text-orange-400 font-bold' : ''}">${part.assigned}</td>
+                    <td class="px-6 py-6 text-xs text-slate-400">${part.assigned}</td>
+                    <td class="px-6 py-6 text-sm font-bold capitalize ${isBoss ? 'text-orange-400' : 'text-slate-200'}">${part.personName || '-'}</td>
                     <td class="px-6 py-6 text-center"><span class="px-3 py-1 text-[10px] font-bold uppercase rounded-full border tracking-widest ${diffColors[part.diff]}">${part.diff}</span></td>
                     <td class="px-6 py-6 text-center"><button class="text-orange-500 bg-orange-500/10 p-3 rounded-full border border-orange-500/20 shadow-lg group-hover:bg-orange-500 group-hover:text-white transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg></button></td>
                 `;
@@ -833,6 +843,7 @@
             document.getElementById('modal-title').innerText = part.name;
             document.getElementById('modal-subsys').innerText = part.subsys;
             document.getElementById('modal-assigned').innerText = part.assigned;
+            document.getElementById('modal-person').innerText = part.personName || '-';
             document.getElementById('modal-desc').innerText = part.desc;
             document.getElementById('modal-type').innerText = part.type;
             document.getElementById('modal-search').innerText = part.search;
@@ -912,7 +923,7 @@ Tu objetivo es guiar espacialmente a un ingeniero que va a croquizar la pieza de
                     labels: ['Alta', 'Media', 'Baja'], 
                     datasets: [{ 
                         label: 'Número de Tareas',
-                        data: [9, 13, 3], 
+                        data: [10, 15, 3], 
                         backgroundColor: ['rgba(239, 68, 68, 0.8)', 'rgba(249, 115, 22, 0.8)', 'rgba(34, 197, 94, 0.8)'],
                         borderColor: ['#ef4444', '#f97316', '#22c55e'],
                         borderWidth: 1,
@@ -960,4 +971,3 @@ Tu objetivo es guiar espacialmente a un ingeniero que va a croquizar la pieza de
     </script>
 </body>
 </html>
-
