@@ -1085,6 +1085,7 @@
 
                 const uploadData = await uploadRes.json();
                 const fileUrl = uploadData.content.html_url;
+                const downloadUrl = uploadData.content.download_url; // Obtenemos el link crudo de descarga directa
 
                 await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}/comments`, {
                     method: 'POST',
@@ -1092,21 +1093,25 @@
                     body: JSON.stringify({ body: `✅ **Archivo CAD Entregado y Verificado:**\n[${finalFileName}](${fileUrl})` })
                 });
 
+                // Modificamos el issue guardando un comentario HTML invisible con la ruta de descarga directa
+                const issueDataForUpdate = globalGithubIssues.find(i => i.number === issueNumber);
+                let newBody = issueDataForUpdate.body || '';
+                newBody = newBody.replace(/\n<!-- DWG_URL:.*?-->/g, ''); 
+                newBody += `\n<!-- DWG_URL: ${downloadUrl} -->`;
+
                 await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
                     method: 'PATCH',
                     headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ labels: ['hecho'] })
+                    body: JSON.stringify({ labels: ['hecho'], body: newBody })
                 });
-
-                const card = document.getElementById(cardId);
-                targetCol.appendChild(card);
                 
                 const issueIndex = globalGithubIssues.findIndex(i => i.number === issueNumber);
                 if (issueIndex > -1) {
                     globalGithubIssues[issueIndex].labels = [{ name: 'hecho' }];
+                    globalGithubIssues[issueIndex].body = newBody;
                 }
                 
-                updateKanbanCounts();
+                renderKanban(); // Re-dibujamos el tablero para que aparezca el botón de descarga
                 alert(`🎉 ¡Entrega verificada!\n\nEl archivo ha sido renombrado automáticamente a:\n${finalFileName}\n\nY subido correctamente a la carpeta ${teamFolder}/`);
 
             } catch (error) {
@@ -1191,6 +1196,19 @@
                     ? `<p class="text-[8px] text-slate-400 uppercase tracking-widest truncate mb-2.5">${partInfo.subsys}</p>`
                     : `<p class="mb-2.5"></p>`;
 
+                // Comprobar si está en HECHO y tiene link de descarga para crear el botón
+                let downloadBtnHtml = '';
+                if (state === 'done') {
+                    const dwgMatch = issue.body ? issue.body.match(/<!-- DWG_URL:\s*(.+?)\s*-->/) : null;
+                    if (dwgMatch && dwgMatch[1]) {
+                        downloadBtnHtml = `
+                            <a href="${dwgMatch[1]}" download target="_blank" onclick="event.stopPropagation();" class="mt-1 mb-3 w-full bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-900 border border-emerald-500/30 px-2 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition text-center flex items-center justify-center gap-1 z-20 relative">
+                                ⬇️ Descargar DWG
+                            </a>
+                        `;
+                    }
+                }
+
                 card.innerHTML = `
                     <div class="flex justify-between items-center mb-1.5">
                         <span class="text-[10px] font-mono font-bold text-orange-500/80">${partId || 'Manual'}</span>
@@ -1198,11 +1216,12 @@
                     </div>
                     <h4 class="text-xs font-bold text-slate-200 mb-1 leading-tight group-hover:text-orange-400 transition-colors">${cleanTitle}</h4>
                     ${subsysHtml}
+                    ${downloadBtnHtml}
                     <div class="flex items-center gap-2 border-t border-slate-700/50 pt-2.5 mt-auto relative z-10">
                         ${avatarHtml}
                         <span class="text-[10px] text-slate-300 font-medium truncate">${studentName}</span>
                     </div>
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-slate-900/90 p-2.5 rounded-full backdrop-blur-sm border border-slate-700 shadow-xl">
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-slate-900/90 p-2.5 rounded-full backdrop-blur-sm border border-slate-700 shadow-xl z-30">
                         <span class="text-lg leading-none">👁️</span>
                     </div>
                 `;
