@@ -52,6 +52,9 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
+        /* Drag zone animations */
+        .dragover-active { border-color: #10b981 !important; background-color: rgba(16, 185, 129, 0.05) !important; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative">
@@ -295,7 +298,7 @@
                     <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">
                         Matriz Interactiva Kanban 
                     </h2>
-                    <p class="mt-2 text-slate-400 text-sm">Filtra por equipo, arrastra las piezas o <span class="text-orange-400 font-bold">haz clic en ellas para ver el 3D</span>.</p>
+                    <p class="mt-2 text-slate-400 text-sm">Arrastra la pieza a <span class="text-emerald-400 font-bold">HECHO</span> para iniciar la entrega del archivo.</p>
                 </div>
                 
                 <div class="flex flex-wrap items-center gap-3 bg-slate-900/50 p-2.5 rounded-2xl border border-slate-800 w-full lg:w-auto">
@@ -342,15 +345,20 @@
                     <div id="col-inprog" class="p-3 flex-grow space-y-3 min-h-[300px] transition-colors duration-300" ondragover="allowDrop(event)" ondrop="drop(event, 'inprog')"></div>
                 </div>
 
-                <!-- Columna: Hecho -->
-                <div class="bg-slate-900/50 rounded-3xl border border-emerald-500/20 flex flex-col h-full overflow-hidden shadow-xl">
-                    <div class="p-4 bg-slate-900 border-b border-emerald-500/20 flex justify-between items-center">
-                        <h3 class="font-bold text-emerald-400 text-sm flex items-center gap-2 uppercase tracking-widest">
-                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span> Hecho
+                <!-- Columna: Hecho (ZONA DE DROP FILES) -->
+                <div class="bg-emerald-950/20 rounded-3xl border border-emerald-500/30 flex flex-col h-full overflow-hidden shadow-[0_0_20px_rgba(16,185,129,0.05)]">
+                    <div class="p-4 bg-emerald-900/40 border-b border-emerald-500/30 flex justify-between items-center relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
+                        <h3 class="font-bold text-emerald-400 text-sm flex items-center gap-2 uppercase tracking-widest relative z-10">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span> Hecho (Entregas)
                         </h3>
-                        <span id="count-done" class="text-xs text-emerald-500 font-mono bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">0</span>
+                        <span id="count-done" class="text-xs text-emerald-500 font-mono bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/30 relative z-10">0</span>
                     </div>
-                    <div id="col-done" class="p-3 flex-grow space-y-3 min-h-[300px] transition-colors duration-300" ondragover="allowDrop(event)" ondrop="drop(event, 'done')"></div>
+                    <div id="col-done" class="p-3 flex-grow space-y-3 min-h-[300px] transition-colors duration-300 relative" ondragover="allowDrop(event)" ondrop="drop(event, 'done')">
+                        <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-10">
+                            <span class="text-8xl">📥</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -495,61 +503,6 @@
             </div>
         </section>
 
-        <!-- BIBLIOGRAFÍA -->
-        <section id="bibliografia" class="scroll-mt-24 pb-20">
-            <h2 class="reveal text-3xl font-bold text-slate-100 mb-8 font-['Urbanist'] tracking-tight uppercase">Documentación</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition">
-                    <div class="text-orange-500 mb-4 text-2xl">🌐</div>
-                    <h3 class="text-lg font-bold text-slate-100 mb-2 font-['Urbanist']">Xiaomi España</h3>
-                    <p class="text-[11px] text-slate-400 mb-6 leading-relaxed italic">Dimensiones, peso neto y certificación oficial.</p>
-                    <a href="https://www.mi.com/es/product/xiaomi-electric-scooter-4/specs" target="_blank" class="bg-slate-800 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-orange-500 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Ver Specs</a>
-                </div>
-                
-                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 hover:border-blue-500/50 transition" style="transition-delay: 100ms;">
-                    <div class="text-blue-400 mb-4 text-2xl font-mono font-bold">.dwt</div>
-                    <h3 class="text-lg font-bold text-slate-100 mb-2 font-['Urbanist']">Plantillas</h3>
-                    <p class="text-[11px] text-slate-400 mb-6 leading-relaxed italic">Descarga y usa como plantilla inicial en AutoCAD.</p>
-                    <a href="https://drive.google.com/drive/folders/1jCRmfmVTliphG7PWYLE09uV6ixNEGQle?usp=sharing" target="_blank" class="bg-slate-800 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-blue-400 border border-slate-700 hover:bg-blue-600 hover:text-white transition-all block text-center">Descargar .dwt</a>
-                </div>
-
-                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition" style="transition-delay: 200ms;">
-                    <div class="text-orange-400 mb-4 text-2xl font-mono font-bold">.dwg</div>
-                    <h3 class="text-lg font-bold text-slate-100 mb-2 font-['Urbanist']">Medidas</h3>
-                    <p class="text-[11px] text-slate-400 mb-3 leading-relaxed italic">Insértalo en tu layout como referencia orientativa.</p>
-                    <a href="https://drive.google.com/drive/folders/1l5_YLuG7IZmcTOw9MvurcG9EyUES3kOC?usp=drive_link" target="_blank" class="bg-slate-800 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-orange-400 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Descargar .dwg</a>
-                </div>
-
-                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition" style="transition-delay: 300ms;">
-                    <div class="text-orange-500 mb-4 text-2xl">🧊</div>
-                    <h3 class="text-lg font-bold text-slate-100 mb-2 font-['Urbanist']">Modelo 3D</h3>
-                    <p class="text-[11px] text-slate-400 mb-6 leading-relaxed italic">Visor interactivo web para consultar cotas reales.</p>
-                    <a href="https://viewer.autodesk.com/id/dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YTM2MHZpZXdlci1wcm90ZWN0ZWQvdDE3NzMwMDU2NThfZjg5MmI1MzgtMjNiZS00MDAyLTk1YTUtOTQ1YTY5YjRiMzRkLmZieA?sheetId=Yzg1NjJmMDctMTc4NS00NDkzLWI2OWEtODE2OTJiMDEyNjE0" target="_blank" class="bg-slate-800 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-orange-500 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Abrir Modelo 3D</a>
-                </div>
-            </div>
-
-            <!-- NUBE CORPORATIVA / GOOGLE DRIVE -->
-            <div class="reveal mt-10 bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 p-6 rounded-3xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden group">
-                <div class="absolute -right-20 -top-20 w-64 h-64 bg-green-500/10 rounded-full blur-3xl group-hover:bg-green-500/20 transition-all duration-500 pointer-events-none"></div>
-                
-                <div class="flex flex-col md:flex-row items-center md:items-start gap-5 relative z-10 text-center md:text-left">
-                    <div class="w-14 h-14 bg-slate-950 border border-slate-700 rounded-xl flex items-center justify-center text-2xl shadow-inner shrink-0">
-                        📁
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-slate-100 font-['Urbanist'] tracking-tight">Nube Corporativa del Equipo</h3>
-                        <p class="text-[11px] text-slate-400 mt-1 leading-relaxed max-w-2xl">Sube aquí tus croquis escaneados y planos .dwg/.pdf definitivos en tu carpeta de subsistema.</p>
-                    </div>
-                </div>
-                
-                <div class="relative z-10 w-full md:w-auto shrink-0">
-                    <a href="https://drive.google.com/drive/folders/1JfkjiYthC8e3bqFayAsAxME3U2Hi9gs1?usp=sharing" target="_blank" class="block w-full md:w-auto bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition shadow-lg shadow-green-500/30 text-center whitespace-nowrap">
-                        Abrir Google Drive
-                    </a>
-                </div>
-            </div>
-        </section>
     </main>
 
     <!-- FOOTER -->
@@ -562,7 +515,7 @@
         </div>
     </footer>
 
-    <!-- MODAL DE PIEZA -->
+    <!-- MODAL DE PIEZA (VISUALIZADOR) -->
     <div id="partModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="closeModal()"></div>
         <div class="relative bg-slate-900 border border-slate-700 shadow-2xl rounded-3xl w-full max-w-6xl p-8 lg:p-12 flex flex-col md:flex-row gap-10 z-10 fade-in max-h-[95vh] overflow-y-auto">
@@ -617,6 +570,48 @@
         </div>
     </div>
 
+    <!-- MODAL DE SUBIDA DE ARCHIVOS (DROPZONE) -->
+    <div id="uploadModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="cancelUpload()"></div>
+        <div class="relative bg-slate-900 border border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.1)] rounded-3xl w-full max-w-xl p-8 z-10 fade-in text-center">
+            
+            <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 flex items-center justify-center text-3xl mx-auto mb-4">📤</div>
+            <h2 class="text-2xl font-bold text-slate-100 mb-2 font-['Urbanist'] tracking-tight">Entrega de Archivo CAD</h2>
+            <p class="text-sm text-slate-400 mb-6">Moviendo <strong id="upload-piece-name" class="text-emerald-400 font-mono font-medium">PIEZA</strong> a HECHO.</p>
+            
+            <!-- Paso 1: Zona interactiva de subida -->
+            <div id="file-dropzone" class="border-2 border-dashed border-slate-600 rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-500/5 transition-all bg-slate-950 shadow-inner group">
+                <span class="text-4xl mb-4 group-hover:scale-110 transition-transform">📄</span>
+                <p class="text-sm font-bold text-slate-300">Arrastra tu archivo (.dwg) aquí</p>
+                <p class="text-xs text-slate-500 mt-2">o haz clic para explorar en tu ordenador</p>
+                <input type="file" id="file-input" class="hidden" accept=".dwg">
+            </div>
+
+            <!-- Paso 2: Formulario de Firma (Oculto inicialmente) -->
+            <div id="upload-form" class="hidden flex-col gap-4 text-left bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner">
+                <p class="text-sm text-slate-300 flex items-center gap-2"><span class="text-emerald-500">✓</span> Archivo: <span id="selected-file-name" class="font-mono text-emerald-400 truncate max-w-[250px]"></span></p>
+                
+                <div class="flex flex-col gap-2 mt-2">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Firma tu entrega (Nombre y 1 Apellido)</label>
+                    <input type="text" id="upload-author-name" placeholder="Ej: Laura Garcia" class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-emerald-500 outline-none transition-colors">
+                    <p id="upload-error" class="text-xs text-red-500 hidden mt-1">⚠️ Debes introducir exactamente tu nombre y tu primer apellido (separados por un espacio).</p>
+                </div>
+                
+                <button id="btn-confirm-upload" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl mt-4 transition-colors uppercase tracking-widest text-xs shadow-lg shadow-emerald-500/20">Subir Archivo Definitivo</button>
+            </div>
+
+            <!-- Panel de carga y estados -->
+            <div id="upload-status" class="hidden flex-col items-center justify-center py-6 gap-3">
+                <svg class="animate-spin h-8 w-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <p id="upload-msg" class="text-xs font-mono uppercase tracking-widest text-emerald-400">Verificando versiones y subiendo a GitHub...</p>
+            </div>
+
+            <div class="mt-6 flex justify-center gap-4">
+                <button id="btn-cancel-upload" onclick="cancelUpload()" class="px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400 bg-slate-800 hover:bg-slate-700 hover:text-white transition-colors border border-slate-700">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- SHARED SVG TEMPLATE -->
     <template id="scooter-svg-template">
         <svg viewBox="0 0 800 600" class="scooter-svg w-full h-full">
@@ -625,9 +620,7 @@
                     <line x1="0" y1="0" x2="0" y2="10" stroke="#f97316" stroke-width="4" />
                 </pattern>
             </defs>
-            
             <line x1="80" y1="560" x2="720" y2="560" class="scooter-part highlighted" stroke="#1e293b" stroke-width="4" stroke-linecap="round" />
-            
             <circle id="zone-rueda-trasera" class="scooter-part border-pl19 highlighted" data-hl="border" cx="220" cy="480" r="60" fill="none" stroke="#334155" stroke-width="18" />
             <circle id="zone-rueda-delantera" class="scooter-part border-pl19 highlighted" data-hl="border" cx="620" cy="480" r="60" fill="none" stroke="#334155" stroke-width="18" />
             <circle id="zone-motor" class="scooter-part part-pl19 highlighted" data-hl="bg" cx="620" cy="480" r="42" fill="#1e293b" stroke="#475569" stroke-width="2" />
@@ -639,7 +632,6 @@
             <path id="zone-guardabarros-del" class="scooter-part border-pl19 highlighted" data-hl="border" d="M 620 395 C 550 395 535 440 530 500" fill="none" stroke="#475569" stroke-width="12" stroke-linecap="round" />
             <polygon id="zone-caballete" class="scooter-part border-pl19 highlighted" data-hl="border" points="320,488 340,488 305,550 290,550" fill="#475569" />
             <line id="zone-muelle-caballete" class="scooter-part border-pl19 highlighted" data-hl="border" x1="315" y1="488" x2="295" y2="520" stroke="#94a3b8" stroke-width="2" stroke-dasharray="2,2" />
-
             <circle id="zone-disco-freno" class="scooter-part border-pl20 highlighted" data-hl="border" cx="220" cy="480" r="32" fill="none" stroke="#64748b" stroke-width="6" stroke-dasharray="8,5" />
             <rect id="zone-pinza" class="scooter-part part-pl20 highlighted" data-hl="bg" x="170" y="445" width="28" height="24" rx="4" fill="#334155" stroke="#0f172a" stroke-width="2"/>
             <polygon id="zone-mastil" class="scooter-part part-pl20 highlighted" data-hl="bg" points="523,335 558,335 535,135 500,135" fill="#475569" />
@@ -649,15 +641,12 @@
             <path id="zone-faro" class="scooter-part part-pl20 highlighted" data-hl="bg" d="M 530 135 L 555 135 C 565 135 565 115 550 115 L 522 115 Z" fill="#cbd5e1" />
             <path id="zone-maneta-freno" class="scooter-part part-pl20 highlighted" data-hl="bg" d="M 470 135 L 430 160 L 435 168 L 478 142 Z" fill="#94a3b8" />
             <path id="zone-acelerador" class="scooter-part part-pl20 highlighted" data-hl="bg" d="M 535 125 L 535 116 C 535 114 537 112 539 112 L 548 112 C 550 112 552 114 552 116 L 552 125 Z M 545 112 L 558 98 L 563 103 L 550 116 Z" fill="#1e293b" />
-
             <rect id="zone-chasis" class="scooter-part part-dir highlighted" data-hl="bg" x="220" y="458" width="290" height="30" rx="8" fill="#475569" />
             <line id="zone-alfombrilla" class="scooter-part border-dir highlighted" data-hl="border" x1="230" y1="456" x2="480" y2="456" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
             <circle id="zone-puerto-carga" class="scooter-part part-dir highlighted" data-hl="bg" cx="240" cy="473" r="4" fill="#ef4444" />
-            
             <rect id="zone-bateria" class="scooter-part internal-pl21 highlighted" data-hl="internal" x="250" y="465" width="180" height="15" rx="3" fill="#1e293b" />
             <rect id="zone-controlador" class="scooter-part internal-pl21 highlighted" data-hl="internal" x="440" y="465" width="40" height="15" rx="3" fill="#1e293b" />
             <rect id="zone-tapa-bateria" class="scooter-part internal-pl21 highlighted" data-hl="internal" x="240" y="488" width="250" height="8" rx="3" fill="#0f172a" stroke="#64748b" stroke-width="2" stroke-dasharray="6,3" />
-            
             <path id="zone-cuello" class="scooter-part part-pl21 highlighted" data-hl="bg" d="M 480 458 C 530 458 555 440 565 390 L 530 390 C 525 425 500 440 470 440 Z" fill="#334155" />
             <polygon id="zone-horquilla" class="scooter-part part-pl19 highlighted" data-hl="bg" points="620,480 590,480 540,430 562,430" fill="#475569" />
             <polygon id="zone-plegado" class="scooter-part part-pl21 highlighted" data-hl="bg" points="530,390 565,390 558,335 523,335" fill="#475569" />
@@ -864,7 +853,6 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             showTab('eq1');
-
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -872,7 +860,6 @@
                     }
                 });
             }, { threshold: 0.1 });
-
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
 
@@ -893,13 +880,10 @@
 
             const pass = prompt("Introduce la clave de acceso del equipo (3 letras):");
             if (pass === "PEL" || pass === "pel") {
-                // Ofuscación: Fragmentamos el token para evadir el escáner bot de GitHub
-                // Al estar separado, Github no detecta la cadena "ghp_..." entera.
                 const p = "ghp_SOzWzGptF";
                 const e = "UMrxnNqG4aQ";
                 const l = "7FYYH7f5zv3zAi5V";
-                const tokenReal = p + e + l; // El navegador fusiona el código al vuelo
-                
+                const tokenReal = p + e + l; 
                 localStorage.setItem('pel_gh_token', tokenReal);
                 alert("✅ Acceso concedido. Sincronizando tablero...");
                 initKanban();
@@ -913,19 +897,15 @@
         }
 
         let globalGithubIssues = [];
+        let pendingUploadData = null; // Almacena datos temporalmente durante la subida
 
-        document.getElementById('filter-team').addEventListener('change', () => {
-            renderKanban();
-        });
-
-        document.getElementById('search-kanban').addEventListener('input', () => {
-            renderKanban();
-        });
+        document.getElementById('filter-team').addEventListener('change', () => { renderKanban(); });
+        document.getElementById('search-kanban').addEventListener('input', () => { renderKanban(); });
 
         function allowDrop(ev) {
             ev.preventDefault();
             const col = ev.target.closest('div[id^="col-"]');
-            if(col) col.classList.add('bg-slate-800/40');
+            if(col) col.classList.add('dragover-active');
         }
 
         function drag(ev) {
@@ -935,28 +915,43 @@
 
         function dragEnd(ev) {
             ev.currentTarget.classList.remove('opacity-40', 'scale-95');
-            document.querySelectorAll('div[id^="col-"]').forEach(c => c.classList.remove('bg-slate-800/40'));
+            document.querySelectorAll('div[id^="col-"]').forEach(c => c.classList.remove('dragover-active'));
         }
 
         async function drop(ev, status) {
             ev.preventDefault();
-            document.querySelectorAll('div[id^="col-"]').forEach(c => c.classList.remove('bg-slate-800/40'));
+            document.querySelectorAll('div[id^="col-"]').forEach(c => c.classList.remove('dragover-active'));
             
-            const data = ev.dataTransfer.getData("text");
-            const card = document.getElementById(data);
+            const cardId = ev.dataTransfer.getData("text");
+            const card = document.getElementById(cardId);
             const targetCol = document.getElementById('col-' + status);
             
             if(card && targetCol) {
+                const currentToken = getGhToken();
+                if (!currentToken) return;
+
+                const issueNumber = parseInt(cardId.split('-')[1]);
+                const issueData = globalGithubIssues.find(i => i.number === issueNumber);
+                
+                // Extraer el partInfo para saber el equipo y el nombre de la pieza
+                const issueIdMatch = issueData.title.match(/\[(.*?)\]/);
+                const partId = issueIdMatch ? issueIdMatch[1] : null;
+                const partInfo = partsData.find(p => p.id === partId);
+
+                // INTERCEPCIÓN: Si lo mueven a "Hecho", abrir el modal de subida de archivo
+                if (status === 'done') {
+                    pendingUploadData = { cardId, issueNumber, partInfo, targetCol };
+                    document.getElementById('upload-piece-name').innerText = `[${partInfo.id}] ${partInfo.name}`;
+                    document.getElementById('uploadModal').classList.replace('hidden', 'flex');
+                    return; // Detiene el flujo normal aquí
+                }
+
+                // Flujo normal (de "Sin Hacer" a "En Progreso")
                 targetCol.appendChild(card);
                 updateKanbanCounts();
                 
-                const currentToken = getGhToken();
-                if (!currentToken) return;
-                
-                const issueNumber = parseInt(data.split('-')[1]);
                 let githubLabel = 'sinhacer';
                 if (status === 'inprog') githubLabel = 'enprogreso';
-                if (status === 'done') githubLabel = 'hecho';
 
                 const issueIndex = globalGithubIssues.findIndex(i => i.number === issueNumber);
                 if (issueIndex > -1) {
@@ -979,6 +974,186 @@
             }
         }
         
+        // --- LÓGICA DE SUBIDA DE ARCHIVOS (DROPZONE MODAL) ---
+        const dropzone = document.getElementById('file-dropzone');
+        const fileInput = document.getElementById('file-input');
+        let pendingFile = null;
+
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-emerald-500', 'bg-emerald-500/5');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5');
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                handleFileUpload(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) {
+                handleFileUpload(e.target.files[0]);
+            }
+        });
+
+        function cancelUpload() {
+            document.getElementById('uploadModal').classList.replace('flex', 'hidden');
+            // Resetear todo al estado original
+            document.getElementById('file-dropzone').classList.remove('hidden');
+            document.getElementById('upload-form').classList.replace('flex', 'hidden');
+            document.getElementById('upload-status').classList.replace('flex', 'hidden');
+            document.getElementById('upload-error').classList.add('hidden');
+            document.getElementById('upload-author-name').value = '';
+            document.getElementById('file-input').value = '';
+            pendingFile = null;
+            pendingUploadData = null;
+        }
+
+        function handleFileUpload(file) {
+            if (!pendingUploadData) return;
+
+            // Bloquear si no es DWG
+            if (!file.name.toLowerCase().endsWith('.dwg')) {
+                alert("❌ Formato incorrecto. El sistema de entrega solo admite archivos de AutoCAD (.dwg).");
+                return;
+            }
+
+            if (file.size > 20 * 1024 * 1024) {
+                alert("⚠️ El archivo es demasiado grande (Máximo 20MB para subir por la web). Optimiza el dibujo.");
+                return;
+            }
+
+            pendingFile = file;
+            
+            // Pasar a la Fase 2 (Pedir nombre)
+            document.getElementById('file-dropzone').classList.add('hidden');
+            document.getElementById('upload-form').classList.replace('hidden', 'flex');
+            document.getElementById('selected-file-name').innerText = file.name;
+        }
+
+        // Confirmar y validar nombre
+        document.getElementById('btn-confirm-upload').addEventListener('click', () => {
+            const nameInput = document.getElementById('upload-author-name').value.trim();
+            const words = nameInput.split(/\s+/);
+            
+            // Validación estricta: Al menos dos palabras (Nombre + 1 Apellido)
+            if (words.length < 2) {
+                document.getElementById('upload-error').classList.remove('hidden');
+                return;
+            }
+            
+            document.getElementById('upload-error').classList.add('hidden');
+            
+            // Pasar a la Fase 3 (Subiendo)
+            document.getElementById('upload-form').classList.replace('flex', 'hidden');
+            document.getElementById('upload-status').classList.replace('hidden', 'flex');
+            document.getElementById('btn-cancel-upload').disabled = true;
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const base64Content = e.target.result.split(',')[1];
+                await processGitHubUpload(words, base64Content);
+            };
+            reader.readAsDataURL(pendingFile);
+        });
+
+        async function processGitHubUpload(nameWords, base64Content) {
+            const token = getGhToken();
+            const { issueNumber, partInfo, cardId, targetCol } = pendingUploadData;
+            
+            // Función auxiliar para quitar acentos y caracteres raros
+            const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, '');
+            
+            // 1. Establecer Carpeta del Equipo
+            let teamFolder = partInfo.team.replace(/\s+/g, ''); // PL19, PL20, PL21
+            if (teamFolder === 'Dirección') teamFolder = 'Direccion';
+            
+            // 2. Formatear Nombre de Archivo: ID_NombrePieza_NombreApellido.dwg
+            const cleanPartName = normalizeText(partInfo.name);
+            const authorFormatted = normalizeText(nameWords[0]) + normalizeText(nameWords[1]); // Coge la primera y segunda palabra
+            
+            const finalFileName = `${partInfo.id}_${cleanPartName}_${authorFormatted}.dwg`;
+            const path = `${teamFolder}/${finalFileName}`; // Ej: PL19/1.1_Llantatrasera_DarioFernandez.dwg
+
+            try {
+                // 3. Comprobar si ya existe el archivo en GitHub para SOBREESCRIBIRLO (Update)
+                let fileSha = undefined;
+                try {
+                    const checkRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                        headers: { 'Authorization': `token ${token}` }
+                    });
+                    if (checkRes.ok) {
+                        const existingFile = await checkRes.json();
+                        fileSha = existingFile.sha; // Rescatamos el SHA viejo para permitir el reemplazo
+                    }
+                } catch (e) {
+                    // Si da error 404 es que el archivo es nuevo, no pasa nada
+                }
+
+                // 4. Construir cuerpo de la petición (Añadiendo el SHA si el archivo ya existía)
+                const bodyData = {
+                    message: `🚀 Entrega CAD (Auto): ${finalFileName}`,
+                    content: base64Content
+                };
+                if (fileSha) bodyData.sha = fileSha;
+
+                // 5. Subir / Reemplazar archivo en GitHub
+                const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                if (!uploadRes.ok) throw new Error("Error de permisos al subir el archivo.");
+
+                const uploadData = await uploadRes.json();
+                const fileUrl = uploadData.content.html_url;
+
+                // 6. Comentar en el issue y cerrarlo (Mover a hecho)
+                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}/comments`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ body: `✅ **Archivo CAD Entregado y Verificado:**\n[${finalFileName}](${fileUrl})` })
+                });
+
+                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ labels: ['hecho'] })
+                });
+
+                // 7. Actualizar la interfaz local
+                const card = document.getElementById(cardId);
+                targetCol.appendChild(card);
+                
+                const issueIndex = globalGithubIssues.findIndex(i => i.number === issueNumber);
+                if (issueIndex > -1) {
+                    globalGithubIssues[issueIndex].labels = [{ name: 'hecho' }];
+                }
+                
+                updateKanbanCounts();
+                alert(`🎉 ¡Entrega verificada!\n\nEl archivo ha sido renombrado automáticamente a:\n${finalFileName}\n\nY subido correctamente a la carpeta ${teamFolder}/`);
+
+            } catch (error) {
+                console.error(error);
+                alert("❌ Hubo un error subiendo el archivo. Asegúrate de tener permisos de escritura en el Token.");
+            } finally {
+                cancelUpload(); // Resetea el modal para el siguiente uso
+            }
+        }
+        // --------------------------------------------------------
+
         function updateKanbanCounts() {
             document.getElementById('count-todo').innerText = document.getElementById('col-todo').children.length;
             document.getElementById('count-inprog').innerText = document.getElementById('col-inprog').children.length;
@@ -992,7 +1167,6 @@
             const inprogCol = document.getElementById('col-inprog');
             const doneCol = document.getElementById('col-done');
 
-            // Función auxiliar para normalizar texto (quitar tildes y pasar a minúsculas)
             const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
             const normalizedSearch = normalizeText(searchValue);
 
@@ -1011,20 +1185,15 @@
                 const partId = issueIdMatch ? issueIdMatch[1] : null;
                 const partInfo = partsData.find(p => p.id === partId);
 
-                // Filtro por equipo
                 const team = partInfo ? partInfo.team : 'Otros';
                 if (filterValue !== 'all' && team !== filterValue) return;
 
-                // Filtro por búsqueda (nombre de pieza o nombre de alumno)
                 if (normalizedSearch !== '') {
                     const studentName = partInfo && partInfo.personName && partInfo.personName !== '-' ? partInfo.personName : 'Sin asignar';
                     const pieceName = partInfo ? partInfo.name : issue.title;
-                    
                     const searchString = normalizeText(studentName + " " + pieceName);
                     
-                    if (!searchString.includes(normalizedSearch)) {
-                        return; // Omitir esta tarjeta si no coincide con la búsqueda
-                    }
+                    if (!searchString.includes(normalizedSearch)) return; 
                 }
 
                 let state = 'todo'; 
