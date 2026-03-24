@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Proyecto PEL - Xiaomi Electric Scooter 4</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Urbanist:wght@400;700&family=JetBrains+Mono:wght@500;800&display=swap');
         
@@ -64,8 +63,6 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-
-        .chart-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto; height: 320px; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative">
@@ -86,11 +83,10 @@
 
                 <!-- Menú Desktop -->
                 <div class="hidden lg:flex items-center space-x-1">
-                    <a href="#dashboard" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Dashboard</a>
                     <a href="#calendario" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Plazos</a>
                     <a href="#flujo" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Flujo Tareas</a>
                     <a href="#equipos" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Equipos</a>
-                    <a href="#tareas" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Matriz</a>
+                    <a href="#kanban" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Matriz Kanban</a>
                     <a href="#protocolos" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Normativa</a>
                     <a href="#medidas" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Medidas</a>
                     <div class="pl-2 border-l border-slate-700/50 ml-2">
@@ -101,11 +97,10 @@
             
             <!-- Menú Móvil Desplegable -->
             <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-700/50 px-4 py-3 space-y-1 bg-slate-900/95 rounded-b-2xl shadow-inner">
-                <a href="#dashboard" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Dashboard</a>
                 <a href="#calendario" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Plazos</a>
                 <a href="#flujo" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Flujo Tareas</a>
                 <a href="#equipos" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Equipos</a>
-                <a href="#tareas" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Matriz</a>
+                <a href="#kanban" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Matriz Kanban</a>
                 <a href="#protocolos" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Normativa</a>
                 <a href="#medidas" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Medidas</a>
                 <a href="#bibliografia" class="block px-4 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all text-center mt-2">Documentación</a>
@@ -114,43 +109,6 @@
     </div>
 
     <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
-
-        <!-- DASHBOARD SECTION -->
-        <section id="dashboard" class="scroll-mt-24">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-                <div>
-                    <h1 class="text-4xl font-bold text-slate-100 font-['Urbanist'] tracking-tight">Centro de Control PEL</h1>
-                    <p class="mt-2 text-slate-400">Guía de Ingeniería Inversa y Modelado • Ref. Xiaomi Scooter 4</p>
-                </div>
-                <div class="pulse-glow bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-full text-emerald-400 text-xs font-bold uppercase tracking-widest">
-                    Asignación 100% Completada
-                </div>
-            </div>
-
-            <div class="reveal bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 p-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="space-y-8">
-                    <h2 class="text-2xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight border-b border-slate-800 pb-4">Análisis de Esfuerzo de Ingeniería</h2>
-                    <p class="text-slate-400 leading-relaxed text-sm">
-                        La hoja de ruta ha sido diseñada para equilibrar el tiempo de modelado en AutoCAD. Las piezas con curvas de Bézier complejas (carcasas) se han nivelado con piezas más sencillas de extrusión. <strong>Los Jefes de equipo han recibido piezas de Dificultad Baja</strong> para compensar su tiempo dedicado a la coordinación.
-                    </p>
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:border-red-500/30 transition">
-                            <span class="text-sm font-medium text-slate-300">Nivel de Complejidad: <strong>ALTA</strong></span>
-                            <span class="px-4 py-1 bg-red-500/20 text-red-500 text-xs font-bold rounded-full">11 Tareas</span>
-                        </div>
-                        <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:border-orange-500/30 transition">
-                            <span class="text-sm font-medium text-slate-300">Nivel de Complejidad: <strong>MEDIA</strong></span>
-                            <span class="px-4 py-1 bg-orange-500/20 text-orange-500 text-xs font-bold rounded-full">16 Tareas</span>
-                        </div>
-                        <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 flex items-center justify-between group hover:border-green-500/30 transition">
-                            <span class="text-sm font-medium text-slate-300">Nivel de Complejidad: <strong>BAJA (Para Jefatura)</strong></span>
-                            <span class="px-4 py-1 bg-green-500/20 text-green-500 text-xs font-bold rounded-full">3 Tareas</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-center"><div class="chart-container"><canvas id="complexityChart"></canvas></div></div>
-            </div>
-        </section>
 
         <!-- CALENDARIO Y ADSCRIPCIÓN -->
         <section id="calendario" class="scroll-mt-24">
@@ -170,43 +128,98 @@
                             <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-emerald-500/20 text-emerald-500 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">✓</div>
                             <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950/30 p-5 rounded-2xl border border-slate-800 shadow-sm">
                                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
-                                    <h4 class="font-bold text-slate-400 text-sm line-through">Adscripción al Trabajo Grupal</h4>
+                                    <h4 class="font-bold text-slate-400 text-sm line-through">Adscripción al Trabajo</h4>
                                     <span class="px-3 py-1 bg-slate-800/50 text-slate-500 text-[10px] font-bold uppercase rounded-full tracking-widest border border-slate-700 whitespace-nowrap">COMPLETADO</span>
                                 </div>
                                 <p class="text-xs text-slate-500">Formularios procesados y equipos cerrados.</p>
                             </div>
                         </div>
-                        <!-- Event 2 (Ahora Activo) -->
+                        <!-- Event 2 (Completado - 20 MAR) -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group opacity-50">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-emerald-500/20 text-emerald-500 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">✓</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950/30 p-5 rounded-2xl border border-slate-800 shadow-sm">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+                                    <h4 class="font-bold text-slate-400 text-sm line-through">Asignación de Trabajos</h4>
+                                    <span class="px-3 py-1 bg-slate-800/50 text-slate-500 text-[10px] font-bold uppercase rounded-full tracking-widest border border-slate-700 whitespace-nowrap">20 MAR 2026</span>
+                                </div>
+                                <p class="text-xs text-slate-500">Entrega oficial de listas de piezas y asignación de roles.</p>
+                            </div>
+                        </div>
+                        <!-- Event 3 (Activo - 3 ABR) -->
                         <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-orange-500 text-slate-900 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">2</div>
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-orange-500 text-slate-900 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">3</div>
                             <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950 p-5 rounded-2xl border border-orange-500/30 shadow-lg transition duration-300 hover:border-orange-500/60">
                                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
-                                    <h4 class="font-bold text-slate-200 text-sm">Asignación de Trabajos</h4>
-                                    <span class="px-3 py-1 bg-orange-500/10 text-orange-400 text-[10px] font-bold uppercase rounded-full tracking-widest border border-orange-500/20 whitespace-nowrap">20 MAR 2026</span>
+                                    <h4 class="font-bold text-slate-200 text-sm">Croquis a Jefatura de PL</h4>
+                                    <span class="px-3 py-1 bg-orange-500/10 text-orange-400 text-[10px] font-bold uppercase rounded-full tracking-widest border border-orange-500/20 whitespace-nowrap">03 ABR 2026</span>
                                 </div>
-                                <p class="text-xs text-slate-400">Entrega oficial de listas de piezas y asignación formal de roles.</p>
+                                <p class="text-xs text-slate-400">Entrega de croquis individuales al jefe para que realice los croquis del subsistema.</p>
                             </div>
                         </div>
-                        <!-- Event 3 (Actualizado) -->
+                        <!-- Event 4 (Futuro - 6 ABR) -->
                         <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 text-slate-400 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">3</div>
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 text-slate-400 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">4</div>
                             <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950/50 p-5 rounded-2xl border border-slate-800 shadow-sm transition duration-300 hover:border-slate-600">
                                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
-                                    <h4 class="font-bold text-slate-200 text-sm">Fin de Dibujos Individuales</h4>
-                                    <span class="px-3 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-full tracking-widest border border-slate-700 whitespace-nowrap">10 ABR 2026</span>
+                                    <h4 class="font-bold text-slate-200 text-sm">Croquis a Dirección</h4>
+                                    <span class="px-3 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-full tracking-widest border border-slate-700 whitespace-nowrap">06 ABR 2026</span>
                                 </div>
-                                <p class="text-xs text-slate-400">Entrega de tus dibujos al Jefe de PL, idealmente justo tras Semana Santa. Empiezan los 20 días exclusivos de revisión.</p>
+                                <p class="text-xs text-slate-400">Entrega de croquis de los jefes de PL a Dirección para ensamblar los croquis del patinete entero.</p>
                             </div>
                         </div>
-                        <!-- Event 4 -->
+                        <!-- Event 5 (Futuro - 9 ABR) -->
                         <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-emerald-500 text-slate-900 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">4</div>
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 text-slate-400 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">5</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950/50 p-5 rounded-2xl border border-slate-800 shadow-sm transition duration-300 hover:border-slate-600">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+                                    <h4 class="font-bold text-slate-200 text-sm">Corrección de Croquis</h4>
+                                    <span class="px-3 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-full tracking-widest border border-slate-700 whitespace-nowrap">09 ABR 2026</span>
+                                </div>
+                                <p class="text-xs text-slate-400">Entrega de todos los croquis al profesor de la asignatura para su revisión y corrección.</p>
+                            </div>
+                        </div>
+                        <!-- Event 6 (Futuro - 12 ABR) -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 text-slate-400 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">6</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950/50 p-5 rounded-2xl border border-slate-800 shadow-sm transition duration-300 hover:border-slate-600">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+                                    <h4 class="font-bold text-slate-200 text-sm">Entrega de CAD a Jefatura</h4>
+                                    <span class="px-3 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-full tracking-widest border border-slate-700 whitespace-nowrap">12 ABR 2026</span>
+                                </div>
+                                <p class="text-xs text-slate-400">Entrega de los archivos CAD a los jefes para que hagan la comprobación de calidad y verifiquen que todas las piezas encajen.</p>
+                            </div>
+                        </div>
+                        <!-- Event 7 (Futuro - 17 ABR) -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 text-slate-400 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">7</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950/50 p-5 rounded-2xl border border-slate-800 shadow-sm transition duration-300 hover:border-slate-600">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+                                    <h4 class="font-bold text-slate-200 text-sm">Entrega CAD a Dirección</h4>
+                                    <span class="px-3 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-full tracking-widest border border-slate-700 whitespace-nowrap">17 ABR 2026</span>
+                                </div>
+                                <p class="text-xs text-slate-400">Los jefes de PL entregan sus subsistemas CAD y los ingenieros los planos de despiece a Dirección.</p>
+                            </div>
+                        </div>
+                        <!-- Event 8 (Futuro - 21 ABR) -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-slate-800 text-slate-400 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">8</div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-slate-950/50 p-5 rounded-2xl border border-slate-800 shadow-sm transition duration-300 hover:border-slate-600">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
+                                    <h4 class="font-bold text-slate-200 text-sm">Resolución de Problemas</h4>
+                                    <span class="px-3 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold uppercase rounded-full tracking-widest border border-slate-700 whitespace-nowrap">21 ABR 2026</span>
+                                </div>
+                                <p class="text-xs text-slate-400">Análisis de problemas finales y corrección de elementos faltantes para dejarlo todo listo.</p>
+                            </div>
+                        </div>
+                        <!-- Event 9 (Final - 30 ABR) -->
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-slate-900 bg-emerald-500 text-slate-900 font-bold shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">9</div>
                             <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-emerald-950/20 p-5 rounded-2xl border border-emerald-500/20 shadow-sm transition duration-300 hover:border-emerald-500/40">
                                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
-                                    <h4 class="font-bold text-emerald-400 text-sm">Fin del Trabajo: Planos Maestros</h4>
+                                    <h4 class="font-bold text-emerald-400 text-sm">Fin del Trabajo: Entrega</h4>
                                     <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase rounded-full tracking-widest border border-emerald-500/20 whitespace-nowrap">30 ABR 2026</span>
                                 </div>
-                                <p class="text-xs text-slate-400">Entrega de planos compilados y finalización formal del proyecto.</p>
+                                <p class="text-xs text-slate-400">Se manda al profesor el trabajo compilado (Planos maestros y modelos CAD).</p>
                             </div>
                         </div>
                     </div>
@@ -340,42 +353,79 @@
             </div>
         </section>
 
-        <!-- MATRIZ DE TAREAS -->
-        <section id="tareas" class="scroll-mt-24">
-            <div class="reveal mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <!-- MATRIZ / KANBAN BOARD SECTION (MERGED) -->
+        <section id="kanban" class="scroll-mt-24">
+            <div class="reveal mb-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
                 <div>
-                    <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist']">Matriz Detallada de Asignación</h2>
-                    <p class="mt-2 text-slate-400 text-sm">Listado unificado de piezas y dificultad. Haz clic en una pieza para ver sus especificaciones.</p>
+                    <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight flex items-center gap-3">
+                        Matriz Interactiva Kanban 
+                        <span class="px-3 py-1 bg-purple-500/10 text-purple-400 text-[10px] font-bold uppercase rounded-full tracking-widest border border-purple-500/30 font-sans shadow-lg shadow-purple-500/20">Sync: GitHub API</span>
+                    </h2>
+                    <p class="mt-2 text-slate-400 text-sm">Filtra por equipo, arrastra las piezas para actualizar su estado o <span class="text-orange-400 font-bold">haz clic en ellas para ver sus detalles 3D</span>.</p>
                 </div>
-                <div class="flex items-center gap-4">
-                <span class="text-xs font-bold uppercase text-slate-500 tracking-widest">Filtrar por Grupo:</span>
-                <select id="filter-team" class="bg-slate-800 border border-slate-700 text-slate-200 text-xs rounded-xl p-3 outline-none focus:border-orange-500 shadow-lg min-w-[200px]">
-                    <option value="all">Toda la Empresa (30)</option>
-                    <option value="Dirección">Dirección</option>
-                    <option value="PL 19">PL 19: Tracción</option>
-                        <option value="PL 20">PL 20: Dirección</option>
-                        <option value="PL 21">PL 21: Chasis</option>
-                    </select>
+                
+                <div class="flex flex-wrap items-center gap-4 bg-slate-900/50 p-3 rounded-2xl border border-slate-800">
+                    <div class="flex items-center gap-3 mr-2">
+                        <span class="text-[10px] font-bold uppercase text-slate-500 tracking-widest">Filtro:</span>
+                        <select id="filter-team" class="bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-xl p-2.5 outline-none focus:border-orange-500 shadow-lg min-w-[160px] cursor-pointer hover:border-slate-500 transition-colors">
+                            <option value="all">Toda la Empresa (30)</option>
+                            <option value="Dirección">Dirección</option>
+                            <option value="PL 19">PL 19: Tracción</option>
+                            <option value="PL 20">PL 20: Dirección</option>
+                            <option value="PL 21">PL 21: Chasis</option>
+                        </select>
+                    </div>
+                    <div class="w-px h-8 bg-slate-700 hidden sm:block"></div>
+                    <button id="btn-clear-issues" onclick="promptClearIssues()" class="bg-red-900/50 hover:bg-red-600 text-red-200 hover:text-white border border-red-500/30 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition shadow-lg flex items-center gap-2" title="Cierra todos los issues actuales">
+                        🗑️ Limpiar
+                    </button>
+                    <button id="btn-auto-issues" onclick="promptCreateIssues()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition shadow-lg shadow-indigo-500/30 flex items-center gap-2">
+                        🚀 Crear Issues
+                    </button>
                 </div>
             </div>
-            <div class="reveal bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-left text-slate-400">
-                        <thead class="text-[10px] text-slate-500 uppercase tracking-widest bg-slate-800/50 border-b border-slate-700">
-                            <tr>
-                                <th class="px-6 py-6 text-center font-bold">ID</th>
-                                <th class="px-6 py-6">Pieza o Subconjunto</th>
-                                <th class="px-6 py-6">Puesto</th>
-                                <th class="px-6 py-6">Nombre Alumno</th>
-                                <th class="px-6 py-6 text-center">Dificultad</th>
-                                <th class="px-6 py-6 text-center">Ver</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table-body" class="divide-y divide-slate-800">
-                            <!-- JS populates -->
-                        </tbody>
-                    </table>
+
+            <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Columna: Sin Hacer -->
+                <div class="bg-slate-900/50 rounded-3xl border border-slate-800 flex flex-col h-full overflow-hidden shadow-xl">
+                    <div class="p-5 bg-slate-900 border-b border-slate-800 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-200 text-sm flex items-center gap-2 uppercase tracking-widest">
+                            <span class="w-3 h-3 rounded-full bg-slate-500"></span> Sin Hacer
+                        </h3>
+                        <span id="count-todo" class="text-xs text-slate-500 font-mono bg-slate-800 px-2 py-1 rounded">0</span>
+                    </div>
+                    <div id="col-todo" class="p-4 flex-grow space-y-4 min-h-[400px] transition-colors duration-300" ondragover="allowDrop(event)" ondrop="drop(event, 'todo')">
+                        <!-- Cards -->
+                    </div>
                 </div>
+
+                <!-- Columna: En Progreso -->
+                <div class="bg-slate-900/50 rounded-3xl border border-orange-500/20 flex flex-col h-full overflow-hidden shadow-xl">
+                    <div class="p-5 bg-slate-900 border-b border-orange-500/20 flex justify-between items-center">
+                        <h3 class="font-bold text-orange-400 text-sm flex items-center gap-2 uppercase tracking-widest">
+                            <span class="w-3 h-3 rounded-full bg-orange-500 pulse-glow"></span> En Progreso
+                        </h3>
+                        <span id="count-inprog" class="text-xs text-orange-500 font-mono bg-orange-500/10 px-2 py-1 rounded border border-orange-500/20">0</span>
+                    </div>
+                    <div id="col-inprog" class="p-4 flex-grow space-y-4 min-h-[400px] transition-colors duration-300" ondragover="allowDrop(event)" ondrop="drop(event, 'inprog')">
+                        <!-- Cards -->
+                    </div>
+                </div>
+
+                <!-- Columna: Hecho -->
+                <div class="bg-slate-900/50 rounded-3xl border border-emerald-500/20 flex flex-col h-full overflow-hidden shadow-xl">
+                    <div class="p-5 bg-slate-900 border-b border-emerald-500/20 flex justify-between items-center">
+                        <h3 class="font-bold text-emerald-400 text-sm flex items-center gap-2 uppercase tracking-widest">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span> Hecho
+                        </h3>
+                        <span id="count-done" class="text-xs text-emerald-500 font-mono bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20">0</span>
+                    </div>
+                    <div id="col-done" class="p-4 flex-grow space-y-4 min-h-[400px] transition-colors duration-300" ondragover="allowDrop(event)" ondrop="drop(event, 'done')">
+                        <!-- Cards -->
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -724,23 +774,18 @@
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('.nav-link');
 
-        // Toggle Menú Móvil
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Cerrar menú móvil al hacer clic en un enlace
         document.querySelectorAll('#mobile-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
             });
         });
 
-        // Control de Scroll: Active Links (ScrollSpy)
         window.addEventListener('scroll', () => {
             let current = '';
-            
-            // Detectar sección actual en base al scroll
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 if (scrollY >= sectionTop - 150) {
@@ -748,7 +793,6 @@
                 }
             });
 
-            // Resaltar link activo quitando y poniendo clases de Tailwind
             navLinks.forEach(link => {
                 link.classList.remove('text-orange-500', 'bg-slate-800/80');
                 if (link.getAttribute('href').includes(current) && current !== '') {
@@ -758,10 +802,7 @@
         });
 
         const partsData = [
-            // DIRECCIÓN
             { id: "0.1", name: "Plataforma Base", search: "Xiaomi Scooter 4 deck body frame extrusion", subsys: "Estructura Portante", team: "Dirección", assigned: "Director/a", personName: "Eloy Santos", diff: "ALTA", zone: ["zone-chasis"], type: "Estructural (Aluminio)", desc: "Perfil de extrusión de aluminio que forma el chasis principal. Es la espina dorsal del patinete y debe incluir el vaciado interno donde se alojan las baterías." },
-            
-            // PL 19: S1 - Tren de Rodaje
             { id: "1.1", name: "Llanta trasera", search: "Xiaomi Scooter 4 rear wheel rim", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.1", personName: "Darío Fernández", diff: "ALTA", zone: ["zone-rueda-trasera"], type: "Rotacional (Aleación)", desc: "Núcleo de aleación. Modelar las paredes para el alojamiento de la válvula del neumático, los rodamientos y la tornillería del disco de freno." },
             { id: "1.2", name: "Neumáticos 10\"", search: "Xiaomi Scooter 4 10 inch tubeless tire", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.2", personName: "Javier Huebra", diff: "ALTA", zone: ["zone-rueda-delantera", "zone-rueda-trasera"], type: "Caucho (Tubeless)", desc: "Perfil original de neumático de 10 pulgadas. Modelado del vaciado interior y el patrón exterior de dibujo de la huella para drenaje." },
             { id: "1.3", name: "Tapas motor", search: "Xiaomi Scooter 4 front motor wheel cover", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.3", personName: "Nicole Núñez", diff: "MEDIA", zone: ["zone-motor"], type: "Embellecedor (ABS)", desc: "Embellecedores laterales plásticos con diseño radial coherente con la estética del Scooter 4. Ocultan las tuercas de sujeción." },
@@ -769,34 +810,24 @@
             { id: "1.5", name: "Estator y Eje Motor", search: "Xiaomi Scooter 4 front motor stator axle", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.5", personName: "Daniel Fuentes", diff: "MEDIA", zone: ["zone-motor", "zone-eje-delantero"], type: "Electromecánico (Estator)", desc: "Núcleo interior fijo del motor (modelado base del bobinado) y el eje principal asimétrico delantero que lo ancla a la horquilla, con su salida especial para cableado." },
             { id: "1.6", name: "Horquilla delantera", search: "Xiaomi Scooter 4 front fork replacement", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.6", personName: "Miguel Ángel Rodríguez", diff: "MEDIA", zone: ["zone-horquilla"], type: "Estructural (Acero)", desc: "Brazos de soporte que abrazan el eje del motor delantero. Dibujo simétrico que debe incluir los orificios de anclaje para el guardabarros." },
             { id: "1.7", name: "Eje Trasero y Espaciadores", search: "Xiaomi Scooter 4 rear wheel axle spacers", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.7", personName: "Daniel Secades", diff: "MEDIA", zone: ["zone-eje-trasero"], type: "Ejes Técnicos", desc: "Eje pasante trasero, casquillos cilíndricos de precisión y pletinas tensoras para centrar perfectamente la rueda trasera en el chasis." },
-            
-            // PL 19: S2 - Carenado
             { id: "1.8", name: "Guardabarros Trasero y Luz", search: "Xiaomi Scooter 4 rear mudguard with taillight", subsys: "S2: Carenado", team: "PL 19", assigned: "Ingeniero/a 1.8", personName: "Jacobo Silva", diff: "ALTA", zone: ["zone-guardabarros-tras", "zone-luz-trasera"], type: "Carenado e Iluminación", desc: "Superficie plástica curva trasera. INCLUYE ADEMÁS: La integración volumétrica del piloto LED de freno y el alojamiento para la matrícula." },
             { id: "1.9", name: "Guardabarros Delantero", search: "Xiaomi Scooter 4 front mudguard", subsys: "S2: Carenado", team: "PL 19", assigned: "Ingeniero/a 1.9", personName: "Claudiu Barbu", diff: "MEDIA", zone: ["zone-guardabarros-del"], type: "Carenado (ABS)", desc: "Pieza envolvente plástica frontal. Requiere modelado de superficies (curvas de Bézier) y sus anclajes asimétricos a la horquilla." },
             { id: "1.10", name: "Caballete y Tirante", search: "Xiaomi Scooter 4 kickstand fender bracket", subsys: "S2: Carenado", team: "PL 19", assigned: "Jefe/a PL 19", personName: "Marcos Menéndez", diff: "BAJA", zone: ["zone-caballete", "zone-muelle-caballete", "zone-tirante"], type: "Mecanismo y Soporte", desc: "Pata retráctil de apoyo y varilla metálica de refuerzo anti-vibración del guardabarros trasero. *Piezas designadas a jefatura.*" },
-
-            // PL 20: S3 - Manillar
             { id: "2.1", name: "Mástil principal", search: "Xiaomi Scooter 4 vertical folding pole", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.1", personName: "Lorenzo Sánchez", diff: "MEDIA", zone: ["zone-mastil", "zone-cableado"], type: "Estructural", desc: "Tubo cilíndrico inclinado de conducción con ventana de salida. INCLUYE ADEMÁS: Modelado del ruteado exterior del cableado visible con su funda protectora espiral." },
             { id: "2.2", name: "Tubo transv. (T-Bar)", search: "Xiaomi Scooter 4 handlebar T-bar tube", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.2", personName: "Andrea López", diff: "MEDIA", zone: ["zone-manillar"], type: "Estructural (Aluminio)", desc: "Eje horizontal de dirección. Debe incluir el detalle de los extremos mecanizados para el encaje a presión de los puños y las manetas." },
             { id: "2.3", name: "Cubierta Superior Display", search: "Xiaomi Scooter 4 dashboard cover case", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.3", personName: "Julio Alonso", diff: "ALTA", zone: ["zone-display"], type: "Carenado (Policarbonato)", desc: "Protector de pantalla superior. Diseño curvo estético con ventana transparente. Pieza muy visual y sin medidas estándar fáciles." },
             { id: "2.4", name: "Base Inferior Display", search: "Xiaomi Scooter 4 dashboard bottom board holder", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.4", personName: "Sebastián Aguilar", diff: "MEDIA", zone: ["zone-display"], type: "Carenado (ABS)", desc: "Carcasa inferior que aloja y atornilla la placa base electrónica del display. Encaje a presión y atornillado interno en el tubo del mástil." },
             { id: "2.5", name: "Carcasa Faro y LED", search: "Xiaomi Scooter 4 front light bottom cover", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.5", personName: "Carlos Birca", diff: "ALTA", zone: ["zone-faro"], type: "Carenado e Iluminación", desc: "Protector frontal con diseño de disipación de calor. INCLUYE ADEMÁS: El diseño volumétrico y la posición de la placa LED interna de iluminación." },
             { id: "2.6", name: "Acelerador Hall", search: "Xiaomi Scooter 4 thumb throttle", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.6", personName: "Iyán Berjano", diff: "MEDIA", zone: ["zone-acelerador"], type: "Interfaz (ABS y Electrónica)", desc: "Gatillo estriado del acelerador. Encaja en el tubo transversal derecho del manillar. Incluye la volumetría del sensor interno." },
-            
-            // PL 20: S4 - Frenado
             { id: "2.7", name: "Cuerpo maneta", search: "Xiaomi Scooter 4 brake handle lever base", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.7", personName: "Pablo Rivas", diff: "ALTA", zone: ["zone-maneta-freno"], type: "Mecanismo (Fundición)", desc: "Soporte de freno al manillar. Modelar el alojamiento interno para el sensor de corte eléctrico y la rosca del tensor del cable." },
             { id: "2.8", name: "Palanca de freno", search: "Xiaomi Scooter 4 brake lever arm", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.8", personName: "Lola Osagiede", diff: "MEDIA", zone: ["zone-maneta-freno"], type: "Ergonomía", desc: "Gatillo de freno optimizado en curva para accionamiento con dos dedos. Incluir el eje de pivotamiento pasante y el muelle de retorno." },
             { id: "2.9", name: "Soporte Pinza", search: "Xiaomi Scooter 4 rear brake caliper bracket", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.9", personName: "Alejandro Álvarez", diff: "MEDIA", zone: ["zone-pinza"], type: "Soporte Técnico", desc: "Adaptador de mecanizado que alinea y sujeta la pinza de freno al chasis del patinete. Ajuste crítico de tolerancias." },
             { id: "2.10", name: "Cuerpo Pinza Freno", search: "Xiaomi Scooter 4 rear brake caliper body", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.10", personName: "Rubén Iordache", diff: "ALTA", zone: ["zone-pinza"], type: "Mecánico (Fundición)", desc: "Caliper de freno de disco. Geometría compleja de fundición que aloja el mecanismo de empuje de las pastillas y el muelle tensor." },
             { id: "2.11", name: "Disco 130mm", search: "Xiaomi Scooter 4 brake disc rotor 130mm", subsys: "S4: Frenado", team: "PL 20", assigned: "Jefe/a PL 20", personName: "Pablo Fraile", diff: "BAJA", zone: ["zone-disco-freno"], type: "Dinámico (Chapa)", desc: "Rotor de acero inoxidable de 2mm con patrón de ventilación. Operación técnica de corte 2D plano. *Pieza designada a jefatura.*" },
-            
-            // PL 21: S5 - Chasis y Cuello
             { id: "3.1", name: "Alfombrilla y Carga", search: "Xiaomi Scooter 4 deck rubber mat charge port", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.1", personName: "Iván Dou", diff: "MEDIA", zone: ["zone-alfombrilla", "zone-puerto-carga"], type: "Recubrimiento y Eléc.", desc: "Alfombrilla superior de silicona (Deck mat) texturizada y tapón/puerto de carga exterior. Piezas extraídas de la asignación original de Dirección." },
             { id: "3.2", name: "Vástago central", search: "Xiaomi Scooter 4 steering stem column", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.2", personName: "Francisco Villanueva", diff: "ALTA", zone: ["zone-eje-interno", "zone-rodamientos-1", "zone-rodamientos-2"], type: "Pieza Interior (Acero)", desc: "Eje pasante central interno. INCLUYE ADEMÁS: El juego de dirección completo (rodamientos de bolas superior/inferior y cazoletas) para asegurar el giro libre de fricción." },
             { id: "3.3", name: "Cuello de unión", search: "Xiaomi Scooter 4 folding pole base neck", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.3", personName: "Ian Moreiras", diff: "ALTA", zone: ["zone-cuello"], type: "Estructural (Forja)", desc: "Unión crítica entre chasis y mástil. Geometría compleja de fundición. Transición de superficies fundamental para asegurar una estética fiel al Xiaomi Electric Scooter 4." },
             { id: "3.4", name: "Tapa batería e Int.", search: "Xiaomi Scooter 4 bottom battery cover controller", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.4", personName: "Vega Fernández", diff: "MEDIA", zone: ["zone-tapa-bateria", "zone-bateria", "zone-controlador"], type: "Protección y Electrónica", desc: "Cierre inferior estanco. INCLUYE ADEMÁS: La volumetría en bloque del pack interno de baterías de litio y de la placa base (controlador electrónico) que cierran el conjunto." },
-            
-            // PL 21: S6 - Plegado
             { id: "3.5", name: "Base móvil plegado", search: "Xiaomi Scooter 4 folding mechanism base", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.5", personName: "Chej Sidia", diff: "MEDIA", zone: ["zone-plegado"], type: "Mecanismo (Acero)", desc: "Bisagra inferior del mástil. Es vital modelar geométricamente el tope físico que impide que el manillar sobrepase su ángulo vertical ideal." },
             { id: "3.6", name: "Palanca bloqueo", search: "Xiaomi Scooter 4 folding lever handle", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.6", personName: "Hugo Ojeda", diff: "MEDIA", zone: ["zone-plegado"], type: "Mecanismo (Ergonomía)", desc: "Cierre rápido vertical y diseño curvo adaptado a la mano del usuario." },
             { id: "3.7", name: "Pasador y eje transv.", search: "Xiaomi Scooter 4 folding pole pin bolt", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.7", personName: "Mark Servera", diff: "MEDIA", zone: ["zone-plegado"], type: "Eje de Precisión", desc: "Perno técnico de pivotamiento del plegado. INCLUYE ADEMÁS: El eje pasante transversal de ajuste (tornillo para apretar horizontalmente el mecanismo)." },
@@ -842,26 +873,6 @@
             document.getElementById('team-svg-target').appendChild(svg);
         }
 
-        function renderTable(data) {
-            const tableBody = document.getElementById('table-body');
-            tableBody.innerHTML = '';
-            data.forEach(part => {
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-800/50 transition cursor-pointer group';
-                tr.onclick = () => openModal(part);
-                const isBoss = part.assigned.includes('Director') || part.assigned.includes('Jefe');
-                tr.innerHTML = `
-                    <td class="px-6 py-6 text-center font-mono text-xs text-slate-500 font-bold">${part.id}</td>
-                    <td class="px-6 py-6 font-medium text-slate-200 group-hover:text-orange-400 transition-colors">${part.name}<br><span class="text-[10px] uppercase font-bold text-slate-500 italic tracking-tighter">${part.subsys}</span></td>
-                    <td class="px-6 py-6 text-xs text-slate-400">${part.assigned}</td>
-                    <td class="px-6 py-6 text-sm font-bold capitalize ${isBoss ? 'text-orange-400' : 'text-slate-200'}">${part.personName || '-'}</td>
-                    <td class="px-6 py-6 text-center"><span class="px-3 py-1 text-[10px] font-bold uppercase rounded-full border tracking-widest ${diffColors[part.diff]}">${part.diff}</span></td>
-                    <td class="px-6 py-6 text-center"><button class="text-orange-500 bg-orange-500/10 p-3 rounded-full border border-orange-500/20 shadow-lg group-hover:bg-orange-500 group-hover:text-white transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg></button></td>
-                `;
-                tableBody.appendChild(tr);
-            });
-        }
-
         function openModal(part) {
             currentPartForAI = part;
             document.getElementById('modal-id').innerText = part.id;
@@ -877,7 +888,6 @@
             diffEl.innerText = 'Dificultad: ' + part.diff;
             diffEl.className = `text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded border w-fit ${diffColors[part.diff]}`;
 
-            // Reset AI Prompt State
             document.getElementById('btn-generate-prompt').classList.remove('hidden');
             document.getElementById('ai-loading').classList.add('hidden');
             document.getElementById('ai-loading').classList.remove('flex');
@@ -941,43 +951,8 @@ Tu objetivo es guiar espacialmente a un ingeniero que va a croquizar la pieza de
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const ctx = document.getElementById('complexityChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: { 
-                    labels: ['Alta', 'Media', 'Baja'], 
-                    datasets: [{ 
-                        label: 'Número de Tareas',
-                        data: [11, 16, 3], 
-                        backgroundColor: ['rgba(239, 68, 68, 0.8)', 'rgba(249, 115, 22, 0.8)', 'rgba(34, 197, 94, 0.8)'],
-                        borderColor: ['#ef4444', '#f97316', '#22c55e'],
-                        borderWidth: 1,
-                        borderRadius: 6
-                    }] 
-                },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false,
-                    plugins: { 
-                        legend: { display: false } 
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: 'rgba(51, 65, 85, 0.4)' },
-                            ticks: { color: '#94a3b8', stepSize: 3 }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#cbd5e1', font: { weight: 'bold' } }
-                        }
-                    }
-                }
-            });
             showTab('eq1');
-            renderTable(partsData);
 
-            // Observador de Intersección para las animaciones Reveal
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -989,10 +964,333 @@ Tu objetivo es guiar espacialmente a un ingeniero que va a croquizar la pieza de
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         });
 
-        document.getElementById('filter-team').addEventListener('change', (e) => {
-            renderTable(partsData.filter(p => e.target.value === 'all' || p.team === e.target.value));
-        });
         document.addEventListener('keydown', e => { if(e.key === "Escape") closeModal(); });
+
+        // --- CONFIGURACIÓN GITHUB API ---
+        const GH_USER = 'eloysadto'; 
+        const GH_REPO = 'proyecto-dt';    
+        const GH_TOKEN = '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';    
+
+        // Variables Globales de Estado
+        let globalGithubIssues = [];
+
+        // Filtro del Tablero
+        document.getElementById('filter-team').addEventListener('change', () => {
+            renderKanban();
+        });
+
+        // --- LÓGICA DRAG & DROP PARA KANBAN ---
+        function allowDrop(ev) {
+            ev.preventDefault();
+            const col = ev.target.closest('div[id^="col-"]');
+            if(col) col.classList.add('bg-slate-800/40');
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.currentTarget.id);
+            ev.currentTarget.classList.add('opacity-40', 'scale-95');
+        }
+
+        function dragEnd(ev) {
+            ev.currentTarget.classList.remove('opacity-40', 'scale-95');
+            document.querySelectorAll('div[id^="col-"]').forEach(c => c.classList.remove('bg-slate-800/40'));
+        }
+
+        async function drop(ev, status) {
+            ev.preventDefault();
+            document.querySelectorAll('div[id^="col-"]').forEach(c => c.classList.remove('bg-slate-800/40'));
+            
+            const data = ev.dataTransfer.getData("text");
+            const card = document.getElementById(data);
+            const targetCol = document.getElementById('col-' + status);
+            
+            if(card && targetCol) {
+                targetCol.appendChild(card);
+                updateKanbanCounts();
+                
+                if (GH_TOKEN === 'TU_TOKEN_AQUI') return;
+                
+                const issueNumber = parseInt(data.split('-')[1]);
+                
+                let githubLabel = 'sinhacer';
+                if (status === 'inprog') githubLabel = 'enprogreso';
+                if (status === 'done') githubLabel = 'hecho';
+
+                // Actualizar la variable local para que no de saltos si cambias el filtro antes de recargar
+                const issueIndex = globalGithubIssues.findIndex(i => i.number === issueNumber);
+                if (issueIndex > -1) {
+                    globalGithubIssues[issueIndex].labels = [{ name: githubLabel }];
+                }
+
+                try {
+                    await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': `token ${GH_TOKEN}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ labels: [githubLabel] })
+                    });
+                } catch (error) {
+                    console.error("❌ Error actualizando GitHub:", error);
+                }
+            }
+        }
+        
+        function updateKanbanCounts() {
+            document.getElementById('count-todo').innerText = document.getElementById('col-todo').children.length;
+            document.getElementById('count-inprog').innerText = document.getElementById('col-inprog').children.length;
+            document.getElementById('count-done').innerText = document.getElementById('col-done').children.length;
+        }
+
+        // --- FUNCIÓN PARA LIMPIAR (CERRAR) TODOS LOS ISSUES ---
+        async function promptClearIssues() {
+            const pwd = prompt("Introduce la contraseña de Director para eliminar (cerrar) todos los issues actuales del tablero:");
+            if (pwd === "eloysadtodirector") {
+                clearAllIssues();
+            } else if (pwd !== null) {
+                alert("❌ Contraseña incorrecta.");
+            }
+        }
+
+        async function clearAllIssues() {
+            if (!GH_TOKEN) {
+                alert("❌ Faltan las credenciales de GitHub.");
+                return;
+            }
+
+            if(!confirm("⚠️ PELIGRO: Esto archivará TODOS los issues abiertos en tu repositorio de GitHub y vaciará el tablero. ¿Estás seguro?")) return;
+
+            const btn = document.getElementById('btn-clear-issues');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<svg class="animate-spin h-4 w-4 text-red-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Limpiando...`;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues?state=open&per_page=100`, {
+                    headers: { 'Authorization': `token ${GH_TOKEN}` }
+                });
+                
+                if (!response.ok) throw new Error("Error al leer los issues");
+                const issues = await response.json();
+                
+                let cerrados = 0;
+                for (const issue of issues) {
+                    if (issue.pull_request) continue;
+                    
+                    await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': `token ${GH_TOKEN}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ state: 'closed' })
+                    });
+                    cerrados++;
+                    await new Promise(r => setTimeout(r, 300));
+                }
+
+                alert(`🗑️ Limpieza completa. Se han eliminado (cerrado) ${cerrados} tareas.`);
+            } catch(e) {
+                console.error("Error al limpiar:", e);
+                alert("Hubo un error al limpiar los issues. Revisa la consola.");
+            }
+            
+            btn.innerHTML = originalText;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            btn.disabled = false;
+            
+            initKanban(); 
+        }
+
+        // --- FUNCIÓN MÁGICA PARA CREAR LOS 30 ISSUES ---
+        async function promptCreateIssues() {
+            const pwd = prompt("Introduce la contraseña de Director para autogenerar los issues:");
+            if (pwd === "eloysadtodirector") {
+                createAllIssues();
+            } else if (pwd !== null) {
+                alert("❌ Contraseña incorrecta.");
+            }
+        }
+
+        async function createAllIssues() {
+            if (!GH_TOKEN) {
+                alert("❌ Primero debes poner tu GH_USER, GH_REPO y GH_TOKEN en el código fuente.");
+                return;
+            }
+
+            if(!confirm("⚠️ ¿Estás seguro? Esto creará 30 issues nuevos en tu repositorio de GitHub. ¡No lo pulses dos veces seguidas o las duplicarás!")) return;
+
+            const btn = document.getElementById('btn-auto-issues');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Creando...`;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            btn.disabled = true;
+
+            let creados = 0;
+
+            for (const part of partsData) {
+                const issueBody = `**Subsistema:** ${part.subsys}\n**Equipo:** ${part.team}\n**Puesto:** ${part.assigned}\n**Alumno/a:** ${part.personName}\n**Dificultad:** ${part.diff}\n\n### Descripción de Ingeniería\n${part.desc}\n\n*Referencia de búsqueda: \`${part.search}\`*\n\n---\n*Generado automáticamente desde Dashboard PEL.*`;
+
+                const issueData = {
+                    title: `[${part.id}] ${part.name}`,
+                    body: issueBody,
+                    labels: ['sinhacer'] 
+                };
+
+                try {
+                    const response = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `token ${GH_TOKEN}`,
+                            'Accept': 'application/vnd.github.v3+json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(issueData)
+                    });
+                    
+                    if(response.ok) creados++;
+                    await new Promise(r => setTimeout(r, 400)); 
+                    
+                } catch(e) {
+                    console.error(`Error creando la pieza ${part.id}:`, e);
+                }
+            }
+
+            alert(`✅ ¡Éxito! Se han creado ${creados} tareas en GitHub.`);
+            btn.innerHTML = originalText;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            btn.disabled = false;
+            
+            initKanban(); 
+        }
+
+        // --- RENDERIZADO DEL KANBAN ---
+        function renderKanban() {
+            const filterValue = document.getElementById('filter-team').value;
+            const todoCol = document.getElementById('col-todo');
+            const inprogCol = document.getElementById('col-inprog');
+            const doneCol = document.getElementById('col-done');
+
+            todoCol.innerHTML = ''; inprogCol.innerHTML = ''; doneCol.innerHTML = '';
+
+            if (globalGithubIssues.length === 0) {
+                todoCol.innerHTML = '<p class="text-xs text-slate-500">No hay tareas o estás esperando carga.</p>';
+                updateKanbanCounts();
+                return;
+            }
+
+            globalGithubIssues.forEach(issue => {
+                if (issue.pull_request) return; 
+
+                // Extraer el ID para cruzarlo con nuestros datos y filtros
+                const issueIdMatch = issue.title.match(/\[(.*?)\]/);
+                const partId = issueIdMatch ? issueIdMatch[1] : null;
+                const partInfo = partsData.find(p => p.id === partId);
+
+                // Aplicar Filtro de equipo
+                const team = partInfo ? partInfo.team : 'Otros';
+                if (filterValue !== 'all' && team !== filterValue) return;
+
+                // En qué columna va
+                let state = 'todo'; 
+                const labels = issue.labels.map(l => l.name.toLowerCase()); 
+                if (labels.includes('enprogreso') || labels.includes('en progreso')) state = 'inprog';
+                if (labels.includes('hecho')) state = 'done';
+
+                const card = document.createElement('div');
+                card.id = `issue-${issue.number}`;
+                card.draggable = true;
+                card.ondragstart = drag;
+                card.ondragend = dragEnd;
+                // Le añadimos cursor-pointer para que se sepa que es clickeable
+                card.className = "bg-slate-800/80 p-5 rounded-2xl border border-slate-700 cursor-grab active:cursor-grabbing hover:border-orange-500/50 hover:bg-slate-800 transition-all shadow-lg select-none group relative overflow-hidden";
+                
+                // Hacer la tarjeta clickeable para abrir el modal (evitando que choque con el drag)
+                card.addEventListener('click', (e) => {
+                    if (partInfo) openModal(partInfo);
+                });
+
+                const studentName = partInfo && partInfo.personName && partInfo.personName !== '-' ? partInfo.personName : 'Sin asignar';
+                const initials = studentName !== 'Sin asignar' ? studentName.substring(0, 2).toUpperCase() : '??';
+
+                const avatarHtml = issue.assignee 
+                    ? `<img src="${issue.assignee.avatar_url}" class="w-6 h-6 rounded-full border border-slate-600 shadow-sm" alt="Avatar">`
+                    : `<div class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-[9px] font-bold text-slate-300 border border-slate-600">${initials}</div>`;
+
+                const cleanTitle = issue.title.replace(/\[.*?\]\s*/, '');
+                
+                const diffHtml = partInfo 
+                    ? `<span class="text-[9px] font-bold uppercase px-2 py-0.5 rounded border tracking-widest ${diffColors[partInfo.diff]}">${partInfo.diff}</span>`
+                    : ``;
+                
+                const subsysHtml = partInfo
+                    ? `<p class="text-[9px] text-slate-400 uppercase tracking-widest truncate mb-4">${partInfo.subsys}</p>`
+                    : `<p class="mb-4"></p>`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] font-mono font-bold text-slate-500">#${issue.number} <span class="text-slate-700 mx-1">|</span> <span class="text-orange-500/80">${partId || 'Manual'}</span></span>
+                        ${diffHtml}
+                    </div>
+                    <h4 class="text-sm font-bold text-slate-200 mb-1 leading-tight group-hover:text-orange-400 transition-colors">${cleanTitle}</h4>
+                    ${subsysHtml}
+                    <div class="flex items-center gap-3 border-t border-slate-700/50 pt-3 mt-auto relative z-10">
+                        ${avatarHtml}
+                        <span class="text-xs text-slate-300 font-medium truncate">${studentName}</span>
+                    </div>
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-slate-900/80 p-3 rounded-full backdrop-blur-sm border border-slate-700 shadow-2xl">
+                        <span class="text-2xl">👁️</span>
+                    </div>
+                `;
+
+                if(state === 'todo') todoCol.appendChild(card);
+                else if(state === 'inprog') inprogCol.appendChild(card);
+                else doneCol.appendChild(card);
+            });
+            
+            updateKanbanCounts();
+        }
+
+        // --- OBTENCIÓN INICIAL DE DATOS ---
+        async function initKanban() {
+            const todoCol = document.getElementById('col-todo');
+            const inprogCol = document.getElementById('col-inprog');
+            const doneCol = document.getElementById('col-done');
+
+            if (!GH_TOKEN) {
+                todoCol.innerHTML = '<div class="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-xs">⚠️ Configura tu GH_TOKEN en el código.</div>';
+                return;
+            }
+
+            todoCol.innerHTML = '<p class="text-xs text-slate-500 font-mono animate-pulse">Sincronizando con GitHub...</p>';
+            inprogCol.innerHTML = ''; doneCol.innerHTML = '';
+            
+            try {
+                const response = await fetch(`https://api.github.com/repos/${GH_USER.trim()}/${GH_REPO.trim()}/issues?state=open&per_page=100&t=${Date.now()}`, {
+                    headers: { 
+                        'Authorization': `token ${GH_TOKEN.trim()}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(`Código ${response.status}: ${errorData.message || 'Error de conexión'}`);
+                }
+                
+                globalGithubIssues = await response.json();
+                renderKanban();
+
+            } catch (error) {
+                todoCol.innerHTML = `<div class="p-4 bg-red-500/10 border border-red-500/20 rounded-xl"><p class="text-xs text-red-400 font-bold mb-1">❌ Error de conexión</p><p class="text-[10px] text-red-300/80 font-mono">${error.message}</p></div>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initKanban);
+
     </script>
 </body>
 </html>
