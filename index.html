@@ -929,6 +929,13 @@
                 }
 
                 targetCol.appendChild(card);
+                
+                // NUEVO: Destruir el botón de descarga si la tarjeta se saca de la columna "Hecho"
+                const btnDescarga = card.querySelector('a[download]');
+                if (btnDescarga) {
+                    btnDescarga.remove();
+                }
+
                 updateKanbanCounts();
                 
                 let githubLabel = 'sinhacer';
