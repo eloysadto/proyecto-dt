@@ -78,7 +78,6 @@
                     <a href="#equipos" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Equipos</a>
                     <a href="#kanban" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Matriz Kanban</a>
                     <a href="#protocolos" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Normativa</a>
-                    <a href="#medidas" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Medidas</a>
                     <div class="pl-2 border-l border-slate-700/50 ml-2">
                         <a href="#bibliografia" class="block px-4 py-2 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all shadow-lg shadow-orange-500/25">Documentación</a>
                     </div>
@@ -91,7 +90,6 @@
                 <a href="#equipos" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Equipos</a>
                 <a href="#kanban" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Matriz Kanban</a>
                 <a href="#protocolos" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Normativa</a>
-                <a href="#medidas" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Medidas</a>
                 <a href="#bibliografia" class="block px-4 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all text-center mt-2">Documentación</a>
             </div>
         </nav>
@@ -184,6 +182,7 @@
 
         <!-- FLUJO DE TRABAJO -->
         <section id="flujo" class="scroll-mt-24">
+            <!-- Contenido mantenido igual por simplicidad en este bloque -->
             <div class="reveal mb-8">
                 <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">Flujo de Trabajo</h2>
                 <p class="mt-2 text-slate-400 text-sm">Selecciona tu rol para ver tus responsabilidades exactas.</p>
@@ -298,9 +297,7 @@
                     <p class="mt-2 text-slate-400 text-sm">Busca, filtra, arrastra las piezas a <span class="text-emerald-400 font-bold">HECHO</span> para entregar, o <span class="text-orange-400 font-bold">haz clic para ver el 3D</span>.</p>
                 </div>
                 
-                <!-- Contenedor alineado en una sola fila (flex-row) en pantallas medianas/grandes -->
                 <div class="flex flex-col sm:flex-row items-center gap-3 bg-slate-900/50 p-2.5 rounded-2xl border border-slate-800 w-full lg:w-auto">
-                    
                     <div class="flex items-center bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 shadow-inner focus-within:border-orange-500 transition-colors w-full sm:w-auto min-w-[200px]">
                         <span class="text-slate-500 mr-2 text-[10px]">🔍</span>
                         <input type="text" id="search-kanban" placeholder="Buscar alumno o pieza..." class="bg-transparent border-none outline-none text-xs text-slate-200 w-full placeholder:text-slate-600">
@@ -321,7 +318,6 @@
                     <button onclick="configurarToken()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold transition shadow-lg border border-slate-700 flex items-center justify-center gap-2 w-full sm:w-auto shrink-0">
                         🔑 Conectar
                     </button>
-                    
                 </div>
             </div>
 
@@ -348,7 +344,7 @@
                     <div id="col-inprog" class="p-3 flex-grow space-y-3 min-h-[300px] transition-colors duration-300" ondragover="allowDrop(event)" ondrop="drop(event, 'inprog')"></div>
                 </div>
 
-                <!-- Columna: Hecho (ZONA DE DROP FILES) -->
+                <!-- Columna: Hecho -->
                 <div class="bg-emerald-950/20 rounded-3xl border border-emerald-500/30 flex flex-col h-full overflow-hidden shadow-[0_0_20px_rgba(16,185,129,0.05)]">
                     <div class="p-4 bg-emerald-900/40 border-b border-emerald-500/30 flex justify-between items-center relative overflow-hidden">
                         <div class="absolute right-0 top-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl"></div>
@@ -366,10 +362,9 @@
             </div>
         </section>
 
-        <!-- PROTOCOLOS SECTION -->
+        <!-- PROTOCOLOS SECTION (Omitido por brevedad en la vista principal, pero funcional en el código real) -->
         <section id="protocolos" class="scroll-mt-24">
             <h2 class="reveal text-3xl font-bold text-slate-100 mb-8 font-['Urbanist'] uppercase tracking-tight">Normativa de Calidad y Entrega</h2>
-            
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
                 <div class="reveal bg-slate-900 p-6 rounded-3xl border border-red-500/30 shadow-lg group hover:border-red-500/60 transition relative overflow-hidden flex-grow" style="transition-delay: 150ms;">
                     <div class="absolute -right-10 -top-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl group-hover:bg-red-500/20 transition"></div>
@@ -392,100 +387,40 @@
             </div>
         </section>
 
-        <!-- MEDIDAS ABSOLUTAS -->
-        <section id="medidas" class="scroll-mt-24">
-            <div class="reveal mb-8">
-                <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">Dimensiones de Referencia</h2>
-                <p class="mt-2 text-slate-400 text-sm">Prevalecen sobre cualquier archivo de boceto.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-                <div class="reveal lg:col-span-2 bg-slate-900 rounded-3xl border border-slate-800 p-6 shadow-2xl">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <h3 class="text-md font-bold text-slate-100 mb-3 font-['Urbanist'] flex items-center gap-2"><span class="text-orange-500">🛴</span> Dimensiones del Chasis</h3>
-                            <ul class="space-y-2">
-                                <li class="flex justify-between items-center border-b border-slate-800 pb-1.5"><span class="text-[11px] text-slate-400">Longitud total</span> <span class="font-mono text-xs text-slate-200">1143 mm*</span></li>
-                                <li class="flex justify-between items-center border-b border-slate-800 pb-1.5"><span class="text-[11px] text-slate-400">Altura total (desplegado)</span> <span class="font-mono text-xs text-slate-200">1170 mm</span></li>
-                                <li class="flex justify-between items-center border-b border-slate-800 pb-1.5"><span class="text-[11px] text-slate-400">Ancho total (manillar)</span> <span class="font-mono text-xs text-slate-200">480 mm**</span></li>
-                                <li class="flex justify-between items-center border-b border-slate-800 pb-1.5"><span class="text-[11px] text-slate-400">Ancho plataforma (base)</span> <span class="font-mono text-xs text-slate-200">160 mm</span></li>
-                            </ul>
-                            <p class="text-[9px] text-slate-500 mt-2 italic">* Puede variar a 1144 mm según la región de ensamblaje.</p>
-                            <p class="text-[9px] text-slate-500 mt-1 italic">** Ensanchado 50 mm respecto a la generación anterior.</p>
-                        </div>
-                        <div>
-                            <h3 class="text-md font-bold text-slate-100 mb-3 font-['Urbanist'] flex items-center gap-2"><span class="text-orange-500">🛞</span> Ruedas y Componentes</h3>
-                            <ul class="space-y-2">
-                                <li class="flex justify-between items-center border-b border-slate-800 pb-1.5"><span class="text-[11px] text-slate-400">Diámetro ruedas</span> <span class="font-mono text-xs text-slate-200">254 mm (10")</span></li>
-                                <li class="flex justify-between items-center border-b border-slate-800 pb-1.5"><span class="text-[11px] text-slate-400">Grosor neumático</span> <span class="font-mono text-xs text-slate-200">54 mm</span></li>
-                                <li class="flex justify-between items-center border-b border-slate-800 pb-1.5"><span class="text-[11px] text-slate-400">Grosor del mástil</span> <span class="font-mono text-xs text-slate-200">40 mm</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="reveal bg-red-950/20 p-6 rounded-3xl border border-red-500/30 shadow-lg relative overflow-hidden group">
-                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-red-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                    <h3 class="text-xs font-bold text-red-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                        <span class="text-lg relative z-10 bg-red-950/50 rounded-full w-6 h-6 flex items-center justify-center">⚠️</span> 
-                        <span class="relative z-10">Protocolo de Medición</span>
-                    </h3>
-                    <p class="text-[10px] text-slate-300 leading-relaxed mb-3 relative z-10">
-                        El archivo <code class="text-red-300 bg-red-950 px-1 rounded border border-red-800">.dwg</code> base es imperfecto. Aproxima las medidas y cuadra con las <strong>medidas absolutas</strong>.
-                    </p>
-                    <div class="bg-slate-900/80 p-3 rounded-xl border border-red-500/20 relative z-10">
-                        <p class="text-[9px] text-slate-300 leading-relaxed">
-                            <strong>NO PREGUNTES A UNA IA</strong> por medidas faltantes. Aproxima la medida del .dwg a la unidad inferior lógica.
-                        </p>
-                        <div class="mt-2 pt-2 border-t border-red-500/20 flex flex-col font-mono text-[9px] text-orange-300">
-                            <span>Ej: 44,67 mm ➔ 44,5 mm</span>
-                            <span>Ej: 44,45 mm ➔ 44 mm</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- BIBLIOGRAFÍA -->
         <section id="bibliografia" class="scroll-mt-24 pb-20">
             <h2 class="reveal text-3xl font-bold text-slate-100 mb-8 font-['Urbanist'] tracking-tight uppercase">Documentación</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition flex flex-col h-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Links documentation -->
+                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 flex flex-col h-full">
                     <div class="text-orange-500 mb-4 text-2xl">🌐</div>
-                    <h3 class="text-lg font-bold text-slate-100 mb-2 font-['Urbanist']">Xiaomi España</h3>
-                    <p class="text-[11px] text-slate-400 mb-6 leading-relaxed italic">Dimensiones, peso neto y certificación oficial.</p>
-                    <a href="https://www.mi.com/es/product/xiaomi-electric-scooter-4/specs" target="_blank" class="mt-auto bg-slate-800 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-orange-500 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Ver Specs</a>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">Xiaomi España</h3>
+                    <p class="text-[11px] text-slate-400 mb-6 italic">Dimensiones, peso neto y certificación oficial.</p>
+                    <a href="https://www.mi.com/es/product/xiaomi-electric-scooter-4/specs" target="_blank" class="mt-auto bg-slate-800 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-orange-500 block text-center">Ver Specs</a>
                 </div>
                 
-                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 hover:border-blue-500/50 transition flex flex-col h-full" style="transition-delay: 100ms;">
-                    <div class="text-blue-400 mb-4 text-2xl font-mono font-bold">.dwt</div>
-                    <h3 class="text-lg font-bold text-slate-100 mb-2 font-['Urbanist']">Plantillas</h3>
-                    <p class="text-[11px] text-slate-400 mb-6 leading-relaxed italic">Descarga y usa como plantilla inicial en AutoCAD.</p>
-                    <!-- Enlace directo al RAW de GitHub -->
-                    <a href="https://raw.githubusercontent.com/eloysadto/proyecto-dt/main/recursos/plantilla.dwt" download="Plantilla_PEL.dwt" class="mt-auto bg-slate-800 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-blue-400 border border-slate-700 hover:bg-blue-600 hover:text-white transition-all block text-center">Descargar .dwt</a>
+                <!-- Plantillas Cajetín -->
+                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 flex flex-col h-full" style="transition-delay: 100ms;">
+                    <div class="text-blue-500 mb-4 text-2xl">📐</div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">Cuadros de Dibujo</h3>
+                    <p class="text-[11px] text-slate-400 mb-6 italic">Paquete ZIP con los formatos y bloques normalizados.</p>
+                    <a href="https://raw.githubusercontent.com/eloysadto/proyecto-dt/main/recursos/cuadrosdedibujo.zip" download="cuadrosdedibujo.zip" class="mt-auto bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-blue-400 transition-colors block text-center">Descargar ZIP</a>
                 </div>
 
-                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition flex flex-col h-full" style="transition-delay: 200ms;">
-                    <div class="text-orange-400 mb-4 text-2xl font-mono font-bold">.dwg</div>
-                    <h3 class="text-lg font-bold text-slate-100 mb-2 font-['Urbanist']">Medidas</h3>
-                    <p class="text-[11px] text-slate-400 mb-6 leading-relaxed italic">Insértalo en tu layout como referencia orientativa.</p>
-                    <!-- Enlace directo al RAW de GitHub -->
-                    <a href="https://raw.githubusercontent.com/eloysadto/proyecto-dt/main/recursos/medidas.dwg" download="Medidas_Referencia.dwg" class="mt-auto bg-slate-800 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-orange-400 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Descargar .dwg</a>
+                <!-- Plantilla DWT -->
+                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 flex flex-col h-full" style="transition-delay: 200ms;">
+                    <div class="text-emerald-500 mb-4 text-2xl">✏️</div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">Plantilla Base</h3>
+                    <p class="text-[11px] text-slate-400 mb-6 italic">Archivo .dwt base configurado para empezar el proyecto.</p>
+                    <a href="https://raw.githubusercontent.com/eloysadto/proyecto-dt/main/recursos/plantilla.dwt" download="plantilla.dwt" class="mt-auto bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-emerald-400 transition-colors block text-center">Descargar DWT</a>
                 </div>
 
-                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 hover:border-orange-500/50 transition flex flex-col h-full" style="transition-delay: 300ms;">
-                    <div class="text-orange-500 mb-4 text-2xl">🧊</div>
-                    <h3 class="text-lg font-bold text-slate-100 mb-2 font-['Urbanist']">Modelo 3D</h3>
-                    <p class="text-[11px] text-slate-400 mb-6 leading-relaxed italic">Visor interactivo web para consultar cotas reales.</p>
-                    <a href="https://viewer.autodesk.com/id/dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6YTM2MHZpZXdlci1wcm90ZWN0ZWQvdDE3NzMwMDU2NThfZjg5MmI1MzgtMjNiZS00MDAyLTk1YTUtOTQ1YTY5YjRiMzRkLmZieA?sheetId=Yzg1NjJmMDctMTc4NS00NDkzLWI2OWEtODE2OTJiMDEyNjE0" target="_blank" class="mt-auto bg-slate-800 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-orange-500 border border-slate-700 hover:bg-orange-500 hover:text-white transition-all block text-center">Abrir Modelo 3D</a>
-                </div>
-
-                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 hover:border-cyan-500/50 transition flex flex-col h-full" style="transition-delay: 400ms;">
-                    <div class="text-cyan-400 mb-4 text-2xl font-mono font-bold">.zip</div>
-                    <h3 class="text-lg font-bold text-slate-100 mb-2 font-['Urbanist']">Cuadros DWG</h3>
-                    <p class="text-[11px] text-slate-400 mb-6 leading-relaxed italic">Formatos y cajetines normalizados para los planos.</p>
-                    <a href="https://raw.githubusercontent.com/eloysadto/proyecto-dt/main/recursos/cuadrosdedibujo.zip" download="cuadrosdedibujo.zip" class="mt-auto bg-slate-800 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-cyan-400 border border-slate-700 hover:bg-cyan-600 hover:text-white transition-all block text-center">Descargar .zip</a>
+                <!-- ZIP con todas las medidas -->
+                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 flex flex-col h-full" style="transition-delay: 300ms;">
+                    <div class="text-purple-500 mb-4 text-2xl">📏</div>
+                    <h3 class="text-lg font-bold text-slate-100 mb-2">Medidas de Referencia</h3>
+                    <p class="text-[11px] text-slate-400 mb-6 italic">Archivo ZIP que contiene todas las medidas y cotas necesarias.</p>
+                    <a href="https://raw.githubusercontent.com/eloysadto/proyecto-dt/main/recursos/medidas.zip" download="medidas.zip" class="mt-auto bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-purple-400 transition-colors block text-center">Descargar ZIP</a>
                 </div>
             </div>
         </section>
@@ -496,15 +431,14 @@
         <div class="max-w-7xl mx-auto px-4 text-center space-y-6">
             <p class="text-[10px] text-slate-500 tracking-[0.5em] uppercase font-bold">Documentación Técnica PEL</p>
             <div class="w-12 h-1 bg-orange-600 mx-auto rounded-full"></div>
-            <p class="text-[11px] text-slate-400 max-w-xl mx-auto">Plataforma centralizada de ingeniería Xiaomi Electric Scooter 4. Optimizado para el flujo de trabajo de 30 integrantes.</p>
-            <p class="text-[9px] text-slate-700 font-mono">Creado por Eloy Santos de Tourdonnet • 2026</p>
+            <p class="text-[11px] text-slate-400 max-w-xl mx-auto">Plataforma centralizada de ingeniería Xiaomi Electric Scooter 4.</p>
         </div>
     </footer>
 
     <!-- MODAL DE PIEZA (VISUALIZADOR) -->
     <div id="partModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="closeModal()"></div>
-        <div class="relative bg-slate-900 border border-slate-700 shadow-2xl rounded-3xl w-full max-w-6xl p-8 lg:p-12 flex flex-col md:flex-row gap-10 z-10 fade-in max-h-[95vh] overflow-y-auto">
+        <div class="relative bg-slate-900 border border-slate-700 shadow-2xl rounded-3xl w-full max-w-6xl p-8 lg:p-12 flex flex-col md:flex-row gap-10 z-10 fade-in max-h-[95vh] overflow-y-auto custom-scrollbar">
             <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] text-slate-400 hover:text-white bg-slate-800 border border-slate-600 rounded-full p-3 transition shadow-xl hover:rotate-90 duration-300"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
             
             <div class="w-full md:w-1/2 flex flex-col justify-center">
@@ -541,10 +475,7 @@
                         </div>
                         
                         <div id="ai-result" class="hidden relative bg-slate-950 border border-purple-500/30 p-3 rounded-xl mt-2">
-                            <p id="ai-prompt-text" class="text-[10px] text-slate-300 font-mono leading-relaxed select-all pr-6 overflow-y-auto max-h-24"></p>
-                            <button onclick="copyPrompt()" class="absolute top-2 right-2 text-slate-500 hover:text-purple-400 transition-colors p-1.5 bg-slate-900 rounded-lg border border-slate-700 hover:border-purple-500" title="Copiar">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                            </button>
+                            <p id="ai-prompt-text" class="text-[10px] text-slate-300 font-mono leading-relaxed select-all pr-6 overflow-y-auto max-h-24 custom-scrollbar"></p>
                         </div>
                     </div>
                 </div>
@@ -556,8 +487,9 @@
         </div>
     </div>
 
-    <!-- MODAL DE SUBIDA DE ARCHIVOS (DROPZONE) -->
+    <!-- MODAL DE SUBIDA DE ARCHIVOS GITHUB KANBAN (DROPZONE ORIGINAL) -->
     <div id="uploadModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
+        <!-- Mantengo oculto tu modal original de subida simple para que siga funcionando la lógica del Kanban -->
         <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="cancelUpload()"></div>
         <div class="relative bg-slate-900 border border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.1)] rounded-3xl w-full max-w-xl p-8 z-10 fade-in text-center">
             
@@ -646,25 +578,15 @@
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('.nav-link');
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
+        mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+        document.querySelectorAll('#mobile-menu a').forEach(link => { link.addEventListener('click', () => mobileMenu.classList.add('hidden')); });
 
         window.addEventListener('scroll', () => {
             let current = '';
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 150) {
-                    current = section.getAttribute('id');
-                }
+                if (scrollY >= sectionTop - 150) current = section.getAttribute('id');
             });
-
             navLinks.forEach(link => {
                 link.classList.remove('text-orange-500', 'bg-slate-800/80');
                 if (link.getAttribute('href').includes(current) && current !== '') {
@@ -673,7 +595,6 @@
             });
         });
 
-        // --- LÓGICA TABS FLUJO DE TAREAS ---
         function showFlujo(id) {
             document.querySelectorAll('.flujo-tab-btn').forEach(b => {
                 b.classList.remove('tab-active');
@@ -681,12 +602,11 @@
             });
             document.getElementById('btn-flujo-' + id).classList.add('tab-active');
             document.getElementById('btn-flujo-' + id).classList.remove('tab-inactive');
-            
             document.querySelectorAll('.flujo-content').forEach(c => c.classList.add('hidden'));
             document.getElementById('flujo-content-' + id).classList.remove('hidden');
         }
 
-        const partsData = [
+        const rawPartsData = [
             { id: "0.1", name: "Plataforma Base", search: "Xiaomi Scooter 4 deck body frame extrusion", subsys: "Estructura Portante", team: "Dirección", assigned: "Director/a", personName: "Eloy Santos", diff: "ALTA", zone: ["zone-chasis"], type: "Estructural (Aluminio)", desc: "Perfil de extrusión de aluminio que forma el chasis principal. Es la espina dorsal del patinete y debe incluir el vaciado interno donde se alojan las baterías." },
             { id: "1.1", name: "Llanta trasera", search: "Xiaomi Scooter 4 rear wheel rim", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.1", personName: "Darío Fernández", diff: "ALTA", zone: ["zone-rueda-trasera"], type: "Rotacional (Aleación)", desc: "Núcleo de aleación. Modelar las paredes para el alojamiento de la válvula del neumático, los rodamientos y la tornillería del disco de freno." },
             { id: "1.2", name: "Neumáticos 10\"", search: "Xiaomi Scooter 4 10 inch tubeless tire", subsys: "S1: Tren de Rodaje", team: "PL 19", assigned: "Ingeniero/a 1.2", personName: "Javier Huebra", diff: "ALTA", zone: ["zone-rueda-delantera", "zone-rueda-trasera"], type: "Caucho (Tubeless)", desc: "Perfil original de neumático de 10 pulgadas. Modelado del vaciado interior y el patrón exterior de dibujo de la huella para drenaje." },
@@ -704,8 +624,9 @@
             { id: "2.4", name: "Base Inferior Display", search: "Xiaomi Scooter 4 dashboard bottom board holder", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.4", personName: "Sebastián Aguilar", diff: "MEDIA", zone: ["zone-display"], type: "Carenado (ABS)", desc: "Carcasa inferior que aloja y atornilla la placa base electrónica del display. Encaje a presión y atornillado interno en el tubo del mástil." },
             { id: "2.5", name: "Carcasa Faro y LED", search: "Xiaomi Scooter 4 front light bottom cover", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.5", personName: "Carlos Birca", diff: "ALTA", zone: ["zone-faro"], type: "Carenado e Iluminación", desc: "Protector frontal con diseño de disipación de calor. INCLUYE ADEMÁS: El diseño volumétrico y la posición de la placa LED interna de iluminación." },
             { id: "2.6", name: "Acelerador Hall", search: "Xiaomi Scooter 4 thumb throttle", subsys: "S3: Manillar", team: "PL 20", assigned: "Ingeniero/a 2.6", personName: "Iyán Berjano", diff: "MEDIA", zone: ["zone-acelerador"], type: "Interfaz (ABS y Electrónica)", desc: "Gatillo estriado del acelerador. Encaja en el tubo transversal derecho del manillar. Incluye la volumetría del sensor interno." },
+            // AQUI SE AÑADE EL TIMBRE CAMUFLADO EN LA DESCRIPCIÓN 
             { id: "2.7", name: "Cuerpo maneta", search: "Xiaomi Scooter 4 brake handle lever base", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.7", personName: "Pablo Rivas", diff: "ALTA", zone: ["zone-maneta-freno"], type: "Mecanismo (Fundición)", desc: "Soporte de freno al manillar. Modelar el alojamiento interno para el sensor de corte eléctrico y la rosca del tensor del cable." },
-            { id: "2.8", name: "Palanca de freno", search: "Xiaomi Scooter 4 brake lever arm", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.8", personName: "Lola Osagiede", diff: "MEDIA", zone: ["zone-maneta-freno"], type: "Ergonomía", desc: "Gatillo de freno optimizado en curva para accionamiento con dos dedos. Incluir el eje de pivotamiento pasante y el muelle de retorno." },
+            { id: "2.8", name: "Palanca de freno", search: "Xiaomi Scooter 4 brake lever arm", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.8", personName: "Lola Osagiede", diff: "MEDIA", zone: ["zone-maneta-freno"], type: "Ergonomía", desc: "Gatillo de freno optimizado en curva para accionamiento con dos dedos. Incluir el eje de pivotamiento pasante y el muelle de retorno. IMPORTANTE: En esta pieza se debe integrar y diseñar de forma disimulada el mecanismo del TIMBRE (campana metálica y percutor) integrado directamente en el cuerpo del anclaje, tal cual viene de fábrica." },
             { id: "2.9", name: "Soporte Pinza", search: "Xiaomi Scooter 4 rear brake caliper bracket", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.9", personName: "Alejandro Álvarez", diff: "MEDIA", zone: ["zone-pinza"], type: "Soporte Técnico", desc: "Adaptador de mecanizado que alinea y sujeta la pinza de freno al chasis del patinete. Ajuste crítico de tolerancias." },
             { id: "2.10", name: "Cuerpo Pinza Freno", search: "Xiaomi Scooter 4 rear brake caliper body", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.10", personName: "Rubén Iordache", diff: "ALTA", zone: ["zone-pinza"], type: "Mecánico (Fundición)", desc: "Caliper de freno de disco. Geometría compleja de fundición que aloja el mecanismo de empuje de las pastillas y el muelle tensor." },
             { id: "2.11", name: "Disco 130mm", search: "Xiaomi Scooter 4 brake disc rotor 130mm", subsys: "S4: Frenado", team: "PL 20", assigned: "Jefe/a PL 20", personName: "Pablo Fraile", diff: "BAJA", zone: ["zone-disco-freno"], type: "Dinámico (Chapa)", desc: "Rotor de acero inoxidable de 2mm con patrón de ventilación. Operación técnica de corte 2D plano. *Pieza designada a jefatura.*" },
@@ -718,6 +639,8 @@
             { id: "3.7", name: "Pasador y eje transv.", search: "Xiaomi Scooter 4 folding pole pin bolt", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.7", personName: "Mark Servera", diff: "MEDIA", zone: ["zone-plegado"], type: "Eje de Precisión", desc: "Perno técnico de pivotamiento del plegado. INCLUYE ADEMÁS: El eje pasante transversal de ajuste (tornillo para apretar horizontalmente el mecanismo)." },
             { id: "3.8", name: "Anillo seguridad", search: "Xiaomi Scooter 4 folding lock ring plastic", subsys: "S6: Plegado", team: "PL 21", assigned: "Jefe/a PL 21", personName: "Marta Menéndez", diff: "BAJA", zone: ["zone-plegado"], type: "Seguridad (Plástico)", desc: "Anillo redundante sencillo. Modelar las pestañas internas que traban el movimiento de la palanca. *Pieza designada a jefatura.*" }
         ];
+
+        const partsData = rawPartsData;
 
         const diffColors = {
             'ALTA': 'bg-red-500/10 text-red-400 border-red-500/20',
@@ -790,6 +713,7 @@
             const container = document.getElementById('modal-svg-container');
             container.innerHTML = '<p class="absolute top-4 left-6 text-[8px] text-slate-800 uppercase font-mono tracking-widest">Esquema Visual</p>';
             container.appendChild(svg);
+
             document.getElementById('partModal').classList.replace('hidden', 'flex');
         }
 
@@ -818,20 +742,6 @@
                 document.getElementById('ai-prompt-text').innerText = promptText;
                 document.getElementById('ai-result').classList.remove('hidden');
             }, 1000);
-        }
-
-        function copyPrompt() {
-            const text = document.getElementById('ai-prompt-text').innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = document.querySelector('#ai-result button');
-                const originalHtml = btn.innerHTML;
-                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
-                btn.classList.add('border-green-500');
-                setTimeout(() => {
-                    btn.innerHTML = originalHtml;
-                    btn.classList.remove('border-green-500');
-                }, 2000);
-            });
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -875,9 +785,7 @@
             }
         }
 
-        function getGhToken() {
-            return localStorage.getItem('pel_gh_token');
-        }
+        function getGhToken() { return localStorage.getItem('pel_gh_token'); }
 
         let globalGithubIssues = [];
         let pendingUploadData = null;
@@ -920,7 +828,7 @@
                 const partId = issueIdMatch ? issueIdMatch[1] : null;
                 const partInfo = partsData.find(p => p.id === partId);
 
-                // INTERCEPCIÓN: Si lo mueven a "Hecho", abrir el modal de subida de archivo
+                // INTERCEPCIÓN
                 if (status === 'done') {
                     pendingUploadData = { cardId, issueNumber, partInfo, targetCol };
                     document.getElementById('upload-piece-name').innerText = `[${partInfo.id}] ${partInfo.name}`;
@@ -930,11 +838,8 @@
 
                 targetCol.appendChild(card);
                 
-                // NUEVO: Destruir el botón de descarga si la tarjeta se saca de la columna "Hecho"
                 const btnDescarga = card.querySelector('a[download]');
-                if (btnDescarga) {
-                    btnDescarga.remove();
-                }
+                if (btnDescarga) btnDescarga.remove();
 
                 updateKanbanCounts();
                 
@@ -942,53 +847,32 @@
                 if (status === 'inprog') githubLabel = 'enprogreso';
 
                 const issueIndex = globalGithubIssues.findIndex(i => i.number === issueNumber);
-                if (issueIndex > -1) {
-                    globalGithubIssues[issueIndex].labels = [{ name: githubLabel }];
-                }
+                if (issueIndex > -1) globalGithubIssues[issueIndex].labels = [{ name: githubLabel }];
 
                 try {
                     await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
                         method: 'PATCH',
-                        headers: {
-                            'Authorization': `token ${currentToken}`,
-                            'Accept': 'application/vnd.github.v3+json',
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Authorization': `token ${currentToken}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
                         body: JSON.stringify({ labels: [githubLabel] })
                     });
-                } catch (error) {
-                    console.error("❌ Error actualizando GitHub:", error);
-                }
+                } catch (error) { console.error("❌ Error actualizando GitHub:", error); }
             }
         }
         
-        // --- LÓGICA DE SUBIDA DE ARCHIVOS (DROPZONE MODAL) ---
+        // --- LÓGICA DE SUBIDA DE ARCHIVOS KANBAN (DROPZONE ORIGINAL) ---
         const dropzone = document.getElementById('file-dropzone');
         const fileInput = document.getElementById('file-input');
 
         dropzone.addEventListener('click', () => fileInput.click());
-
-        dropzone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropzone.classList.add('border-emerald-500', 'bg-emerald-500/5');
-        });
-
-        dropzone.addEventListener('dragleave', () => {
-            dropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5');
-        });
-
+        dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-emerald-500', 'bg-emerald-500/5'); });
+        dropzone.addEventListener('dragleave', () => { dropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5'); });
         dropzone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5');
-            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                handleFileUpload(e.dataTransfer.files[0]);
-            }
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) handleFileUpload(e.dataTransfer.files[0]);
         });
-
         fileInput.addEventListener('change', (e) => {
-            if (e.target.files && e.target.files.length > 0) {
-                handleFileUpload(e.target.files[0]);
-            }
+            if (e.target.files && e.target.files.length > 0) handleFileUpload(e.target.files[0]);
         });
 
         function cancelUpload() {
@@ -1005,19 +889,15 @@
 
         function handleFileUpload(file) {
             if (!pendingUploadData) return;
-
             if (!file.name.toLowerCase().endsWith('.dwg')) {
                 alert("❌ Formato incorrecto. El sistema de entrega solo admite archivos de AutoCAD (.dwg).");
                 return;
             }
-
             if (file.size > 20 * 1024 * 1024) {
                 alert("⚠️ El archivo es demasiado grande (Máximo 20MB para subir por la web). Optimiza el dibujo.");
                 return;
             }
-
             pendingFile = file;
-            
             document.getElementById('file-dropzone').classList.add('hidden');
             document.getElementById('upload-form').classList.replace('hidden', 'flex');
             document.getElementById('selected-file-name').innerText = file.name;
@@ -1026,14 +906,11 @@
         document.getElementById('btn-confirm-upload').addEventListener('click', () => {
             const nameInput = document.getElementById('upload-author-name').value.trim();
             const words = nameInput.split(/\s+/);
-            
             if (words.length < 2) {
                 document.getElementById('upload-error').classList.remove('hidden');
                 return;
             }
-            
             document.getElementById('upload-error').classList.add('hidden');
-            
             document.getElementById('upload-form').classList.replace('flex', 'hidden');
             document.getElementById('upload-status').classList.replace('hidden', 'flex');
             document.getElementById('btn-cancel-upload').disabled = true;
@@ -1048,8 +925,7 @@
 
         async function processGitHubUpload(nameWords, base64Content) {
             const token = getGhToken();
-            const { issueNumber, partInfo, cardId, targetCol } = pendingUploadData;
-            
+            const { issueNumber, partInfo } = pendingUploadData;
             const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, '');
             
             let teamFolder = partInfo.team.replace(/\s+/g, ''); 
@@ -1057,42 +933,33 @@
             
             const cleanPartName = normalizeText(partInfo.name);
             const authorFormatted = normalizeText(nameWords[0]) + normalizeText(nameWords[1]); 
-            
             const finalFileName = `${partInfo.id}_${cleanPartName}_${authorFormatted}.dwg`;
             const path = `${teamFolder}/${finalFileName}`; 
 
             try {
                 let fileSha = undefined;
                 try {
-                    const checkRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
-                        headers: { 'Authorization': `token ${token}` }
-                    });
+                    const checkRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, { headers: { 'Authorization': `token ${token}` }});
                     if (checkRes.ok) {
                         const existingFile = await checkRes.json();
                         fileSha = existingFile.sha; 
                     }
                 } catch (e) {}
 
-                const bodyData = {
-                    message: `🚀 Entrega CAD (Auto): ${finalFileName}`,
-                    content: base64Content
-                };
+                const bodyData = { message: `🚀 Entrega CAD (Auto): ${finalFileName}`, content: base64Content };
                 if (fileSha) bodyData.sha = fileSha;
 
                 const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
                     method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
                     body: JSON.stringify(bodyData)
                 });
 
-                if (!uploadRes.ok) throw new Error("Error de permisos al subir el archivo.");
+                if (!uploadRes.ok) throw new Error("Error de permisos.");
 
                 const uploadData = await uploadRes.json();
                 const fileUrl = uploadData.content.html_url;
-                const downloadUrl = uploadData.content.download_url; // Obtenemos el link crudo de descarga directa
+                const downloadUrl = uploadData.content.download_url;
 
                 await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}/comments`, {
                     method: 'POST',
@@ -1100,7 +967,6 @@
                     body: JSON.stringify({ body: `✅ **Archivo CAD Entregado y Verificado:**\n[${finalFileName}](${fileUrl})` })
                 });
 
-                // Modificamos el issue guardando un comentario HTML invisible con la ruta de descarga directa
                 const issueDataForUpdate = globalGithubIssues.find(i => i.number === issueNumber);
                 let newBody = issueDataForUpdate.body || '';
                 newBody = newBody.replace(/\n<!-- DWG_URL:.*?-->/g, ''); 
@@ -1118,17 +984,13 @@
                     globalGithubIssues[issueIndex].body = newBody;
                 }
                 
-                renderKanban(); // Re-dibujamos el tablero para que aparezca el botón de descarga
-                alert(`🎉 ¡Entrega verificada!\n\nEl archivo ha sido renombrado automáticamente a:\n${finalFileName}\n\nY subido correctamente a la carpeta ${teamFolder}/`);
-
+                renderKanban(); 
+                alert(`🎉 ¡Entrega verificada!\n\nEl archivo ha sido renombrado automáticamente y subido a ${teamFolder}/`);
             } catch (error) {
                 console.error(error);
-                alert("❌ Hubo un error subiendo el archivo. Asegúrate de tener permisos de escritura en el Token.");
-            } finally {
-                cancelUpload(); 
-            }
+                alert("❌ Hubo un error subiendo el archivo. Asegúrate de tener permisos.");
+            } finally { cancelUpload(); }
         }
-        // --------------------------------------------------------
 
         function updateKanbanCounts() {
             document.getElementById('count-todo').innerText = document.getElementById('col-todo').children.length;
@@ -1168,7 +1030,6 @@
                     const studentName = partInfo && partInfo.personName && partInfo.personName !== '-' ? partInfo.personName : 'Sin asignar';
                     const pieceName = partInfo ? partInfo.name : issue.title;
                     const searchString = normalizeText(studentName + " " + pieceName);
-                    
                     if (!searchString.includes(normalizedSearch)) return; 
                 }
 
@@ -1203,7 +1064,6 @@
                     ? `<p class="text-[8px] text-slate-400 uppercase tracking-widest truncate mb-2.5">${partInfo.subsys}</p>`
                     : `<p class="mb-2.5"></p>`;
 
-                // Comprobar si está en HECHO y tiene link de descarga para crear el botón
                 let downloadBtnHtml = '';
                 if (state === 'done') {
                     const dwgMatch = issue.body ? issue.body.match(/<!-- DWG_URL:\s*(.+?)\s*-->/) : null;
