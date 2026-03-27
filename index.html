@@ -360,6 +360,18 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Zona discreta de abandonos -->
+            <div id="abandoned-zone" class="reveal mt-6 bg-red-950/10 border border-red-500/20 rounded-2xl p-4 hidden">
+                <div class="flex items-center justify-between mb-3 border-b border-red-500/10 pb-2">
+                    <h3 class="text-[10px] font-bold text-red-400 uppercase tracking-widest flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span> Reasignaciones de Emergencia (Abandonos)
+                    </h3>
+                    <span class="text-[9px] text-red-500/60 font-mono italic">Piezas autoasignadas a jefatura para contención</span>
+                </div>
+                <div id="col-abandoned" class="flex flex-wrap gap-4 overflow-x-auto pb-2 custom-scrollbar">
+                </div>
+            </div>
         </section>
 
         <!-- PROTOCOLOS SECTION (Omitido por brevedad en la vista principal, pero funcional en el código real) -->
@@ -449,12 +461,27 @@
                 
                 <h2 id="modal-title" class="text-3xl font-bold text-slate-100 mb-6 leading-tight font-['Urbanist'] tracking-tight">NOMBRE PIEZA</h2>
                 
-                <div class="bg-slate-950/50 p-5 rounded-2xl border border-slate-800 mb-6 space-y-3 text-xs">
-                    <p class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-500 uppercase tracking-tighter text-[9px] font-bold">Referencia ID</span> <span id="modal-id" class="text-slate-100 font-mono font-bold">X.X</span></p>
-                    <p class="flex flex-col border-b border-slate-800 pb-2 gap-1"><span class="text-slate-500 uppercase tracking-tighter text-[9px] font-bold">Ref. Búsqueda</span> <span id="modal-search" class="text-orange-500 font-bold italic tracking-tight text-[11px]">Cargando...</span></p>
-                    <p class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-500 uppercase tracking-tighter text-[9px] font-bold">Puesto</span> <span id="modal-assigned" class="text-slate-300">Puesto</span></p>
-                    <p class="flex justify-between border-b border-slate-800 pb-2"><span class="text-slate-500 uppercase tracking-tighter text-[9px] font-bold">Alumno/a</span> <span id="modal-person" class="text-slate-100 font-medium font-['Urbanist'] text-sm">Nombre</span></p>
-                    <p class="flex justify-between"><span class="text-slate-500 uppercase tracking-tighter text-[9px] font-bold">Tipo</span> <span id="modal-type" class="text-slate-300 italic">Exterior</span></p>
+                <div class="bg-slate-950/50 p-4 sm:p-5 rounded-2xl border border-slate-800 mb-6 space-y-3 text-xs">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-slate-800 pb-2 gap-1 sm:gap-4">
+                        <span class="text-slate-500 uppercase tracking-tighter text-[9px] font-bold shrink-0">Referencia ID</span> 
+                        <span id="modal-id" class="text-slate-100 font-mono font-bold break-words text-left sm:text-right">X.X</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-slate-800 pb-2 gap-1 sm:gap-4">
+                        <span class="text-slate-500 uppercase tracking-tighter text-[9px] font-bold shrink-0">Ref. Búsqueda</span> 
+                        <span id="modal-search" class="text-orange-500 font-bold italic tracking-tight text-[11px] break-words text-left sm:text-right">Cargando...</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-slate-800 pb-2 gap-1 sm:gap-4">
+                        <span class="text-slate-500 uppercase tracking-tighter text-[9px] font-bold shrink-0">Puesto</span> 
+                        <span id="modal-assigned" class="text-slate-300 break-words text-left sm:text-right">Puesto</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center border-b border-slate-800 pb-2 gap-1 sm:gap-4">
+                        <span class="text-slate-500 uppercase tracking-tighter text-[9px] font-bold shrink-0">Alumno/a</span> 
+                        <span id="modal-person" class="text-slate-100 font-medium font-['Urbanist'] text-sm break-words text-left sm:text-right">Nombre</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-4">
+                        <span class="text-slate-500 uppercase tracking-tighter text-[9px] font-bold shrink-0">Tipo</span> 
+                        <span id="modal-type" class="text-slate-300 italic break-words text-left sm:text-right">Exterior</span>
+                    </div>
                 </div>
 
                 <div class="space-y-3 mb-2">
@@ -464,10 +491,37 @@
 
                 <div class="mt-4 border-t border-slate-800 pt-4">
                     <div id="ai-prompt-container">
-                        <button id="btn-generate-prompt" onclick="generateAIPrompt()" class="w-full bg-slate-950 hover:bg-purple-600/20 text-purple-400 border border-purple-500/30 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 group">
+                        <button id="btn-generate-prompt" onclick="generateAIPrompt()" class="w-full bg-slate-950 hover:bg-purple-600/20 text-purple-400 border border-purple-500/30 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 group mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                             Prompt Contexto CAD (IA)
                         </button>
+
+                        <!-- Botón principal de abandono modificado -->
+                        <button id="btn-abandon" onclick="abandonarProyectoUI()" class="w-full bg-slate-950 hover:bg-red-600/20 text-red-500/70 hover:text-red-400 border border-red-500/20 hover:border-red-500/40 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 mt-2">
+                            🚨 Abandonar Proyecto
+                        </button>
+                        
+                        <!-- Botón de reincorporación (oculto por defecto) -->
+                        <button id="btn-reincorporar" onclick="reincorporarProyecto()" class="hidden w-full bg-slate-950 hover:bg-emerald-600/20 text-emerald-500/70 hover:text-emerald-400 border border-emerald-500/20 hover:border-emerald-500/40 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all items-center justify-center gap-2 mt-2">
+                            ♻️ Reincorporarse al Proyecto
+                        </button>
+
+                        <!-- Zona de confirmación segura (oculta por defecto) -->
+                        <div id="abandon-confirm-zone" class="hidden flex-col gap-2 mt-2 bg-red-950/20 border border-red-500/30 p-3 rounded-xl relative overflow-hidden">
+                            <div class="absolute inset-0 bg-red-500/5 animate-pulse"></div>
+                            <p class="text-[10px] text-red-400 font-bold uppercase tracking-widest text-center relative z-10">¿Confirmar abandono?</p>
+                            <p class="text-[9px] text-red-300/70 text-center mb-1 leading-tight relative z-10">Tu cajetín pasará a la zona de emergencia y se reasignará a tus superiores.</p>
+                            
+                            <div id="abandon-actions" class="flex gap-2 relative z-10">
+                                <button onclick="procesarAbandono()" class="w-1/2 bg-red-600/80 hover:bg-red-500 text-white py-2 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-colors shadow-lg shadow-red-500/20">Sí, Abandonar</button>
+                                <button onclick="cancelarAbandonoUI()" class="w-1/2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 py-2 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-colors">Cancelar</button>
+                            </div>
+                            
+                            <div id="abandon-loading" class="hidden flex-col items-center justify-center py-2 relative z-10">
+                                <svg class="animate-spin h-4 w-4 text-red-500 mb-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                <span class="text-[8px] text-red-400 uppercase tracking-widest font-mono">Procesando...</span>
+                            </div>
+                        </div>
                         
                         <div id="ai-loading" class="hidden flex-col items-center justify-center py-4 gap-2 text-slate-400">
                             <svg class="animate-spin h-5 w-5 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -700,6 +754,23 @@
             document.getElementById('ai-loading').classList.add('hidden');
             document.getElementById('ai-loading').classList.remove('flex');
             document.getElementById('ai-result').classList.add('hidden');
+            
+            // Resetear interfaz y detectar si la pieza está abandonada
+            const issue = globalGithubIssues.find(i => i.title.includes(`[${part.id}]`));
+            const isAbandoned = issue && issue.labels.some(l => l.name.toLowerCase() === 'abandonado');
+
+            if (isAbandoned) {
+                document.getElementById('btn-abandon').classList.add('hidden');
+                document.getElementById('btn-reincorporar').classList.remove('hidden');
+                document.getElementById('btn-reincorporar').classList.add('flex');
+            } else {
+                document.getElementById('btn-abandon').classList.remove('hidden');
+                document.getElementById('btn-reincorporar').classList.add('hidden');
+                document.getElementById('btn-reincorporar').classList.remove('flex');
+            }
+
+            document.getElementById('abandon-confirm-zone').classList.add('hidden');
+            document.getElementById('abandon-confirm-zone').classList.remove('flex');
 
             const svgTemplate = document.getElementById('scooter-svg-template').content.cloneNode(true);
             const svg = svgTemplate.querySelector('svg');
@@ -790,6 +861,137 @@
         let globalGithubIssues = [];
         let pendingUploadData = null;
 
+        function getReasignacion(partInfo) {
+            if (!partInfo) return "Dirección";
+            if (partInfo.team === 'PL 19') return "Marcos M. (Jefe PL 19) + Dirección";
+            if (partInfo.team === 'PL 20') return "Pablo F. (Jefe PL 20) + Dirección";
+            if (partInfo.team === 'PL 21') return "Marta M. (Jefe PL 21) + Dirección";
+            return "Dirección (Eloy Santos)";
+        }
+
+        function abandonarProyectoUI() {
+            if (!currentPartForAI) return;
+            const token = getGhToken();
+            if (!token) {
+                alert("🔐 Debes estar conectado para realizar esta acción.");
+                return;
+            }
+
+            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`));
+            if (!issue) {
+                alert("❌ No se encontró la pieza activa en el repositorio.");
+                return;
+            }
+
+            const isAlreadyAbandoned = issue.labels.some(l => l.name.toLowerCase() === 'abandonado');
+            if (isAlreadyAbandoned) {
+                alert("⚠️ Esta pieza ya consta como abandonada y reasignada.");
+                return;
+            }
+
+            // Ocultar botón principal y mostrar zona de confirmación
+            document.getElementById('btn-abandon').classList.add('hidden');
+            document.getElementById('abandon-confirm-zone').classList.remove('hidden');
+            document.getElementById('abandon-confirm-zone').classList.add('flex');
+        }
+
+        function cancelarAbandonoUI() {
+            // Ocultar zona de confirmación y volver a mostrar el botón principal
+            document.getElementById('abandon-confirm-zone').classList.add('hidden');
+            document.getElementById('abandon-confirm-zone').classList.remove('flex');
+            document.getElementById('btn-abandon').classList.remove('hidden');
+        }
+
+        async function procesarAbandono() {
+            if (!currentPartForAI) return;
+            const token = getGhToken();
+            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`));
+            if (!issue) return;
+
+            // Mostrar estado de carga
+            document.getElementById('abandon-actions').classList.add('hidden');
+            document.getElementById('abandon-loading').classList.remove('hidden');
+            document.getElementById('abandon-loading').classList.add('flex');
+
+            try {
+                const labelNames = issue.labels.map(l => l.name).filter(n => n !== 'sinhacer' && n !== 'enprogreso');
+                labelNames.push('abandonado');
+                const reasignados = getReasignacion(currentPartForAI);
+
+                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ labels: labelNames })
+                });
+
+                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}/comments`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ body: `🚨 **ABANDONO REGISTRADO**\nEl responsable original ha notificado el abandono de la tarea.\n🔄 **Reasignación de contención de daños:** Automáticamente transferido a \`${reasignados}\`.` })
+                });
+
+                issue.labels = labelNames.map(n => ({name: n}));
+                alert(`✅ Se ha registrado tu abandono. La carga de trabajo ha sido reasignada a: ${reasignados}.`);
+                closeModal();
+                renderKanban();
+            } catch (e) {
+                console.error(e);
+                alert("❌ Error de permisos o conexión. No se pudo registrar el abandono.");
+            } finally {
+                // Restaurar la interfaz por si falla o no se cierra el modal
+                document.getElementById('abandon-actions').classList.remove('hidden');
+                document.getElementById('abandon-loading').classList.add('hidden');
+                document.getElementById('abandon-loading').classList.remove('flex');
+                cancelarAbandonoUI();
+            }
+        }
+
+        async function reincorporarProyecto() {
+            if (!currentPartForAI) return;
+            const token = getGhToken();
+            if (!token) {
+                alert("🔐 Debes estar conectado para realizar esta acción.");
+                return;
+            }
+
+            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`));
+            if (!issue) return;
+
+            const btn = document.getElementById('btn-reincorporar');
+            btn.innerHTML = `⏳ Procesando...`;
+            btn.disabled = true;
+
+            try {
+                let labelNames = issue.labels.map(l => l.name).filter(n => n.toLowerCase() !== 'abandonado');
+                if (!labelNames.includes('sinhacer') && !labelNames.includes('enprogreso') && !labelNames.includes('hecho')) {
+                    labelNames.push('sinhacer');
+                }
+
+                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ labels: labelNames })
+                });
+
+                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}/comments`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ body: `♻️ **REINCORPORACIÓN REGISTRADA**\nEl responsable original ha retomado la tarea. Se cancela la reasignación de emergencia.` })
+                });
+
+                issue.labels = labelNames.map(n => ({name: n}));
+                alert(`✅ Te has reincorporado al proyecto con éxito.`);
+                closeModal();
+                renderKanban();
+            } catch (e) {
+                console.error(e);
+                alert("❌ Error de permisos o conexión. No se pudo registrar la reincorporación.");
+            } finally {
+                btn.innerHTML = `♻️ Reincorporarse al Proyecto`;
+                btn.disabled = false;
+            }
+        }
+
         document.getElementById('filter-team').addEventListener('change', () => { renderKanban(); });
         document.getElementById('search-kanban').addEventListener('input', () => { renderKanban(); });
 
@@ -843,17 +1045,20 @@
 
                 updateKanbanCounts();
                 
-                let githubLabel = 'sinhacer';
-                if (status === 'inprog') githubLabel = 'enprogreso';
+                // Remover abandonado si existía y setear el nuevo estado arrastrado
+                let newLabels = issueData.labels.map(l => l.name).filter(n => !['sinhacer', 'enprogreso', 'hecho', 'abandonado'].includes(n.toLowerCase()));
+                
+                if (status === 'todo') newLabels.push('sinhacer');
+                else if (status === 'inprog') newLabels.push('enprogreso');
 
                 const issueIndex = globalGithubIssues.findIndex(i => i.number === issueNumber);
-                if (issueIndex > -1) globalGithubIssues[issueIndex].labels = [{ name: githubLabel }];
+                if (issueIndex > -1) globalGithubIssues[issueIndex].labels = newLabels.map(n => ({name: n}));
 
                 try {
                     await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
                         method: 'PATCH',
                         headers: { 'Authorization': `token ${currentToken}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ labels: [githubLabel] })
+                        body: JSON.stringify({ labels: newLabels })
                     });
                 } catch (error) { console.error("❌ Error actualizando GitHub:", error); }
             }
@@ -1004,15 +1209,19 @@
             const todoCol = document.getElementById('col-todo');
             const inprogCol = document.getElementById('col-inprog');
             const doneCol = document.getElementById('col-done');
+            const abandonedZone = document.getElementById('abandoned-zone');
+            const abandonedCol = document.getElementById('col-abandoned');
 
             const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
             const normalizedSearch = normalizeText(searchValue);
 
-            todoCol.innerHTML = ''; inprogCol.innerHTML = ''; doneCol.innerHTML = '';
+            todoCol.innerHTML = ''; inprogCol.innerHTML = ''; doneCol.innerHTML = ''; abandonedCol.innerHTML = '';
+            let hasAbandoned = false;
 
             if (globalGithubIssues.length === 0) {
                 todoCol.innerHTML = '<p class="text-[11px] text-slate-500">No hay tareas activas.</p>';
                 updateKanbanCounts();
+                if (abandonedZone) abandonedZone.classList.add('hidden');
                 return;
             }
 
@@ -1037,27 +1246,40 @@
                 const labels = issue.labels.map(l => l.name.toLowerCase()); 
                 if (labels.includes('enprogreso') || labels.includes('en progreso')) state = 'inprog';
                 if (labels.includes('hecho')) state = 'done';
+                if (labels.includes('abandonado')) state = 'abandoned';
 
+                let extraCardClass = state === 'abandoned' ? 'border-red-500/30 bg-red-950/20 opacity-80 min-w-[260px] flex-shrink-0' : '';
                 const card = document.createElement('div');
                 card.id = `issue-${issue.number}`;
                 card.draggable = true;
                 card.ondragstart = drag;
                 card.ondragend = dragEnd;
-                card.className = "bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 cursor-grab active:cursor-grabbing hover:border-orange-500/50 hover:bg-slate-800 transition-all shadow-md select-none group relative overflow-hidden flex flex-col";
+                card.className = `bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 cursor-grab active:cursor-grabbing hover:border-orange-500/50 hover:bg-slate-800 transition-all shadow-md select-none group relative overflow-hidden flex flex-col ${extraCardClass}`;
                 
                 card.addEventListener('click', () => { if (partInfo) openModal(partInfo); });
 
-                const studentName = partInfo && partInfo.personName && partInfo.personName !== '-' ? partInfo.personName : 'Sin asignar';
+                let studentName = partInfo && partInfo.personName && partInfo.personName !== '-' ? partInfo.personName : 'Sin asignar';
+                let roleOverride = '';
+
+                if (state === 'abandoned') {
+                    hasAbandoned = true;
+                    studentName = getReasignacion(partInfo);
+                    // Solución: Ajustado a top-0 right-0 con bordes redondeados a medida para que encaje en la esquina sin cortarse
+                    roleOverride = `<div class="absolute top-0 right-0 bg-red-600 text-white text-[7px] font-bold px-2 py-0.5 rounded-bl-lg rounded-tr-xl shadow-lg z-20 border-b border-l border-red-500 tracking-wider">REASIGNADO</div>`;
+                }
+
                 const initials = studentName !== 'Sin asignar' ? studentName.substring(0, 2).toUpperCase() : '??';
 
-                const avatarHtml = issue.assignee 
-                    ? `<img src="${issue.assignee.avatar_url}" class="w-5 h-5 rounded-full border border-slate-600 shadow-sm" alt="Avatar">`
-                    : `<div class="w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center text-[8px] font-bold text-slate-300 border border-slate-600">${initials}</div>`;
+                const avatarHtml = state === 'abandoned' 
+                    ? `<div class="w-5 h-5 rounded-full bg-red-900/80 flex items-center justify-center text-[10px] border border-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)] z-10 shrink-0">🚨</div>`
+                    : (issue.assignee 
+                        ? `<img src="${issue.assignee.avatar_url}" class="w-5 h-5 rounded-full border border-slate-600 shadow-sm shrink-0" alt="Avatar">`
+                        : `<div class="w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center text-[8px] font-bold text-slate-300 border border-slate-600 shrink-0">${initials}</div>`);
 
                 const cleanTitle = issue.title.replace(/\[.*?\]\s*/, '');
                 
                 const diffHtml = partInfo 
-                    ? `<span class="text-[8px] font-bold uppercase px-1.5 py-0.5 rounded border tracking-widest ${diffColors[partInfo.diff]}">${partInfo.diff}</span>`
+                    ? `<span class="text-[8px] font-bold uppercase px-1.5 py-0.5 rounded border tracking-widest ${diffColors[partInfo.diff]} shrink-0">${partInfo.diff}</span>`
                     : ``;
                 
                 const subsysHtml = partInfo
@@ -1077,8 +1299,9 @@
                 }
 
                 card.innerHTML = `
-                    <div class="flex justify-between items-center mb-1.5">
-                        <span class="text-[10px] font-mono font-bold text-orange-500/80">${partId || 'Manual'}</span>
+                    ${roleOverride}
+                    <div class="flex justify-between items-center mb-1.5 gap-2">
+                        <span class="text-[10px] font-mono font-bold text-orange-500/80 shrink-0">${partId || 'Manual'}</span>
                         ${diffHtml}
                     </div>
                     <h4 class="text-xs font-bold text-slate-200 mb-1 leading-tight group-hover:text-orange-400 transition-colors">${cleanTitle}</h4>
@@ -1086,7 +1309,7 @@
                     ${downloadBtnHtml}
                     <div class="flex items-center gap-2 border-t border-slate-700/50 pt-2.5 mt-auto relative z-10">
                         ${avatarHtml}
-                        <span class="text-[10px] text-slate-300 font-medium truncate">${studentName}</span>
+                        <span class="text-[9px] text-slate-300 font-medium leading-tight line-clamp-2">${studentName}</span>
                     </div>
                     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-slate-900/90 p-2.5 rounded-full backdrop-blur-sm border border-slate-700 shadow-xl z-30">
                         <span class="text-lg leading-none">👁️</span>
@@ -1095,10 +1318,16 @@
 
                 if(state === 'todo') todoCol.appendChild(card);
                 else if(state === 'inprog') inprogCol.appendChild(card);
-                else doneCol.appendChild(card);
+                else if(state === 'done') doneCol.appendChild(card);
+                else if(state === 'abandoned') abandonedCol.appendChild(card);
             });
             
             updateKanbanCounts();
+
+            if (abandonedZone) {
+                if (hasAbandoned) abandonedZone.classList.remove('hidden');
+                else abandonedZone.classList.add('hidden');
+            }
         }
 
         async function initKanban() {
