@@ -807,29 +807,33 @@
                 if (type === 'context') {
                     promptText = `Actúa como ingeniero delineante experto en AutoCAD 2D. Explica la morfología y función mecánica de la siguiente pieza para su representación plana:
 
+► MODELO OBJETIVO: Xiaomi Electric Scooter 4 (Mantén la máxima fidelidad posible al diseño y proporciones reales de las piezas de este modelo específico).
 ► PIEZA A DIBUJAR: ${currentPartForAI.name}
 ► CLASIFICACIÓN/MATERIAL: ${currentPartForAI.type}
 ► CONTEXTO: ${currentPartForAI.desc}
 
-⚠️ RESTRICCIÓN CRÍTICA: El modelado se realizará estrictamente en AutoCAD 2D mediante vistas ortogonales (Alzado, Planta, Perfil) y no mediante modelado sólido 3D. NO menciones herramientas de extrusión 3D, SolidWorks, Inventor o Catia.
+⚠️ RESTRICCIÓN CRÍTICA: El modelado se realizará estrictamente en AutoCAD 2D mediante vistas ortogonales (Alzado, Planta, Perfil) y no mediante modelado sólido 3D. NO menciones herramientas de extrusión 3D, SolidWorks, Inventor o Catia. Basa tu análisis en la geometría real de la pieza en el patinete Xiaomi Electric Scooter 4.
 
 Explica:
-1. Las primitivas geométricas (círculos, líneas, empalmes) que componen sus vistas principales en 2D.
+1. Las primitivas geométricas (círculos, líneas, empalmes) que componen sus vistas principales en 2D, respetando la morfología de la pieza original de Xiaomi.
 2. Detalles mecánicos críticos para su funcionamiento.
 3. Su ensamblaje y relación con el resto del patinete.`;
                 } else if (type === 'sketch') {
                     promptText = `Actúa como profesor universitario de Expresión Gráfica e Ingeniería. Define la mejor estrategia técnica para croquizar a mano alzada la siguiente pieza:
 
+► MODELO OBJETIVO: Xiaomi Electric Scooter 4 (Mantén la máxima fidelidad posible al diseño y proporciones reales de las piezas de este modelo específico).
 ► PIEZA A CROQUIZAR: ${currentPartForAI.name}
 ► CLASIFICACIÓN/MATERIAL: ${currentPartForAI.type}
 ► CONTEXTO: ${currentPartForAI.desc}
 
+Basa tus instrucciones estrictamente en la geometría real de la pieza montada en el modelo Xiaomi Electric Scooter 4.
+
 Instruye al alumno respondiendo a lo siguiente:
-1. ¿Cuál debe ser elegida como vista principal (Alzado) para representar la mayor información de la pieza en su posición de uso o fabricación?
+1. ¿Cuál debe ser elegida como vista principal (Alzado) para representar la mayor información de la pieza original de Xiaomi en su posición de uso o fabricación?
 2. ¿Qué otras vistas ortogonales (Planta, Perfil Izquierdo/Derecho) son estrictamente necesarias para que quede unívocamente definida sin repetir información?
-3. ¿Requiere la aplicación de algún corte o sección (total, al cuarto, parcial) para clarificar detalles o vaciados internos?
-4. ¿Cuáles son las cotas (dimensiones funcionales) más críticas que no pueden faltar en el croquis?
-5. DIBUJO DEL CROQUIS: Genera una representación visual del croquis ideal estructurando las vistas ortogonales y cortes recomendados. (Si tienes capacidad de generación de imágenes, dibuja el plano a mano alzada; si eres un modelo de texto, utiliza arte ASCII detallado o proporciona un código SVG renderizable del esquema).`;
+3. ¿Requiere la aplicación de algún corte o sección (total, al cuarto, parcial) para clarificar detalles o vaciados internos reales de la pieza?
+4. ¿Cuáles son las cotas (dimensiones funcionales) más críticas que no pueden faltar en el croquis para este modelo en concreto?
+5. DIBUJO DEL CROQUIS: Genera una representación visual del croquis ideal estructurando las vistas ortogonales y cortes recomendados, siendo fiel al diseño original de Xiaomi. (Si tienes capacidad de generación de imágenes, dibuja el plano a mano alzada; si eres un modelo de texto, utiliza arte ASCII detallado o proporciona un código SVG renderizable del esquema).`;
                 }
                 
                 document.getElementById('ai-loading').classList.add('hidden');
@@ -1386,6 +1390,7 @@ Instruye al alumno respondiendo a lo siguiente:
     </script>
 </body>
 </html>
+
 
 
 
