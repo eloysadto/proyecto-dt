@@ -491,10 +491,16 @@
 
                 <div class="mt-4 border-t border-slate-800 pt-4">
                     <div id="ai-prompt-container">
-                        <button id="btn-generate-prompt" onclick="generateAIPrompt()" class="w-full bg-slate-950 hover:bg-purple-600/20 text-purple-400 border border-purple-500/30 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 group mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                            Prompt Contexto CAD (IA)
-                        </button>
+                        <div id="prompt-buttons-wrapper" class="grid grid-cols-2 gap-2 mb-2">
+                            <button onclick="generateAIPrompt('context')" class="w-full bg-slate-950 hover:bg-purple-600/20 text-purple-400 border border-purple-500/30 py-2.5 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-1.5 group">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 group-hover:scale-110 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                Prompt CAD 2D
+                            </button>
+                            <button onclick="generateAIPrompt('sketch')" class="w-full bg-slate-950 hover:bg-blue-600/20 text-blue-400 border border-blue-500/30 py-2.5 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-1.5 group">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 group-hover:scale-110 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                                Prompt Croquis
+                            </button>
+                        </div>
 
                         <!-- Botón principal de abandono modificado -->
                         <button id="btn-abandon" onclick="abandonarProyectoUI()" class="w-full bg-slate-950 hover:bg-red-600/20 text-red-500/70 hover:text-red-400 border border-red-500/20 hover:border-red-500/40 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 mt-2">
@@ -525,11 +531,11 @@
                         
                         <div id="ai-loading" class="hidden flex-col items-center justify-center py-4 gap-2 text-slate-400">
                             <svg class="animate-spin h-5 w-5 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                            <span class="text-[9px] font-mono uppercase tracking-widest">Compilando parámetros...</span>
+                            <span class="text-[9px] font-mono uppercase tracking-widest">Generando prompt...</span>
                         </div>
                         
-                        <div id="ai-result" class="hidden relative bg-slate-950 border border-purple-500/30 p-3 rounded-xl mt-2">
-                            <p id="ai-prompt-text" class="text-[10px] text-slate-300 font-mono leading-relaxed select-all pr-6 overflow-y-auto max-h-24 custom-scrollbar"></p>
+                        <div id="ai-result" class="hidden relative bg-slate-950 border border-slate-700 p-3 rounded-xl mt-2">
+                            <p id="ai-prompt-text" class="text-[10px] text-slate-300 font-mono leading-relaxed select-all pr-6 overflow-y-auto max-h-32 custom-scrollbar"></p>
                         </div>
                     </div>
                 </div>
@@ -750,7 +756,7 @@
             diffEl.innerText = 'Dificultad: ' + part.diff;
             diffEl.className = `text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded-full border w-fit ${diffColors[part.diff]}`;
 
-            document.getElementById('btn-generate-prompt').classList.remove('hidden');
+            document.getElementById('prompt-buttons-wrapper').classList.remove('hidden');
             document.getElementById('ai-loading').classList.add('hidden');
             document.getElementById('ai-loading').classList.remove('flex');
             document.getElementById('ai-result').classList.add('hidden');
@@ -790,29 +796,47 @@
 
         function closeModal() { document.getElementById('partModal').classList.replace('flex', 'hidden'); }
 
-        function generateAIPrompt() {
-            document.getElementById('btn-generate-prompt').classList.add('hidden');
+        function generateAIPrompt(type) {
+            document.getElementById('ai-result').classList.add('hidden');
             document.getElementById('ai-loading').classList.remove('hidden');
             document.getElementById('ai-loading').classList.add('flex');
             
             setTimeout(() => {
-                const promptText = `Actúa como ingeniero CAD. Explica la morfología, operaciones geométricas y función mecánica de:
+                let promptText = "";
+                
+                if (type === 'context') {
+                    promptText = `Actúa como ingeniero delineante experto en AutoCAD 2D. Explica la morfología y función mecánica de la siguiente pieza para su representación plana:
 
-► PIEZA A MODELAR: ${currentPartForAI.name}
+► PIEZA A DIBUJAR: ${currentPartForAI.name}
 ► CLASIFICACIÓN/MATERIAL: ${currentPartForAI.type}
 ► CONTEXTO: ${currentPartForAI.desc}
 
-⚠️ NO inventes ni proporciones medidas numéricas. Explica:
-1. CÓMO se diseña la forma base tridimensional paso a paso.
-2. Detalles críticos para funcionamiento.
-3. Ensamblaje con el resto del patinete.`;
+⚠️ RESTRICCIÓN CRÍTICA: El modelado se realizará estrictamente en AutoCAD 2D mediante vistas ortogonales (Alzado, Planta, Perfil) y no mediante modelado sólido 3D. NO menciones herramientas de extrusión 3D, SolidWorks, Inventor o Catia.
+
+Explica:
+1. Las primitivas geométricas (círculos, líneas, empalmes) que componen sus vistas principales en 2D.
+2. Detalles mecánicos críticos para su funcionamiento.
+3. Su ensamblaje y relación con el resto del patinete.`;
+                } else if (type === 'sketch') {
+                    promptText = `Actúa como profesor universitario de Expresión Gráfica e Ingeniería. Define la mejor estrategia técnica para croquizar a mano alzada la siguiente pieza:
+
+► PIEZA A CROQUIZAR: ${currentPartForAI.name}
+► CLASIFICACIÓN/MATERIAL: ${currentPartForAI.type}
+► CONTEXTO: ${currentPartForAI.desc}
+
+Instruye al alumno respondiendo a lo siguiente:
+1. ¿Cuál debe ser elegida como vista principal (Alzado) para representar la mayor información de la pieza en su posición de uso o fabricación?
+2. ¿Qué otras vistas ortogonales (Planta, Perfil Izquierdo/Derecho) son estrictamente necesarias para que quede unívocamente definida sin repetir información?
+3. ¿Requiere la aplicación de algún corte o sección (total, al cuarto, parcial) para clarificar detalles o vaciados internos?
+4. ¿Cuáles son las cotas (dimensiones funcionales) más críticas que no pueden faltar en el croquis?`;
+                }
                 
                 document.getElementById('ai-loading').classList.add('hidden');
                 document.getElementById('ai-loading').classList.remove('flex');
                 
                 document.getElementById('ai-prompt-text').innerText = promptText;
                 document.getElementById('ai-result').classList.remove('hidden');
-            }, 1000);
+            }, 600);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -1361,3 +1385,8 @@
     </script>
 </body>
 </html>
+
+
+
+
+
