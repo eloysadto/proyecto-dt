@@ -77,6 +77,7 @@
                     <a href="#flujo" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Flujo Tareas</a>
                     <a href="#equipos" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Equipos</a>
                     <a href="#kanban" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Matriz Kanban</a>
+                    <a href="#dudas" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Dudas</a>
                     <a href="#protocolos" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Normativa</a>
                     <div class="pl-2 border-l border-slate-700/50 ml-2">
                         <a href="#bibliografia" class="block px-4 py-2 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all shadow-lg shadow-orange-500/25">Documentación</a>
@@ -89,6 +90,7 @@
                 <a href="#flujo" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Flujo Tareas</a>
                 <a href="#equipos" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Equipos</a>
                 <a href="#kanban" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Matriz Kanban</a>
+                <a href="#dudas" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Dudas</a>
                 <a href="#protocolos" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Normativa</a>
                 <a href="#bibliografia" class="block px-4 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all text-center mt-2">Documentación</a>
             </div>
@@ -182,7 +184,6 @@
 
         <!-- FLUJO DE TRABAJO -->
         <section id="flujo" class="scroll-mt-24">
-            <!-- Contenido mantenido igual por simplicidad en este bloque -->
             <div class="reveal mb-8">
                 <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">Flujo de Trabajo</h2>
                 <p class="mt-2 text-slate-400 text-sm">Selecciona tu rol para ver tus responsabilidades exactas.</p>
@@ -374,7 +375,27 @@
             </div>
         </section>
 
-        <!-- PROTOCOLOS SECTION (Omitido por brevedad en la vista principal, pero funcional en el código real) -->
+        <!-- DUDAS Y VIDEOS SECTION -->
+        <section id="dudas" class="scroll-mt-24">
+            <div class="reveal mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">Resolución de Dudas</h2>
+                    <p class="mt-2 text-slate-400 text-sm">Videotutoriales y respuestas a las consultas más frecuentes.</p>
+                </div>
+                <button onclick="openVideoUpload()" class="bg-purple-600 hover:bg-purple-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition shadow-[0_0_15px_rgba(147,51,234,0.3)] border border-purple-500 flex items-center justify-center gap-2 shrink-0">
+                    📺 Añadir Vídeo (Admin)
+                </button>
+            </div>
+
+            <div id="videos-container" class="reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Se rellena por JS -->
+                <div class="col-span-full p-10 bg-slate-900/50 rounded-3xl border border-slate-800 text-center">
+                    <p class="text-slate-500 text-xs font-mono uppercase tracking-widest animate-pulse">Esperando conexión...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROTOCOLOS SECTION -->
         <section id="protocolos" class="scroll-mt-24">
             <h2 class="reveal text-3xl font-bold text-slate-100 mb-8 font-['Urbanist'] uppercase tracking-tight">Normativa de Calidad y Entrega</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
@@ -549,7 +570,6 @@
 
     <!-- MODAL DE SUBIDA DE ARCHIVOS GITHUB KANBAN (DROPZONE ORIGINAL) -->
     <div id="uploadModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
-        <!-- Mantengo oculto tu modal original de subida simple para que siga funcionando la lógica del Kanban -->
         <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="cancelUpload()"></div>
         <div class="relative bg-slate-900 border border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.1)] rounded-3xl w-full max-w-xl p-8 z-10 fade-in text-center">
             
@@ -601,6 +621,43 @@
             <div class="flex gap-3 justify-center">
                 <button onclick="confirmReassignment()" class="bg-orange-600 hover:bg-orange-500 text-white font-bold py-2.5 px-5 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-lg shadow-orange-500/20 w-1/2">Confirmar</button>
                 <button onclick="closeReassignModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 px-5 rounded-xl text-xs uppercase tracking-widest border border-slate-700 transition-colors w-1/2">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE SUBIDA DE VÍDEOS (ADMIN) YOUTUBE -->
+    <div id="videoUploadModal" class="fixed inset-0 z-[400] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="cancelVideoUpload()"></div>
+        <div class="relative bg-slate-900 border border-purple-500/30 shadow-[0_0_50px_rgba(147,51,234,0.1)] rounded-3xl w-full max-w-xl p-8 z-10 fade-in text-center">
+            
+            <div class="w-16 h-16 bg-purple-500/10 rounded-2xl border border-purple-500/20 flex items-center justify-center text-3xl mx-auto mb-4">📺</div>
+            <h2 class="text-2xl font-bold text-slate-100 mb-2 font-['Urbanist'] tracking-tight">Vincular Vídeo de YouTube</h2>
+            <p class="text-sm text-slate-400 mb-6">Pega el enlace de tu vídeo de YouTube (puede estar en "Oculto").</p>
+            
+            <div id="video-upload-form" class="flex flex-col gap-4 text-left bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner">
+                
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Enlace de YouTube</label>
+                    <input type="text" id="video-url-input" placeholder="Ej: https://youtu.be/..." class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-purple-500 outline-none transition-colors">
+                </div>
+
+                <div class="flex flex-col gap-2 mt-2">
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Título del Vídeo</label>
+                    <input type="text" id="video-title-input" placeholder="Ej: Cómo ensamblar los rodamientos" class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-purple-500 outline-none transition-colors">
+                    <p id="video-upload-error" class="text-xs text-red-500 hidden mt-1">⚠️ Revisa que el enlace sea válido y hayas escrito un título.</p>
+                </div>
+                
+                <button id="btn-confirm-video-upload" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl mt-4 transition-colors uppercase tracking-widest text-xs shadow-lg shadow-purple-500/20">Publicar Vídeo</button>
+            </div>
+
+            <div id="video-upload-status" class="hidden flex-col items-center justify-center py-6 gap-3">
+                <svg class="animate-spin h-8 w-8 text-purple-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <p class="text-xs font-mono uppercase tracking-widest text-purple-400">Vinculando en GitHub...</p>
+                <p class="text-[10px] text-slate-500">Esto será instantáneo y no consumirá espacio de tu repositorio.</p>
+            </div>
+
+            <div class="mt-6 flex justify-center gap-4">
+                <button onclick="cancelVideoUpload()" class="px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400 bg-slate-800 hover:bg-slate-700 hover:text-white transition-colors border border-slate-700">Cancelar</button>
             </div>
         </div>
     </div>
@@ -1482,6 +1539,9 @@ Instruye al alumno respondiendo a lo siguiente:
                 return;
             }
 
+            // Llamar a cargar los vídeos automáticamente al iniciar sesión
+            loadVideos();
+
             todoCol.innerHTML = '<p class="text-[10px] text-slate-500 font-mono animate-pulse">Sincronizando...</p>';
             inprogCol.innerHTML = ''; doneCol.innerHTML = '';
             
@@ -1495,6 +1555,171 @@ Instruye al alumno respondiendo a lo siguiente:
                 renderKanban();
             } catch (error) {
                 todoCol.innerHTML = `<div class="p-3 bg-red-500/10 border border-red-500/20 rounded-xl"><p class="text-[10px] text-red-400 font-bold mb-1">❌ Error al leer el repositorio.</p></div>`;
+            }
+        }
+
+        // --- LÓGICA DE LA SECCIÓN DE VÍDEOS (DUDAS) YOUTUBE ---
+        function openVideoUpload() {
+            const pass = prompt("Introduce la contraseña de administrador:");
+            if (pass !== "adminpel") {
+                if (pass !== null) alert("❌ Contraseña incorrecta.");
+                return;
+            }
+            document.getElementById('videoUploadModal').classList.replace('hidden', 'flex');
+        }
+
+        function cancelVideoUpload() {
+            document.getElementById('videoUploadModal').classList.replace('flex', 'hidden');
+            document.getElementById('video-upload-form').classList.replace('hidden', 'flex');
+            document.getElementById('video-upload-status').classList.replace('flex', 'hidden');
+            document.getElementById('video-upload-error').classList.add('hidden');
+            document.getElementById('video-title-input').value = '';
+            document.getElementById('video-url-input').value = '';
+        }
+
+        // Función para extraer el ID del vídeo desde cualquier formato de enlace de YouTube
+        function getYouTubeID(url) {
+            const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
+            const match = url.match(regExp);
+            return (match && match[1]) ? match[1] : null;
+        }
+
+        document.getElementById('btn-confirm-video-upload').addEventListener('click', () => {
+            const titleInput = document.getElementById('video-title-input').value.trim();
+            const urlInput = document.getElementById('video-url-input').value.trim();
+            const ytID = getYouTubeID(urlInput);
+
+            if (titleInput === '' || !ytID) {
+                document.getElementById('video-upload-error').classList.remove('hidden');
+                return;
+            }
+            
+            document.getElementById('video-upload-error').classList.add('hidden');
+            document.getElementById('video-upload-form').classList.replace('flex', 'hidden');
+            document.getElementById('video-upload-status').classList.replace('hidden', 'flex');
+
+            processYouTubeLinkToGitHub(titleInput, ytID);
+        });
+
+        async function processYouTubeLinkToGitHub(title, ytID) {
+            const token = getGhToken();
+            const cleanTitle = title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_');
+            const timestamp = Date.now();
+            
+            // Usamos la extensión .yt para identificar que es un enlace de YouTube
+            // El formato es: [timestamp]_yt_[ID]_Titulo.yt
+            const finalFileName = `${timestamp}_yt_${ytID}_${cleanTitle}.yt`;
+            const path = `recursos/videos/${finalFileName}`;
+
+            // Ponemos un contenido base64 genérico porque no importa el contenido, solo el nombre del archivo
+            const base64Content = btoa("youtube link file");
+
+            try {
+                const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `📹 Nuevo vídeo de YouTube vinculado: ${title}`,
+                        content: base64Content
+                    })
+                });
+
+                if (!uploadRes.ok) throw new Error("Error subiendo el archivo de enlace.");
+                
+                alert("🎉 ¡Vídeo de YouTube vinculado correctamente!");
+                cancelVideoUpload();
+                loadVideos(); // Refrescar la galería de vídeos
+            } catch (error) {
+                console.error(error);
+                alert("❌ Hubo un error vinculando el vídeo. Revisa tu conexión.");
+                cancelVideoUpload();
+            }
+        }
+
+        async function loadVideos() {
+            const token = getGhToken();
+            const container = document.getElementById('videos-container');
+            
+            if (!token) {
+                container.innerHTML = '<div class="col-span-full p-4 bg-slate-800/80 border border-slate-700 rounded-2xl text-slate-400 text-[11px] shadow-inner text-center">🔐 Conecta el tablero para poder ver los vídeos de dudas.</div>';
+                return;
+            }
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/recursos/videos`, {
+                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+                });
+
+                if (res.status === 404) {
+                    container.innerHTML = '<div class="col-span-full text-center py-10 bg-slate-900/50 rounded-3xl border border-slate-800"><p class="text-slate-500 text-sm">Aún no hay ningún vídeo publicado en esta sección.</p></div>';
+                    return;
+                }
+                
+                if (!res.ok) throw new Error("Error loading videos");
+                
+                const files = await res.json();
+                
+                // Leemos los .yt (nuevos) y los .mp4/.webm (los antiguos que ya tenías)
+                const videos = files.filter(f => f.name.match(/\.(mp4|webm|yt)$/i)).sort((a, b) => b.name.localeCompare(a.name)); 
+
+                if (videos.length === 0) {
+                    container.innerHTML = '<div class="col-span-full text-center py-10 bg-slate-900/50 rounded-3xl border border-slate-800"><p class="text-slate-500 text-sm">Aún no hay ningún vídeo publicado en esta sección.</p></div>';
+                    return;
+                }
+
+                container.innerHTML = videos.map(v => {
+                    const isYouTube = v.name.endsWith('.yt');
+                    let displayTitle = "Videotutorial";
+                    let mediaHtml = "";
+
+                    if (isYouTube) {
+                        // Formato: timestamp_yt_ID_Titulo.yt
+                        const parts = v.name.split('_');
+                        const ytID = parts[2];
+                        displayTitle = parts.slice(3).join(' ').replace(/\.yt$/i, "");
+                        
+                        // Obtenemos la miniatura oficial de YouTube
+                        const thumbnailUrl = `https://img.youtube.com/vi/${ytID}/hqdefault.jpg`;
+
+                        mediaHtml = `
+                            <div class="w-full h-full absolute inset-0 bg-slate-900 transition-colors" style="background-image: url('${thumbnailUrl}'); background-size: cover; background-position: center;">
+                                <div class="absolute inset-0 bg-slate-950/60 group-hover:bg-slate-950/40 transition-colors"></div>
+                                <a href="https://www.youtube.com/watch?v=${ytID}" target="_blank" class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 cursor-pointer">
+                                    <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-white shadow-[0_0_20px_rgba(220,38,38,0.5)] group-hover:scale-110 group-hover:bg-red-500 transition-all">
+                                        <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    </div>
+                                    <span class="bg-slate-900/90 text-slate-200 text-[9px] font-bold uppercase tracking-widest px-4 py-2 rounded-xl border border-slate-700 backdrop-blur-sm group-hover:border-red-500/50 transition-colors">
+                                        Ver en YouTube ↗
+                                    </span>
+                                </a>
+                            </div>
+                        `;
+                    } else {
+                        // Es un vídeo mp4 antiguo
+                        displayTitle = v.name.split('_').slice(1).join(' ').replace(/\.[^/.]+$/, "");
+                        mediaHtml = `
+                            <video controls class="w-full h-full object-contain absolute inset-0" preload="metadata">
+                                <source src="${v.download_url}" type="video/mp4">
+                                Tu navegador no soporta el formato de vídeo.
+                            </video>
+                        `;
+                    }
+                    
+                    return `
+                        <div class="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-xl group hover:border-purple-500/50 transition-colors flex flex-col">
+                            <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center gap-3">
+                                <span class="bg-purple-500/20 text-purple-400 p-1.5 rounded-lg text-sm">${isYouTube ? '📺' : '🎥'}</span>
+                                <h3 class="text-slate-200 text-sm font-bold truncate tracking-tight" title="${displayTitle}">${displayTitle}</h3>
+                            </div>
+                            <div class="relative bg-black aspect-video w-full">
+                                ${mediaHtml}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) {
+                console.error("Error cargando vídeos:", e);
+                container.innerHTML = '<div class="col-span-full p-4 bg-red-900/20 border border-red-500/30 text-red-400 text-sm rounded-2xl text-center">Hubo un problema al cargar los vídeos desde el servidor.</div>';
             }
         }
 
