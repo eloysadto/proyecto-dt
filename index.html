@@ -367,7 +367,7 @@
                     <h3 class="text-[10px] font-bold text-red-400 uppercase tracking-widest flex items-center gap-2">
                         <span class="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span> Reasignaciones de Emergencia (Abandonos)
                     </h3>
-                    <span class="text-[9px] text-red-500/60 font-mono italic">Piezas autoasignadas a jefatura para contención</span>
+                    <span class="text-[9px] text-red-500/60 font-mono italic">Pendientes de reasignación manual por administración</span>
                 </div>
                 <div id="col-abandoned" class="flex flex-wrap gap-4 overflow-x-auto pb-2 custom-scrollbar">
                 </div>
@@ -587,6 +587,24 @@
         </div>
     </div>
 
+    <!-- MODAL DE REASIGNACIÓN ADMIN -->
+    <div id="reassignModal" class="fixed inset-0 z-[300] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="closeReassignModal()"></div>
+        <div class="relative bg-slate-900 border border-orange-500/30 shadow-2xl rounded-3xl w-full max-w-sm p-8 z-10 fade-in text-center">
+            <h3 class="text-xl font-bold text-slate-100 mb-2 font-['Urbanist']">Reasignar Alumno</h3>
+            <p class="text-xs text-slate-400 mb-6">Selecciona el nuevo responsable para esta pieza.</p>
+            
+            <select id="reassign-select" class="w-full bg-slate-950 border border-slate-700 text-slate-200 text-sm rounded-xl p-3 outline-none focus:border-orange-500 mb-6 cursor-pointer">
+                <!-- Se llena automáticamente con JS -->
+            </select>
+            
+            <div class="flex gap-3 justify-center">
+                <button onclick="confirmReassignment()" class="bg-orange-600 hover:bg-orange-500 text-white font-bold py-2.5 px-5 rounded-xl text-xs uppercase tracking-widest transition-colors shadow-lg shadow-orange-500/20 w-1/2">Confirmar</button>
+                <button onclick="closeReassignModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 px-5 rounded-xl text-xs uppercase tracking-widest border border-slate-700 transition-colors w-1/2">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- SHARED SVG TEMPLATE -->
     <template id="scooter-svg-template">
         <svg viewBox="0 0 800 600" class="scooter-svg w-full h-full">
@@ -687,8 +705,8 @@
             // AQUI SE AÑADE EL TIMBRE CAMUFLADO EN LA DESCRIPCIÓN 
             { id: "2.7", name: "Cuerpo maneta", search: "Xiaomi Scooter 4 brake handle lever base", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.7", personName: "Pablo Rivas", diff: "ALTA", zone: ["zone-maneta-freno"], type: "Mecanismo (Fundición)", desc: "Soporte de freno al manillar. Modelar el alojamiento interno para el sensor de corte eléctrico y la rosca del tensor del cable." },
             { id: "2.8", name: "Palanca de freno", search: "Xiaomi Scooter 4 brake lever arm", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.8", personName: "Lola Osagiede", diff: "MEDIA", zone: ["zone-maneta-freno"], type: "Ergonomía", desc: "Gatillo de freno optimizado en curva para accionamiento con dos dedos. Incluir el eje de pivotamiento pasante y el muelle de retorno. IMPORTANTE: En esta pieza se debe integrar y diseñar de forma disimulada el mecanismo del TIMBRE (campana metálica y percutor) integrado directamente en el cuerpo del anclaje, tal cual viene de fábrica." },
-            { id: "2.9", name: "Soporte Pinza", search: "Xiaomi Scooter 4 rear brake caliper bracket", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.9", personName: "Alejandro Álvarez", diff: "MEDIA", zone: ["zone-pinza"], type: "Soporte Técnico", desc: "Adaptador de mecanizado que alinea y sujeta la pinza de freno al chasis del patinete. Ajuste crítico de tolerancias." },
-            { id: "2.10", name: "Cuerpo Pinza Freno", search: "Xiaomi Scooter 4 rear brake caliper body", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.10", personName: "Rubén Iordache", diff: "ALTA", zone: ["zone-pinza"], type: "Mecánico (Fundición)", desc: "Caliper de freno de disco. Geometría compleja de fundición que aloja el mecanismo de empuje de las pastillas y el muelle tensor." },
+            { id: "2.9", name: "Anillo seguridad", search: "Xiaomi Scooter 4 folding lock ring plastic", subsys: "S6: Plegado", team: "PL 20", assigned: "Ingeniero/a 2.9", personName: "Alejandro Álvarez", diff: "BAJA", zone: ["zone-plegado"], type: "Seguridad (Plástico)", desc: "Anillo redundante sencillo. Modelar las pestañas internas que traban el movimiento de la palanca." },
+            { id: "2.10", name: "Cuerpo y Soporte Pinza", search: "Xiaomi Scooter 4 rear brake caliper body bracket", subsys: "S4: Frenado", team: "PL 20", assigned: "Ingeniero/a 2.10", personName: "Rubén Iordache", diff: "ALTA", zone: ["zone-pinza"], type: "Mecánico (Fundición)", desc: "Caliper de freno de disco. Geometría compleja de fundición que aloja el mecanismo de empuje de las pastillas. INCLUYE ADEMÁS: Soporte adaptador de mecanizado que alinea y sujeta la pinza al chasis." },
             { id: "2.11", name: "Disco 130mm", search: "Xiaomi Scooter 4 brake disc rotor 130mm", subsys: "S4: Frenado", team: "PL 20", assigned: "Director y Jefe/a PL 20", personName: "Eloy Santos", diff: "BAJA", zone: ["zone-disco-freno"], type: "Dinámico (Chapa)", desc: "Rotor de acero inoxidable de 2mm con patrón de ventilación. Operación técnica de corte 2D plano. *Pieza designada a jefatura.*" },
             { id: "3.1", name: "Alfombrilla y Carga", search: "Xiaomi Scooter 4 deck rubber mat charge port", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.1", personName: "Iván Dou", diff: "MEDIA", zone: ["zone-alfombrilla", "zone-puerto-carga"], type: "Recubrimiento y Eléc.", desc: "Alfombrilla superior de silicona (Deck mat) texturizada y tapón/puerto de carga exterior. Piezas extraídas de la asignación original de Dirección." },
             { id: "3.2", name: "Vástago central", search: "Xiaomi Scooter 4 steering stem column", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.2", personName: "Francisco Villanueva", diff: "ALTA", zone: ["zone-eje-interno", "zone-rodamientos-1", "zone-rodamientos-2"], type: "Pieza Interior (Acero)", desc: "Eje pasante central interno. INCLUYE ADEMÁS: El juego de dirección completo (rodamientos de bolas superior/inferior y cazoletas) para asegurar el giro libre de fricción." },
@@ -696,8 +714,7 @@
             { id: "3.4", name: "Tapa batería e Int.", search: "Xiaomi Scooter 4 bottom battery cover controller", subsys: "S5: Chasis y Cuello", team: "PL 21", assigned: "Ingeniero/a 3.4", personName: "Vega Fernández", diff: "MEDIA", zone: ["zone-tapa-bateria", "zone-bateria", "zone-controlador"], type: "Protección y Electrónica", desc: "Cierre inferior estanco. INCLUYE ADEMÁS: La volumetría en bloque del pack interno de baterías de litio y de la placa base (controlador electrónico) que cierran el conjunto." },
             { id: "3.5", name: "Base móvil plegado", search: "Xiaomi Scooter 4 folding mechanism base", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.5", personName: "Chej Sidia", diff: "MEDIA", zone: ["zone-plegado"], type: "Mecanismo (Acero)", desc: "Bisagra inferior del mástil. Es vital modelar geométricamente el tope físico que impide que el manillar sobrepase su ángulo vertical ideal." },
             { id: "3.6", name: "Palanca bloqueo", search: "Xiaomi Scooter 4 folding lever handle", subsys: "S6: Plegado", team: "PL 21", assigned: "Jefe/a PL 21 (antes Ing. 3.6)", personName: "Hugo Ojeda", diff: "MEDIA", zone: ["zone-plegado"], type: "Mecanismo (Ergonomía)", desc: "Cierre rápido vertical y diseño curvo adaptado a la mano del usuario." },
-            { id: "3.7", name: "Pasador y eje transv.", search: "Xiaomi Scooter 4 folding pole pin bolt", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.7", personName: "Mark Servera", diff: "MEDIA", zone: ["zone-plegado"], type: "Eje de Precisión", desc: "Perno técnico de pivotamiento del plegado. INCLUYE ADEMÁS: El eje pasante transversal de ajuste (tornillo para apretar horizontalmente el mecanismo)." },
-            { id: "3.8", name: "Anillo seguridad", search: "Xiaomi Scooter 4 folding lock ring plastic", subsys: "S6: Plegado", team: "PL 21", assigned: "Jefe/a PL 21", personName: "Hugo Ojeda", diff: "BAJA", zone: ["zone-plegado"], type: "Seguridad (Plástico)", desc: "Anillo redundante sencillo. Modelar las pestañas internas que traban el movimiento de la palanca. *Pieza reasignada a jefatura por abandono.*" }
+            { id: "3.7", name: "Pasador y eje transv.", search: "Xiaomi Scooter 4 folding pole pin bolt", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.7", personName: "Mark Servera", diff: "MEDIA", zone: ["zone-plegado"], type: "Eje de Precisión", desc: "Perno técnico de pivotamiento del plegado. INCLUYE ADEMÁS: El eje pasante transversal de ajuste (tornillo para apretar horizontalmente el mecanismo)." }
         ];
 
         const partsData = rawPartsData;
@@ -747,7 +764,10 @@
             document.getElementById('modal-title').innerText = part.name;
             document.getElementById('modal-subsys').innerText = part.subsys;
             document.getElementById('modal-assigned').innerText = part.assigned;
-            document.getElementById('modal-person').innerText = part.personName || '-';
+            
+            // Integración del sistema Admin de reasignación (Icono de lápiz) actualizado
+            document.getElementById('modal-person').innerHTML = `${part.personName || '-'} <button onclick="openReassignModal('${part.id}')" class="text-[10px] ml-2 text-slate-500 hover:text-orange-500 transition-colors" title="Editar asignación (Admin)">✏️</button>`;
+            
             document.getElementById('modal-desc').innerText = part.desc;
             document.getElementById('modal-type').innerText = part.type;
             document.getElementById('modal-search').innerText = part.search;
@@ -761,8 +781,8 @@
             document.getElementById('ai-loading').classList.remove('flex');
             document.getElementById('ai-result').classList.add('hidden');
             
-            // Resetear interfaz y detectar si la pieza está abandonada
-            const issue = globalGithubIssues.find(i => i.title.includes(`[${part.id}]`));
+            // Resetear interfaz y detectar si la pieza está abandonada (búsqueda flexible por ID o Nombre)
+            const issue = globalGithubIssues.find(i => i.title.includes(`[${part.id}]`) || i.title.toLowerCase().includes(part.name.toLowerCase()));
             const isAbandoned = issue && issue.labels.some(l => l.name.toLowerCase() === 'abandonado');
 
             if (isAbandoned) {
@@ -889,13 +909,79 @@ Instruye al alumno respondiendo a lo siguiente:
 
         let globalGithubIssues = [];
         let pendingUploadData = null;
+        let pendingReassignPartId = null;
 
-        function getReasignacion(partInfo) {
-            if (!partInfo) return "Dirección";
-            if (partInfo.team === 'PL 19') return "Marcos M. (Jefe PL 19) + Dirección";
-            if (partInfo.team === 'PL 20') return "Eloy S. (Dir / Jefe PL 20)";
-            if (partInfo.team === 'PL 21') return "Hugo O. (Jefe PL 21) + Dirección";
-            return "Dirección (Eloy Santos)";
+        // --- SISTEMA ADMIN: CAMBIAR ASIGNACIONES DE FORMA GLOBAL ---
+        function openReassignModal(partId) {
+            const pass = prompt("Introduce la contraseña de administrador:");
+            if (pass !== "adminpel") {
+                if (pass !== null) alert("❌ Contraseña incorrecta.");
+                return;
+            }
+            pendingReassignPartId = partId;
+            
+            const select = document.getElementById('reassign-select');
+            // Obtener lista de todos los alumnos únicos del sistema en orden alfabético
+            const allNames = [...new Set(partsData.map(p => p.personName).filter(n => n && n !== '-'))].sort();
+            
+            select.innerHTML = '<option value="" disabled selected>-- Selecciona un alumno/a --</option>' + 
+                allNames.map(n => `<option value="${n}">${n}</option>`).join('');
+
+            document.getElementById('reassignModal').classList.replace('hidden', 'flex');
+        }
+
+        function closeReassignModal() {
+            document.getElementById('reassignModal').classList.replace('flex', 'hidden');
+            pendingReassignPartId = null;
+        }
+
+        async function confirmReassignment() {
+            const newName = document.getElementById('reassign-select').value;
+            if (!newName) {
+                alert("⚠️ Por favor, selecciona un nombre de la lista.");
+                return;
+            }
+            
+            const partId = pendingReassignPartId;
+            closeReassignModal();
+
+            const part = partsData.find(p => p.id === partId);
+            if (part) part.personName = newName;
+            
+            // Actualizar vista local
+            document.getElementById('modal-person').innerHTML = `${newName} <button onclick="openReassignModal('${part.id}')" class="text-[10px] ml-2 text-slate-500 hover:text-orange-500 transition-colors" title="Editar asignación (Admin)">✏️</button>`;
+
+            const token = getGhToken();
+            if (!token) {
+                alert("⚠️ Nombre cambiado en tu pantalla. Para guardarlo para toda la clase, debes conectar el Kanban con 🔑 arriba.");
+                renderKanban();
+                return;
+            }
+            
+            // Búsqueda flexible en caso de que en GitHub tenga un ID antiguo
+            const issue = globalGithubIssues.find(i => i.title.includes(`[${partId}]`) || i.title.toLowerCase().includes(part.name.toLowerCase()));
+            if (issue) {
+                let newBody = issue.body || '';
+                // Borra overrides anteriores e inserta el nuevo al final del body de forma invisible
+                newBody = newBody.replace(/\n?<!-- ASIGNADO:.*?-->/g, '');
+                newBody += `\n<!-- ASIGNADO: ${newName} -->`;
+                
+                try {
+                    await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}`, {
+                        method: 'PATCH',
+                        headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ body: newBody })
+                    });
+                    issue.body = newBody;
+                    alert(`✅ Asignación guardada. ${newName} ahora consta como responsable global de la pieza ${partId}.`);
+                    renderKanban();
+                } catch (e) {
+                    alert("❌ Error guardando en GitHub. Revisa tus permisos.");
+                }
+            } else {
+                alert("⚠️ Nombre actualizado localmente. (No se encontró la pieza en GitHub para sincronizarla).");
+                renderKanban();
+            }
         }
 
         function abandonarProyectoUI() {
@@ -906,7 +992,7 @@ Instruye al alumno respondiendo a lo siguiente:
                 return;
             }
 
-            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`));
+            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`) || i.title.toLowerCase().includes(currentPartForAI.name.toLowerCase()));
             if (!issue) {
                 alert("❌ No se encontró la pieza activa en el repositorio.");
                 return;
@@ -934,7 +1020,7 @@ Instruye al alumno respondiendo a lo siguiente:
         async function procesarAbandono() {
             if (!currentPartForAI) return;
             const token = getGhToken();
-            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`));
+            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`) || i.title.toLowerCase().includes(currentPartForAI.name.toLowerCase()));
             if (!issue) return;
 
             // Mostrar estado de carga
@@ -945,7 +1031,6 @@ Instruye al alumno respondiendo a lo siguiente:
             try {
                 const labelNames = issue.labels.map(l => l.name).filter(n => n !== 'sinhacer' && n !== 'enprogreso');
                 labelNames.push('abandonado');
-                const reasignados = getReasignacion(currentPartForAI);
 
                 await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}`, {
                     method: 'PATCH',
@@ -956,11 +1041,11 @@ Instruye al alumno respondiendo a lo siguiente:
                 await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}/comments`, {
                     method: 'POST',
                     headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ body: `🚨 **ABANDONO REGISTRADO**\nEl responsable original ha notificado el abandono de la tarea.\n🔄 **Reasignación de contención de daños:** Automáticamente transferido a \`${reasignados}\`.` })
+                    body: JSON.stringify({ body: `🚨 **ABANDONO REGISTRADO**\nEl responsable ha notificado el abandono de la tarea. Pendiente de reasignación manual por administración.` })
                 });
 
                 issue.labels = labelNames.map(n => ({name: n}));
-                alert(`✅ Se ha registrado tu abandono. La carga de trabajo ha sido reasignada a: ${reasignados}.`);
+                alert(`✅ Se ha registrado el abandono. La pieza queda marcada y a la espera de reasignación manual.`);
                 closeModal();
                 renderKanban();
             } catch (e) {
@@ -983,7 +1068,7 @@ Instruye al alumno respondiendo a lo siguiente:
                 return;
             }
 
-            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`));
+            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`) || i.title.toLowerCase().includes(currentPartForAI.name.toLowerCase()));
             if (!issue) return;
 
             const btn = document.getElementById('btn-reincorporar');
@@ -1005,7 +1090,7 @@ Instruye al alumno respondiendo a lo siguiente:
                 await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}/comments`, {
                     method: 'POST',
                     headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ body: `♻️ **REINCORPORACIÓN REGISTRADA**\nEl responsable original ha retomado la tarea. Se cancela la reasignación de emergencia.` })
+                    body: JSON.stringify({ body: `♻️ **REINCORPORACIÓN REGISTRADA**\nEl responsable original ha retomado la tarea.` })
                 });
 
                 issue.labels = labelNames.map(n => ({name: n}));
@@ -1056,8 +1141,15 @@ Instruye al alumno respondiendo a lo siguiente:
                 const issueData = globalGithubIssues.find(i => i.number === issueNumber);
                 
                 const issueIdMatch = issueData.title.match(/\[(.*?)\]/);
-                const partId = issueIdMatch ? issueIdMatch[1] : null;
-                const partInfo = partsData.find(p => p.id === partId);
+                let partId = issueIdMatch ? issueIdMatch[1] : null;
+                let partInfo = partsData.find(p => p.id === partId);
+
+                // FIX: Búsqueda flexible si el ID de GitHub está desactualizado respecto a la web
+                if (!partInfo) {
+                    const cleanTitleSearch = issueData.title.replace(/\[.*?\]\s*/, '').trim().toLowerCase();
+                    partInfo = partsData.find(p => cleanTitleSearch.includes(p.name.toLowerCase()));
+                    if (partInfo) partId = partInfo.id;
+                }
 
                 // INTERCEPCIÓN
                 if (status === 'done') {
@@ -1206,15 +1298,19 @@ Instruye al alumno respondiendo a lo siguiente:
                 newBody = newBody.replace(/\n<!-- DWG_URL:.*?-->/g, ''); 
                 newBody += `\n<!-- DWG_URL: ${downloadUrl} -->`;
 
+                // SOLUCIÓN BUG: Conservamos las etiquetas existentes (como abandonado) y le sumamos 'hecho'
+                let currentLabels = issueDataForUpdate.labels.map(l => l.name).filter(n => !['sinhacer', 'enprogreso'].includes(n.toLowerCase()));
+                if (!currentLabels.includes('hecho')) currentLabels.push('hecho');
+
                 await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
                     method: 'PATCH',
                     headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ labels: ['hecho'], body: newBody })
+                    body: JSON.stringify({ labels: currentLabels, body: newBody })
                 });
                 
                 const issueIndex = globalGithubIssues.findIndex(i => i.number === issueNumber);
                 if (issueIndex > -1) {
-                    globalGithubIssues[issueIndex].labels = [{ name: 'hecho' }];
+                    globalGithubIssues[issueIndex].labels = currentLabels.map(n => ({name: n}));
                     globalGithubIssues[issueIndex].body = newBody;
                 }
                 
@@ -1258,8 +1354,21 @@ Instruye al alumno respondiendo a lo siguiente:
                 if (issue.pull_request) return; 
 
                 const issueIdMatch = issue.title.match(/\[(.*?)\]/);
-                const partId = issueIdMatch ? issueIdMatch[1] : null;
-                const partInfo = partsData.find(p => p.id === partId);
+                let partId = issueIdMatch ? issueIdMatch[1] : null;
+                let partInfo = partsData.find(p => p.id === partId);
+
+                // FIX: Búsqueda flexible en caso de desfase entre GitHub y la base de datos local
+                if (!partInfo) {
+                    const cleanTitleSearch = issue.title.replace(/\[.*?\]\s*/, '').trim().toLowerCase();
+                    partInfo = partsData.find(p => cleanTitleSearch.includes(p.name.toLowerCase()));
+                    if (partInfo) partId = partInfo.id;
+                }
+
+                // LEER SISTEMA ADMIN: Si hay un override en GitHub, lo aplicamos al vuelo
+                if (partInfo && issue.body) {
+                    const overrideMatch = issue.body.match(/<!-- ASIGNADO:\s*(.+?)\s*-->/);
+                    if (overrideMatch) partInfo.personName = overrideMatch[1];
+                }
 
                 const team = partInfo ? partInfo.team : 'Otros';
                 if (filterValue !== 'all' && team !== filterValue) return;
@@ -1296,9 +1405,8 @@ Instruye al alumno respondiendo a lo siguiente:
 
                 if (isAbandoned) {
                     hasAbandoned = true;
-                    studentName = getReasignacion(partInfo);
-                    // Solución: Ajustado a top-0 right-0 con bordes redondeados a medida para que encaje en la esquina sin cortarse
-                    roleOverride = `<div class="absolute top-0 right-0 bg-red-600 text-white text-[7px] font-bold px-2 py-0.5 rounded-bl-lg rounded-tr-xl shadow-lg z-20 border-b border-l border-red-500 tracking-wider">REASIGNADO</div>`;
+                    // Solución: Etiqueta grande de ABANDONADO, pero mantiene el nombre original del alumno
+                    roleOverride = `<div class="absolute top-0 right-0 bg-red-600 text-white text-[7px] font-bold px-2 py-0.5 rounded-bl-lg rounded-tr-xl shadow-lg z-20 border-b border-l border-red-500 tracking-wider">ABANDONADO</div>`;
                 }
 
                 const initials = studentName !== 'Sin asignar' ? studentName.substring(0, 2).toUpperCase() : '??';
