@@ -558,6 +558,16 @@
                         <div id="ai-result" class="hidden relative bg-slate-950 border border-slate-700 p-3 rounded-xl mt-2">
                             <p id="ai-prompt-text" class="text-[10px] text-slate-300 font-mono leading-relaxed select-all pr-6 overflow-y-auto max-h-32 custom-scrollbar"></p>
                         </div>
+
+                        <!-- ADMINISTRACION: EVALUACION -->
+                        <div class="mt-4 pt-4 border-t border-slate-800">
+                            <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest mb-2 text-center">Evaluación Docente (Solo Admin)</p>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="adminEvaluar('perfecto')" class="bg-emerald-950/20 hover:bg-emerald-600/30 text-emerald-500 border border-emerald-500/20 hover:border-emerald-500/50 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all">✨ Perfecto</button>
+                                <button onclick="adminEvaluar('revisar')" class="bg-orange-950/20 hover:bg-orange-600/30 text-orange-500 border border-orange-500/20 hover:border-orange-500/50 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all">🔄 Revísalo</button>
+                                <button onclick="adminEvaluar('limpiar')" class="col-span-2 bg-slate-900 hover:bg-slate-800 text-slate-600 hover:text-slate-400 py-1.5 rounded-xl text-[8px] font-bold uppercase tracking-widest transition-all">Limpiar Estado</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1163,6 +1173,45 @@ Instruye al alumno respondiendo a lo siguiente:
             }
         }
 
+        async function adminEvaluar(status) {
+            if (!currentPartForAI) return;
+            const pass = prompt("Introduce la contraseña de administrador:");
+            if (pass !== "adminpel") {
+                if (pass !== null) alert("❌ Contraseña incorrecta.");
+                return;
+            }
+
+            const token = getGhToken();
+            if (!token) {
+                alert("🔐 Debes estar conectado para evaluar.");
+                return;
+            }
+
+            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`) || i.title.toLowerCase().includes(currentPartForAI.name.toLowerCase()));
+            if (!issue) return;
+
+            // Filtramos las etiquetas anteriores de evaluación para no duplicar
+            let labelNames = issue.labels.map(l => l.name).filter(n => n !== 'eval-perfecto' && n !== 'eval-revisar');
+
+            if (status === 'perfecto') labelNames.push('eval-perfecto');
+            else if (status === 'revisar') labelNames.push('eval-revisar');
+
+            try {
+                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ labels: labelNames })
+                });
+
+                issue.labels = labelNames.map(n => ({name: n}));
+                renderKanban();
+                alert(status === 'limpiar' ? "🧹 Evaluación eliminada." : `✅ Estado '${status}' guardado correctamente.`);
+            } catch (error) {
+                console.error(error);
+                alert("❌ Error de permisos o conexión al guardar la evaluación.");
+            }
+        }
+
         document.getElementById('filter-team').addEventListener('change', () => { renderKanban(); });
         document.getElementById('search-kanban').addEventListener('input', () => { renderKanban(); });
 
@@ -1496,6 +1545,13 @@ Instruye al alumno respondiendo a lo siguiente:
                     }
                 }
 
+                let evalBadgeHtml = '';
+                if (labels.includes('eval-perfecto')) {
+                    evalBadgeHtml = `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded flex items-center gap-1 text-[8px] font-bold uppercase tracking-widest ml-auto shadow-[0_0_8px_rgba(16,185,129,0.2)]">✨ Perfecto</span>`;
+                } else if (labels.includes('eval-revisar')) {
+                    evalBadgeHtml = `<span class="bg-orange-500/10 text-orange-400 border border-orange-500/20 px-1.5 py-0.5 rounded flex items-center gap-1 text-[8px] font-bold uppercase tracking-widest ml-auto shadow-[0_0_8px_rgba(249,115,22,0.2)]">🔄 Revísalo</span>`;
+                }
+
                 card.innerHTML = `
                     ${roleOverride}
                     <div class="flex justify-between items-center mb-1.5 gap-2">
@@ -1505,9 +1561,10 @@ Instruye al alumno respondiendo a lo siguiente:
                     <h4 class="text-xs font-bold text-slate-200 mb-1 leading-tight group-hover:text-orange-400 transition-colors">${cleanTitle}</h4>
                     ${subsysHtml}
                     ${downloadBtnHtml}
-                    <div class="flex items-center gap-2 border-t border-slate-700/50 pt-2.5 mt-auto relative z-10">
+                    <div class="flex items-center gap-2 border-t border-slate-700/50 pt-2.5 mt-auto relative z-10 w-full">
                         ${avatarHtml}
-                        <span class="text-[9px] text-slate-300 font-medium leading-tight line-clamp-2">${studentName}</span>
+                        <span class="text-[9px] text-slate-300 font-medium leading-tight line-clamp-2 flex-grow">${studentName}</span>
+                        ${evalBadgeHtml}
                     </div>
                     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-slate-900/90 p-2.5 rounded-full backdrop-blur-sm border border-slate-700 shadow-xl z-30">
                         <span class="text-lg leading-none">👁️</span>
