@@ -1405,7 +1405,8 @@ Instruye al alumno respondiendo a lo siguiente:
                 newBody += `\n<!-- DWG_URL: ${downloadUrl} -->`;
 
                 // SOLUCIÓN BUG: Conservamos las etiquetas existentes (como abandonado) y le sumamos 'hecho'
-                let currentLabels = issueDataForUpdate.labels.map(l => l.name).filter(n => !['sinhacer', 'enprogreso'].includes(n.toLowerCase()));
+                // NUEVO: Limpiamos las etiquetas de evaluación docente al subir un nuevo archivo
+                let currentLabels = issueDataForUpdate.labels.map(l => l.name).filter(n => !['sinhacer', 'enprogreso', 'eval-perfecto', 'eval-revisar'].includes(n.toLowerCase()));
                 if (!currentLabels.includes('hecho')) currentLabels.push('hecho');
 
                 await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
