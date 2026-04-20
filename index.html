@@ -155,18 +155,18 @@
                     <h4 class="font-bold text-slate-400 text-xs line-through mb-1">Entrega de CAD a Jefatura</h4>
                     <p class="text-[10px] text-slate-500 leading-relaxed">Entrega de los archivos CAD a los jefes para comprobar calidad y que las piezas encajen.</p>
                 </div>
+                <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-800 opacity-50 relative group">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-500 text-[10px] font-bold">✓</div>
+                        <span class="px-2 py-0.5 bg-slate-800/50 text-slate-500 text-[8px] font-bold uppercase rounded border border-slate-700">COMPLETADO</span>
+                    </div>
+                    <h4 class="font-bold text-slate-400 text-xs line-through mb-1">Entrega CAD a Dirección</h4>
+                    <p class="text-[10px] text-slate-500 leading-relaxed">Los jefes de PL entregan sus subsistemas CAD y los ingenieros los planos de despiece a Dirección.</p>
+                </div>
                 <div class="bg-slate-950 p-4 rounded-2xl border border-orange-500/30 shadow-lg relative group transition hover:border-orange-500/60">
                     <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center justify-center w-6 h-6 rounded-full bg-orange-500 text-slate-900 text-[10px] font-bold shadow-md">7</div>
-                        <span class="px-2 py-0.5 bg-orange-500/10 text-orange-400 text-[8px] font-bold uppercase rounded border border-orange-500/20">17 ABR 2026</span>
-                    </div>
-                    <h4 class="font-bold text-slate-200 text-xs mb-1">Entrega CAD a Dirección</h4>
-                    <p class="text-[10px] text-slate-400 leading-relaxed">Los jefes de PL entregan sus subsistemas CAD y los ingenieros los planos de despiece a Dirección.</p>
-                </div>
-                <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 relative group transition hover:border-slate-600">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center justify-center w-6 h-6 rounded-full bg-slate-800 text-slate-400 text-[10px] font-bold">8</div>
-                        <span class="px-2 py-0.5 bg-slate-800 text-slate-300 text-[8px] font-bold uppercase rounded border border-slate-700">21 ABR 2026</span>
+                        <div class="flex items-center justify-center w-6 h-6 rounded-full bg-orange-500 text-slate-900 text-[10px] font-bold shadow-md">8</div>
+                        <span class="px-2 py-0.5 bg-orange-500/10 text-orange-400 text-[8px] font-bold uppercase rounded border border-orange-500/20">21 ABR 2026</span>
                     </div>
                     <h4 class="font-bold text-slate-200 text-xs mb-1">Resolución de Problemas</h4>
                     <p class="text-[10px] text-slate-400 leading-relaxed">Análisis de problemas finales y corrección de elementos faltantes para dejarlo todo listo.</p>
@@ -313,12 +313,40 @@
                         <option value="PL 20">PL 20: Dirección</option>
                         <option value="PL 21">PL 21: Chasis</option>
                     </select>
+
+                    <div class="w-px h-6 bg-slate-700 hidden sm:block mx-1"></div>
+                    
+                    <select id="filter-status" class="bg-slate-950 border border-slate-700 text-slate-200 text-xs rounded-xl p-2 outline-none focus:border-orange-500 shadow-lg w-full sm:w-auto min-w-[140px] cursor-pointer hover:border-slate-500 transition-colors">
+                        <option value="all">Cualquier Estado</option>
+                        <option value="eval-perfecto">✨ Perfecto</option>
+                        <option value="eval-revisar">🔄 Revísalo</option>
+                        <option value="sin-estado">⚪ Sin Estado</option>
+                    </select>
                     
                     <div class="w-px h-6 bg-slate-700 hidden sm:block mx-1"></div>
                     
                     <button onclick="configurarToken()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold transition shadow-lg border border-slate-700 flex items-center justify-center gap-2 w-full sm:w-auto shrink-0">
                         🔑 Conectar
                     </button>
+                </div>
+            </div>
+
+            <!-- MINIGRÁFICO DE PROGRESO DE EVALUACIÓN -->
+            <div class="reveal mb-8 bg-slate-900/40 border border-slate-800 p-5 rounded-3xl shadow-inner">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-3 gap-3">
+                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Progreso de Evaluación Docente
+                    </p>
+                    <div class="flex flex-wrap gap-3 sm:gap-5 text-[10px] font-bold uppercase tracking-widest bg-slate-950 px-4 py-2 rounded-xl border border-slate-800/80">
+                        <span class="text-emerald-400">✨ Perfecto: <span id="stat-perf-txt" class="text-white font-mono">0 (0%)</span></span>
+                        <span class="text-orange-400">🔄 Revísalo: <span id="stat-rev-txt" class="text-white font-mono">0 (0%)</span></span>
+                        <span class="text-slate-500">⚪ Sin Estado: <span id="stat-sin-txt" class="text-white font-mono">0 (0%)</span></span>
+                    </div>
+                </div>
+                <div class="w-full h-3 flex rounded-full overflow-hidden bg-slate-800 shadow-inner">
+                    <div id="bar-perf" class="bg-emerald-500 h-full transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(16,185,129,0.6)]" style="width: 0%"></div>
+                    <div id="bar-rev" class="bg-orange-500 h-full transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(249,115,22,0.6)]" style="width: 0%"></div>
+                    <div id="bar-sin" class="bg-slate-700 h-full transition-all duration-1000 ease-out" style="width: 100%"></div>
                 </div>
             </div>
 
@@ -359,18 +387,6 @@
                             <span class="text-8xl">📥</span>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Zona discreta de abandonos -->
-            <div id="abandoned-zone" class="reveal mt-6 bg-red-950/10 border border-red-500/20 rounded-2xl p-4 hidden">
-                <div class="flex items-center justify-between mb-3 border-b border-red-500/10 pb-2">
-                    <h3 class="text-[10px] font-bold text-red-400 uppercase tracking-widest flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span> Reasignaciones de Emergencia (Abandonos)
-                    </h3>
-                    <span class="text-[9px] text-red-500/60 font-mono italic">Pendientes de reasignación manual por administración</span>
-                </div>
-                <div id="col-abandoned" class="flex flex-wrap gap-4 overflow-x-auto pb-2 custom-scrollbar">
                 </div>
             </div>
         </section>
@@ -784,7 +800,10 @@
             { id: "3.7", name: "Pasador y eje transv.", search: "Xiaomi Scooter 4 folding pole pin bolt", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.7", personName: "Mark Servera", diff: "MEDIA", zone: ["zone-plegado"], type: "Eje de Precisión", desc: "Perno técnico de pivotamiento del plegado. INCLUYE ADEMÁS: El eje pasante transversal de ajuste (tornillo para apretar horizontalmente el mecanismo)." }
         ];
 
-        const partsData = rawPartsData;
+        // Guardamos los nombres originales al inicio para que el desplegable no pierda a los alumnos que abandonaron
+        const ORIGINAL_NAMES = [...new Set(rawPartsData.map(p => p.personName).filter(n => n && n !== '-'))].sort();
+        
+        const partsData = JSON.parse(JSON.stringify(rawPartsData));
 
         const diffColors = {
             'ALTA': 'bg-red-500/10 text-red-400 border-red-500/20',
@@ -988,11 +1007,9 @@ Instruye al alumno respondiendo a lo siguiente:
             pendingReassignPartId = partId;
             
             const select = document.getElementById('reassign-select');
-            // Obtener lista de todos los alumnos únicos del sistema en orden alfabético
-            const allNames = [...new Set(partsData.map(p => p.personName).filter(n => n && n !== '-'))].sort();
             
             select.innerHTML = '<option value="" disabled selected>-- Selecciona un alumno/a --</option>' + 
-                allNames.map(n => `<option value="${n}">${n}</option>`).join('');
+                ORIGINAL_NAMES.map(n => `<option value="${n}">${n}</option>`).join('');
 
             document.getElementById('reassignModal').classList.replace('hidden', 'flex');
         }
@@ -1213,6 +1230,7 @@ Instruye al alumno respondiendo a lo siguiente:
         }
 
         document.getElementById('filter-team').addEventListener('change', () => { renderKanban(); });
+        document.getElementById('filter-status').addEventListener('change', () => { renderKanban(); });
         document.getElementById('search-kanban').addEventListener('input', () => { renderKanban(); });
 
         function allowDrop(ev) {
@@ -1437,23 +1455,25 @@ Instruye al alumno respondiendo a lo siguiente:
 
         function renderKanban() {
             const filterValue = document.getElementById('filter-team').value;
+            const filterStatusValue = document.getElementById('filter-status').value;
             const searchValue = document.getElementById('search-kanban').value;
             const todoCol = document.getElementById('col-todo');
             const inprogCol = document.getElementById('col-inprog');
             const doneCol = document.getElementById('col-done');
-            const abandonedZone = document.getElementById('abandoned-zone');
-            const abandonedCol = document.getElementById('col-abandoned');
 
             const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
             const normalizedSearch = normalizeText(searchValue);
 
-            todoCol.innerHTML = ''; inprogCol.innerHTML = ''; doneCol.innerHTML = ''; abandonedCol.innerHTML = '';
-            let hasAbandoned = false;
+            todoCol.innerHTML = ''; inprogCol.innerHTML = ''; doneCol.innerHTML = '';
+
+            let perfCount = 0;
+            let revCount = 0;
+            let sinCount = 0;
+            let totalEval = 0;
 
             if (globalGithubIssues.length === 0) {
                 todoCol.innerHTML = '<p class="text-[11px] text-slate-500">No hay tareas activas.</p>';
                 updateKanbanCounts();
-                if (abandonedZone) abandonedZone.classList.add('hidden');
                 return;
             }
 
@@ -1480,6 +1500,23 @@ Instruye al alumno respondiendo a lo siguiente:
                 const team = partInfo ? partInfo.team : 'Otros';
                 if (filterValue !== 'all' && team !== filterValue) return;
 
+                const labels = issue.labels.map(l => l.name.toLowerCase()); 
+
+                // --- CÁLCULO PARA EL MINIGRÁFICO ---
+                totalEval++;
+                if (labels.includes('eval-perfecto')) perfCount++;
+                else if (labels.includes('eval-revisar')) revCount++;
+                else sinCount++;
+                // ------------------------------------
+
+                if (filterStatusValue !== 'all') {
+                    if (filterStatusValue === 'sin-estado') {
+                        if (labels.includes('eval-perfecto') || labels.includes('eval-revisar')) return;
+                    } else if (!labels.includes(filterStatusValue)) {
+                        return;
+                    }
+                }
+
                 if (normalizedSearch !== '') {
                     const studentName = partInfo && partInfo.personName && partInfo.personName !== '-' ? partInfo.personName : 'Sin asignar';
                     const pieceName = partInfo ? partInfo.name : issue.title;
@@ -1488,15 +1525,12 @@ Instruye al alumno respondiendo a lo siguiente:
                 }
 
                 let state = 'todo'; 
-                const labels = issue.labels.map(l => l.name.toLowerCase()); 
                 const isAbandoned = labels.includes('abandonado');
 
                 if (labels.includes('enprogreso') || labels.includes('en progreso')) state = 'inprog';
                 else if (labels.includes('hecho')) state = 'done';
-                else if (isAbandoned) state = 'abandoned';
 
-                let extraCardClass = isAbandoned ? 'border-red-500/30 bg-red-950/20 opacity-80 flex-shrink-0' : '';
-                if (state === 'abandoned') extraCardClass += ' min-w-[260px]';
+                let extraCardClass = isAbandoned ? 'border-red-500/30 bg-red-950/20 opacity-80' : '';
                 
                 const card = document.createElement('div');
                 card.id = `issue-${issue.number}`;
@@ -1508,13 +1542,6 @@ Instruye al alumno respondiendo a lo siguiente:
                 card.addEventListener('click', () => { if (partInfo) openModal(partInfo); });
 
                 let studentName = partInfo && partInfo.personName && partInfo.personName !== '-' ? partInfo.personName : 'Sin asignar';
-                let roleOverride = '';
-
-                if (isAbandoned) {
-                    hasAbandoned = true;
-                    // Solución: Etiqueta grande de ABANDONADO, pero mantiene el nombre original del alumno
-                    roleOverride = `<div class="absolute top-0 right-0 bg-red-600 text-white text-[7px] font-bold px-2 py-0.5 rounded-bl-lg rounded-tr-xl shadow-lg z-20 border-b border-l border-red-500 tracking-wider">ABANDONADO</div>`;
-                }
 
                 const initials = studentName !== 'Sin asignar' ? studentName.substring(0, 2).toUpperCase() : '??';
 
@@ -1547,14 +1574,21 @@ Instruye al alumno respondiendo a lo siguiente:
                 }
 
                 let evalBadgeHtml = '';
+                // Abandonado ya no monopoliza este espacio. Solo Perfecto o Revísalo van aquí abajo.
                 if (labels.includes('eval-perfecto')) {
                     evalBadgeHtml = `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded flex items-center gap-1 text-[8px] font-bold uppercase tracking-widest ml-auto shadow-[0_0_8px_rgba(16,185,129,0.2)]">✨ Perfecto</span>`;
                 } else if (labels.includes('eval-revisar')) {
                     evalBadgeHtml = `<span class="bg-orange-500/10 text-orange-400 border border-orange-500/20 px-1.5 py-0.5 rounded flex items-center gap-1 text-[8px] font-bold uppercase tracking-widest ml-auto shadow-[0_0_8px_rgba(249,115,22,0.2)]">🔄 Revísalo</span>`;
                 }
 
+                // NUEVO: Etiqueta central superior para Abandonado con diseño estándar y sutil
+                let abandonedBadgeTop = '';
+                if (isAbandoned) {
+                    abandonedBadgeTop = `<div class="flex justify-center mb-2 w-full"><span class="bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-widest shadow-sm">🚨 Abandonado</span></div>`;
+                }
+
                 card.innerHTML = `
-                    ${roleOverride}
+                    ${abandonedBadgeTop}
                     <div class="flex justify-between items-center mb-1.5 gap-2">
                         <span class="text-[10px] font-mono font-bold text-orange-500/80 shrink-0">${partId || 'Manual'}</span>
                         ${diffHtml}
@@ -1575,15 +1609,32 @@ Instruye al alumno respondiendo a lo siguiente:
                 if(state === 'todo') todoCol.appendChild(card);
                 else if(state === 'inprog') inprogCol.appendChild(card);
                 else if(state === 'done') doneCol.appendChild(card);
-                else if(state === 'abandoned') abandonedCol.appendChild(card);
             });
             
-            updateKanbanCounts();
+            // --- ACTUALIZAR MINIGRÁFICO ---
+            if (totalEval > 0) {
+                const perfPct = (perfCount / totalEval) * 100;
+                const revPct = (revCount / totalEval) * 100;
+                const sinPct = (sinCount / totalEval) * 100;
 
-            if (abandonedZone) {
-                if (hasAbandoned) abandonedZone.classList.remove('hidden');
-                else abandonedZone.classList.add('hidden');
+                document.getElementById('stat-perf-txt').innerText = `${perfCount} (${Math.round(perfPct)}%)`;
+                document.getElementById('stat-rev-txt').innerText = `${revCount} (${Math.round(revPct)}%)`;
+                document.getElementById('stat-sin-txt').innerText = `${sinCount} (${Math.round(sinPct)}%)`;
+
+                document.getElementById('bar-perf').style.width = `${perfPct}%`;
+                document.getElementById('bar-rev').style.width = `${revPct}%`;
+                document.getElementById('bar-sin').style.width = `${sinPct}%`;
+            } else {
+                document.getElementById('stat-perf-txt').innerText = `0 (0%)`;
+                document.getElementById('stat-rev-txt').innerText = `0 (0%)`;
+                document.getElementById('stat-sin-txt').innerText = `0 (0%)`;
+
+                document.getElementById('bar-perf').style.width = `0%`;
+                document.getElementById('bar-rev').style.width = `0%`;
+                document.getElementById('bar-sin').style.width = `100%`;
             }
+
+            updateKanbanCounts();
         }
 
         async function initKanban() {
