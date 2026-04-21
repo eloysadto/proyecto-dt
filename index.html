@@ -633,6 +633,40 @@
         </div>
     </div>
 
+    <!-- MODAL DE SUBIDA DE ENSAMBLAJES (JEFES/DIRECTOR) -->
+    <div id="assemblyUploadModal" class="fixed inset-0 z-[250] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="cancelAssemblyUpload()"></div>
+        <div class="relative bg-slate-900 border border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.1)] rounded-3xl w-full max-w-xl p-8 z-10 fade-in text-center">
+            
+            <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 flex items-center justify-center text-3xl mx-auto mb-4">📦</div>
+            <h2 class="text-2xl font-bold text-slate-100 mb-2 font-['Urbanist'] tracking-tight">Subir Ensamblaje</h2>
+            <p class="text-sm text-slate-400 mb-6">Subiendo conjunto final para: <strong id="assembly-team-name" class="text-emerald-400 font-medium">Equipo</strong>.</p>
+            
+            <div id="assembly-dropzone" class="border-2 border-dashed border-slate-600 rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-500/5 transition-all bg-slate-950 shadow-inner group">
+                <span class="text-4xl mb-4 group-hover:scale-110 transition-transform">🗂️</span>
+                <p class="text-sm font-bold text-slate-300">Arrastra tu archivo (.dwg o .zip) aquí</p>
+                <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest">Tamaño máximo recomendado: 25MB</p>
+                <input type="file" id="assembly-input" class="hidden" accept=".dwg,.zip">
+            </div>
+
+            <div id="assembly-upload-form" class="hidden flex-col gap-4 text-left bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner">
+                <p class="text-sm text-slate-300 flex items-center gap-2"><span class="text-emerald-500">✓</span> Archivo listo: <span id="selected-assembly-name" class="font-mono text-emerald-400 truncate max-w-[250px]"></span></p>
+                
+                <button id="btn-confirm-assembly-upload" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl mt-4 transition-colors uppercase tracking-widest text-xs shadow-lg shadow-emerald-500/20">Subir y Guardar Ensamblaje</button>
+            </div>
+
+            <div id="assembly-upload-status" class="hidden flex-col items-center justify-center py-6 gap-3">
+                <svg class="animate-spin h-8 w-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <p class="text-xs font-mono uppercase tracking-widest text-emerald-400">Subiendo conjunto a GitHub...</p>
+                <p class="text-[10px] text-slate-500">Esto puede tardar dependiendo del peso del archivo.</p>
+            </div>
+
+            <div class="mt-6 flex justify-center gap-4">
+                <button onclick="cancelAssemblyUpload()" class="px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400 bg-slate-800 hover:bg-slate-700 hover:text-white transition-colors border border-slate-700">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL DE REASIGNACIÓN ADMIN -->
     <div id="reassignModal" class="fixed inset-0 z-[300] hidden items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="closeReassignModal()"></div>
@@ -812,7 +846,7 @@
         };
 
         const teamsInfo = {
-            dir: { title: "Dirección de Proyecto", colorClass: "svg-team-dir", desc: "Coordinación global. Modela el bloque central estructural.", subsystems: ["Transversal: Chasis Estructural"], items: ["Plataforma Base"], note: "Foco: Garantizar que la extrusión del chasis es el ancla perfecta para el resto de subsistemas." },
+            dir: { title: "Dirección de Proyecto", colorClass: "svg-team-dir", desc: "Coordinación global. Modela el bloque central estructural.", subsystems: ["Patinete Completo (Ensamblaje Maestro)"], items: ["Plataforma Base"], note: "Foco: Garantizar que la extrusión del chasis es el ancla perfecta para el resto de subsistemas." },
             eq1: { title: "PL 19: Tracción y Carenado", colorClass: "svg-team-pl19", desc: "Dinámica de rodadura, motores eléctricos y carenados envolventes.", subsystems: ["S1: Tren de Rodaje", "S2: Carenado y Accesorios"], items: ["Rotor, Estator y Horquilla", "Guardabarros divididos", "Neumáticos y Ejes"], note: "Foco: Asegurar tolerancias de tornillería y ejes pasantes." },
             eq2: { title: "PL 20: Control y Seguridad", colorClass: "svg-team-pl20", desc: "Gestión de interfaz de usuario, conducción y frenado.", subsystems: ["S3: Manillar y Dirección", "S4: Sistema de Frenado"], items: ["Mástil principal", "Carcasas de Pantalla", "Frenos y Acelerador"], note: "Crítico: Prestar atención a los huecos en el mástil para cables." },
             eq3: { title: "PL 21: Chasis y Mecanismos", colorClass: "svg-team-pl21", desc: "Mecanismos internos vitales y la portabilidad del vehículo.", subsystems: ["S5: Chasis y Cuello", "S6: Mecanismo de Plegado"], items: ["Tapa de Batería", "Bisagra Plegado", "Vástago y Cuello"], note: "Crítico: El ajuste entre rodamientos y vástago debe ser perfecto." }
@@ -824,19 +858,37 @@
             document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn tab-inactive px-8 py-4 text-xs font-bold uppercase tracking-widest transition');
             document.getElementById('btn-' + id).className = 'tab-btn tab-active px-8 py-4 text-xs font-bold uppercase tracking-widest transition';
             const info = teamsInfo[id];
+
             document.getElementById('team-info-box').innerHTML = `
                 <div class="space-y-3"><h3 class="text-2xl font-bold text-slate-100 font-['Urbanist'] tracking-tight">${info.title}</h3><p class="text-slate-400 text-[11px] italic leading-relaxed">${info.desc}</p></div>
                 <div class="space-y-3">
-                    <h4 class="text-orange-500 uppercase tracking-widest text-[9px] font-bold">Subsistemas a Cargo</h4>
-                    <div class="flex flex-col gap-1.5">${info.subsystems.map(s => `<div class="bg-orange-500/10 border border-orange-500/20 px-3 py-2 rounded-xl text-slate-200 text-[10px] flex items-center font-bold italic"><span class="w-1.5 h-1.5 bg-orange-500 rounded-full mr-3"></span> ${s}</div>`).join('')}</div>
+                    <h4 class="text-orange-500 uppercase tracking-widest text-[9px] font-bold">Entregas de Subsistemas / Conjuntos</h4>
+                    <div class="flex flex-col gap-2">
+                        ${info.subsystems.map(s => `
+                            <div class="bg-orange-500/10 border border-orange-500/20 p-3 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 transition-colors hover:border-orange-500/40 shadow-sm">
+                                <div class="text-slate-200 text-[10px] flex items-center font-bold italic truncate">
+                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mr-3 shrink-0"></span> ${s}
+                                </div>
+                                <div class="flex gap-2 shrink-0">
+                                    <button onclick="descargarEnsamblaje('${id}', '${s}')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition flex items-center justify-center shadow-md" title="Descargar ensamblaje">
+                                        ⬇️ Descargar
+                                    </button>
+                                    <button onclick="openAssemblyUpload('${id}', '${s}')" class="bg-emerald-600/20 hover:bg-emerald-500 text-emerald-400 hover:text-slate-900 border border-emerald-500/30 px-3 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center gap-1.5">
+                                        📤 Subir
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-                <div class="space-y-3">
+                <div class="space-y-3 mt-4">
                     <h4 class="text-slate-500 uppercase tracking-widest text-[9px] font-bold">Piezas Clave</h4>
                     <div class="grid grid-cols-1 gap-1.5">${info.items.map(p => `<div class="bg-slate-800/80 p-2 rounded-lg border border-slate-700 text-[10px] text-slate-300 flex items-center"><span class="w-1 h-1 bg-slate-500 rounded-full mr-3"></span> ${p}</div>`).join('')}</div>
                 </div>
-                <div class="bg-slate-950/80 border border-slate-800 p-4 rounded-xl">
+                <div class="bg-slate-950/80 border border-slate-800 p-4 rounded-xl mt-4">
                     <p class="text-[9px] text-slate-500 font-mono uppercase leading-tight tracking-widest">⚠️ Nota del Director: ${info.note}</p>
-                </div>`;
+                </div>
+            `;
             const svgTemplate = document.getElementById('scooter-svg-template').content.cloneNode(true);
             const svg = svgTemplate.querySelector('svg');
             svg.classList.add('team-svg-base', info.colorClass);
@@ -1742,6 +1794,151 @@ Instruye al alumno respondiendo a lo siguiente:
                 console.error(error);
                 alert("❌ Hubo un error vinculando el vídeo. Revisa tu conexión.");
                 cancelVideoUpload();
+            }
+        }
+
+        // --- LÓGICA DE SUBIDA DE ENSAMBLAJES (JEFATURA/DIRECCIÓN) ---
+        let pendingAssemblyTeam = null;
+        let pendingAssemblySubsys = null;
+        let pendingAssemblyFile = null;
+
+        function openAssemblyUpload(teamId, subsysName) {
+            // Contraseña eliminada según solicitud
+            pendingAssemblyTeam = teamId;
+            pendingAssemblySubsys = subsysName;
+            
+            let teamName = teamId === 'dir' ? 'Dirección' : 
+                           teamId === 'eq1' ? 'PL 19' : 
+                           teamId === 'eq2' ? 'PL 20' : 'PL 21';
+            
+            document.getElementById('assembly-team-name').innerText = `${teamName} - ${subsysName}`;
+            document.getElementById('assemblyUploadModal').classList.replace('hidden', 'flex');
+        }
+
+        function cancelAssemblyUpload() {
+            document.getElementById('assemblyUploadModal').classList.replace('flex', 'hidden');
+            document.getElementById('assembly-dropzone').classList.remove('hidden');
+            document.getElementById('assembly-upload-form').classList.replace('flex', 'hidden');
+            document.getElementById('assembly-upload-status').classList.replace('flex', 'hidden');
+            document.getElementById('assembly-input').value = '';
+            pendingAssemblyFile = null;
+            pendingAssemblyTeam = null;
+            pendingAssemblySubsys = null;
+        }
+
+        const assemblyDropzone = document.getElementById('assembly-dropzone');
+        const assemblyInput = document.getElementById('assembly-input');
+
+        assemblyDropzone.addEventListener('click', () => assemblyInput.click());
+        assemblyDropzone.addEventListener('dragover', (e) => { e.preventDefault(); assemblyDropzone.classList.add('border-emerald-500', 'bg-emerald-500/5'); });
+        assemblyDropzone.addEventListener('dragleave', () => { assemblyDropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5'); });
+        assemblyDropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            assemblyDropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5');
+            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) handleAssemblyUpload(e.dataTransfer.files[0]);
+        });
+        
+        assemblyInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) handleAssemblyUpload(e.target.files[0]);
+        });
+
+        function handleAssemblyUpload(file) {
+            const validExt = file.name.toLowerCase().endsWith('.dwg') || file.name.toLowerCase().endsWith('.zip');
+            if (!validExt) {
+                alert("❌ Formato incorrecto. Por favor, sube el ensamblaje en formato .dwg o comprimido en .zip.");
+                return;
+            }
+            if (file.size > 25 * 1024 * 1024) {
+                alert("⚠️ El archivo es demasiado grande (Máximo 25MB para subir por la web). Comprímelo o alójalo externamente si es necesario.");
+                return;
+            }
+            pendingAssemblyFile = file;
+            document.getElementById('assembly-dropzone').classList.add('hidden');
+            document.getElementById('assembly-upload-form').classList.replace('hidden', 'flex');
+            document.getElementById('selected-assembly-name').innerText = file.name;
+        }
+
+        document.getElementById('btn-confirm-assembly-upload').addEventListener('click', () => {
+            document.getElementById('assembly-upload-form').classList.replace('flex', 'hidden');
+            document.getElementById('assembly-upload-status').classList.replace('hidden', 'flex');
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const base64Content = e.target.result.split(',')[1];
+                await processAssemblyToGitHub(base64Content);
+            };
+            reader.readAsDataURL(pendingAssemblyFile);
+        });
+
+        async function processAssemblyToGitHub(base64Content) {
+            const token = getGhToken();
+            let folder = pendingAssemblyTeam === 'dir' ? 'Direccion' : 
+                         pendingAssemblyTeam === 'eq1' ? 'PL19' : 
+                         pendingAssemblyTeam === 'eq2' ? 'PL20' : 'PL21';
+                         
+            // Normalizar y limpiar el nombre del subsistema para el archivo
+            const cleanSubsysName = pendingAssemblySubsys.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+
+            const ext = pendingAssemblyFile.name.split('.').pop();
+            const finalFileName = `ENSAMBLAJE_${cleanSubsysName}_v${Date.now()}.${ext}`;
+            const path = `${folder}/${finalFileName}`; 
+
+            try {
+                const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `📦 Nuevo Ensamblaje subido (${pendingAssemblySubsys}): ${finalFileName}`,
+                        content: base64Content
+                    })
+                });
+
+                if (!uploadRes.ok) throw new Error("Error subiendo el ensamblaje.");
+                
+                alert(`🎉 ¡Ensamblaje guardado con éxito!\n\nSe ha almacenado en la ruta: ${folder}/`);
+            } catch (error) {
+                console.error(error);
+                alert("❌ Hubo un error subiendo el ensamblaje. Es posible que sea demasiado grande o haya un fallo de conexión.");
+            } finally {
+                cancelAssemblyUpload();
+            }
+        }
+
+        async function descargarEnsamblaje(teamId, subsysName) {
+            const token = getGhToken();
+            if (!token) { 
+                alert("🔐 Necesitas conectar el tablero primero usando el botón 🔑 Conectar."); 
+                return; 
+            }
+            
+            let folder = teamId === 'dir' ? 'Direccion' : 
+                         teamId === 'eq1' ? 'PL19' : 
+                         teamId === 'eq2' ? 'PL20' : 'PL21';
+            
+            const cleanSubsysName = subsysName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${folder}`, {
+                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+                });
+                
+                if (!res.ok) throw new Error("Carpeta no encontrada");
+                
+                const files = await res.json();
+                
+                // Buscamos archivos de ese subsistema específico y cogemos el más reciente
+                const assemblyFiles = files
+                    .filter(f => f.name.startsWith(`ENSAMBLAJE_${cleanSubsysName}_`))
+                    .sort((a, b) => b.name.localeCompare(a.name)); 
+                    
+                if (assemblyFiles.length > 0) {
+                    window.open(assemblyFiles[0].download_url, '_blank');
+                } else {
+                    alert(`📂 Aún no se ha subido ningún ensamblaje oficial para "${subsysName}".`);
+                }
+            } catch (e) {
+                console.error(e);
+                alert(`📂 Aún no se ha subido ningún ensamblaje oficial para "${subsysName}".`);
             }
         }
 
