@@ -52,9 +52,6 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-
-        /* Drag zone animations */
-        .dragover-active { border-color: #10b981 !important; background-color: rgba(16, 185, 129, 0.05) !important; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col relative">
@@ -73,6 +70,7 @@
                 </button>
 
                 <div class="hidden lg:flex items-center space-x-1">
+                    <a href="#entrega-final" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-orange-400 hover:bg-slate-800/80 hover:text-orange-300 transition-all">Entrega Final</a>
                     <a href="#calendario" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Plazos</a>
                     <a href="#flujo" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Flujo Tareas</a>
                     <a href="#equipos" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Equipos</a>
@@ -86,6 +84,7 @@
             </div>
             
             <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-700/50 px-4 py-3 space-y-1 bg-slate-900/95 rounded-b-2xl shadow-inner">
+                <a href="#entrega-final" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-orange-400 hover:bg-slate-800 hover:text-orange-300 transition-all">Entrega Final</a>
                 <a href="#calendario" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Plazos</a>
                 <a href="#flujo" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Flujo Tareas</a>
                 <a href="#equipos" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Equipos</a>
@@ -99,11 +98,29 @@
 
     <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
 
+        <!-- MASTER PDF BANNER (ENTREGA FINAL) -->
+        <section id="entrega-final" class="reveal mt-4 scroll-mt-24">
+            <div class="bg-gradient-to-r from-orange-600/20 to-purple-600/20 border border-orange-500/30 p-6 md:p-8 rounded-3xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="z-10 flex-1 text-center md:text-left">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white font-['Urbanist'] mb-2 flex items-center justify-center md:justify-start gap-3">
+                        <span class="text-3xl md:text-4xl">🎓</span> Documento Maestro Final
+                    </h2>
+                    <p class="text-sm text-slate-300 max-w-2xl">Aquí se centralizan todos los planos PDF recopilados, despieces y vistas de ensamblaje en un único archivo oficial listo para la evaluación docente.</p>
+                </div>
+                <div class="z-10 flex flex-col w-full md:w-auto gap-3 shrink-0">
+                    <button onclick="descargarMasterPdf()" class="bg-slate-800/80 backdrop-blur hover:bg-slate-700 border border-slate-600 text-slate-100 px-8 py-4 rounded-xl text-sm font-bold uppercase tracking-widest transition-all shadow-xl flex items-center justify-center gap-2">
+                        ⬇️ Descargar Trabajo Final
+                    </button>
+                </div>
+            </div>
+        </section>
+
         <!-- CALENDARIO Y ADSCRIPCIÓN -->
         <section id="calendario" class="scroll-mt-24">
             <div class="reveal mb-8">
                 <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">Calendario de Hitos</h2>
-                <p class="mt-2 text-slate-400 text-sm">Expresión Gráfica • Curso 2025-26 | Grupos D y F</p>
+                <p class="mt-2 text-slate-400 text-sm">Expresión Gráfica • Curso 2025-26 | Grupos D y F (Proyecto Finalizado)</p>
             </div>
 
             <div class="reveal grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -163,21 +180,21 @@
                     <h4 class="font-bold text-slate-400 text-xs line-through mb-1">Entrega CAD a Dirección</h4>
                     <p class="text-[10px] text-slate-500 leading-relaxed">Los jefes de PL entregan sus subsistemas CAD y los ingenieros los planos de despiece a Dirección.</p>
                 </div>
-                <div class="bg-slate-950 p-4 rounded-2xl border border-orange-500/30 shadow-lg relative group transition hover:border-orange-500/60">
+                <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-800 opacity-50 relative group">
                     <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center justify-center w-6 h-6 rounded-full bg-orange-500 text-slate-900 text-[10px] font-bold shadow-md">8</div>
-                        <span class="px-2 py-0.5 bg-orange-500/10 text-orange-400 text-[8px] font-bold uppercase rounded border border-orange-500/20">21 ABR 2026</span>
+                        <div class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-500 text-[10px] font-bold">✓</div>
+                        <span class="px-2 py-0.5 bg-slate-800/50 text-slate-500 text-[8px] font-bold uppercase rounded border border-slate-700">COMPLETADO</span>
                     </div>
-                    <h4 class="font-bold text-slate-200 text-xs mb-1">Resolución de Problemas</h4>
-                    <p class="text-[10px] text-slate-400 leading-relaxed">Análisis de problemas finales y corrección de elementos faltantes para dejarlo todo listo.</p>
+                    <h4 class="font-bold text-slate-400 text-xs line-through mb-1">Resolución de Problemas</h4>
+                    <p class="text-[10px] text-slate-500 leading-relaxed">Análisis de problemas finales y corrección de elementos faltantes para dejarlo todo listo.</p>
                 </div>
-                <div class="bg-emerald-950/20 p-4 rounded-2xl border border-emerald-500/20 relative group transition hover:border-emerald-500/40">
+                <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-800 opacity-50 relative group">
                     <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500 text-slate-900 text-[10px] font-bold">9</div>
-                        <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 text-[8px] font-bold uppercase rounded border border-emerald-500/20">30 ABR 2026</span>
+                        <div class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-500 text-[10px] font-bold">✓</div>
+                        <span class="px-2 py-0.5 bg-slate-800/50 text-slate-500 text-[8px] font-bold uppercase rounded border border-slate-700">1 MAY 2026 - COMPLETADO</span>
                     </div>
-                    <h4 class="font-bold text-emerald-400 text-xs mb-1">Fin del Trabajo: Entrega</h4>
-                    <p class="text-[10px] text-slate-400 leading-relaxed">Se manda al profesor el trabajo compilado (Planos maestros y modelos CAD).</p>
+                    <h4 class="font-bold text-slate-400 text-xs line-through mb-1">Fin del Trabajo: Entrega</h4>
+                    <p class="text-[10px] text-slate-500 leading-relaxed">Se manda al profesor el trabajo compilado (Planos maestros y modelos CAD).</p>
                 </div>
             </div>
         </section>
@@ -295,7 +312,7 @@
                     <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">
                         Matriz Interactiva Kanban 
                     </h2>
-                    <p class="mt-2 text-slate-400 text-sm">Busca, filtra, arrastra las piezas a <span class="text-emerald-400 font-bold">HECHO</span> para entregar, o <span class="text-orange-400 font-bold">haz clic para ver el 3D</span>.</p>
+                    <p class="mt-2 text-slate-400 text-sm">Busca y filtra tareas de diseño del proyecto. <span class="text-orange-400 font-bold">Haz clic en una pieza para ver sus detalles</span>.</p>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row items-center gap-3 bg-slate-900/50 p-2.5 rounded-2xl border border-slate-800 w-full lg:w-auto">
@@ -359,7 +376,7 @@
                         </h3>
                         <span id="count-todo" class="text-xs text-slate-500 font-mono bg-slate-800 px-2 py-1 rounded">0</span>
                     </div>
-                    <div id="col-todo" class="p-3 flex-grow space-y-3 min-h-[300px] transition-colors duration-300" ondragover="allowDrop(event)" ondrop="drop(event, 'todo')"></div>
+                    <div id="col-todo" class="p-3 flex-grow space-y-3 min-h-[300px] transition-colors duration-300"></div>
                 </div>
 
                 <!-- Columna: En Progreso -->
@@ -370,7 +387,7 @@
                         </h3>
                         <span id="count-inprog" class="text-xs text-orange-500 font-mono bg-orange-500/10 px-2 py-1 rounded border border-orange-500/20">0</span>
                     </div>
-                    <div id="col-inprog" class="p-3 flex-grow space-y-3 min-h-[300px] transition-colors duration-300" ondragover="allowDrop(event)" ondrop="drop(event, 'inprog')"></div>
+                    <div id="col-inprog" class="p-3 flex-grow space-y-3 min-h-[300px] transition-colors duration-300"></div>
                 </div>
 
                 <!-- Columna: Hecho -->
@@ -382,7 +399,7 @@
                         </h3>
                         <span id="count-done" class="text-xs text-emerald-500 font-mono bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/30 relative z-10">0</span>
                     </div>
-                    <div id="col-done" class="p-3 flex-grow space-y-3 min-h-[300px] transition-colors duration-300 relative" ondragover="allowDrop(event)" ondrop="drop(event, 'done')">
+                    <div id="col-done" class="p-3 flex-grow space-y-3 min-h-[300px] transition-colors duration-300 relative">
                         <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-10">
                             <span class="text-8xl">📥</span>
                         </div>
@@ -439,7 +456,7 @@
         <!-- BIBLIOGRAFÍA -->
         <section id="bibliografia" class="scroll-mt-24 pb-20">
             <h2 class="reveal text-3xl font-bold text-slate-100 mb-8 font-['Urbanist'] tracking-tight uppercase">Documentación</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Links documentation -->
                 <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 flex flex-col h-full">
                     <div class="text-orange-500 mb-4 text-2xl">🌐</div>
@@ -462,14 +479,6 @@
                     <h3 class="text-lg font-bold text-slate-100 mb-2">Plantilla Base</h3>
                     <p class="text-[11px] text-slate-400 mb-6 italic">Archivo .dwt base configurado para empezar el proyecto.</p>
                     <a href="https://raw.githubusercontent.com/eloysadto/proyecto-dt/main/recursos/plantilla.dwt" download="plantilla.dwt" class="mt-auto bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-emerald-400 transition-colors block text-center">Descargar DWT</a>
-                </div>
-
-                <!-- ZIP con todas las medidas -->
-                <div class="reveal bg-slate-900 p-6 rounded-3xl border border-slate-800 flex flex-col h-full" style="transition-delay: 300ms;">
-                    <div class="text-purple-500 mb-4 text-2xl">📏</div>
-                    <h3 class="text-lg font-bold text-slate-100 mb-2">Medidas de Referencia</h3>
-                    <p class="text-[11px] text-slate-400 mb-6 italic">Archivo ZIP que contiene todas las medidas y cotas necesarias.</p>
-                    <a href="https://raw.githubusercontent.com/eloysadto/proyecto-dt/main/recursos/medidas.zip" download="medidas.zip" class="mt-auto bg-slate-800 hover:bg-slate-700 px-4 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest text-purple-400 transition-colors block text-center">Descargar ZIP</a>
                 </div>
             </div>
         </section>
@@ -536,33 +545,10 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 group-hover:scale-110 transition-transform shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                                 Prompt Croquis
                             </button>
-                        </div>
-
-                        <!-- Botón principal de abandono modificado -->
-                        <button id="btn-abandon" onclick="abandonarProyectoUI()" class="w-full bg-slate-950 hover:bg-red-600/20 text-red-500/70 hover:text-red-400 border border-red-500/20 hover:border-red-500/40 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 mt-2">
-                            🚨 Abandonar Proyecto
-                        </button>
-                        
-                        <!-- Botón de reincorporación (oculto por defecto) -->
-                        <button id="btn-reincorporar" onclick="reincorporarProyecto()" class="hidden w-full bg-slate-950 hover:bg-emerald-600/20 text-emerald-500/70 hover:text-emerald-400 border border-emerald-500/20 hover:border-emerald-500/40 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all items-center justify-center gap-2 mt-2">
-                            ♻️ Reincorporarse al Proyecto
-                        </button>
-
-                        <!-- Zona de confirmación segura (oculta por defecto) -->
-                        <div id="abandon-confirm-zone" class="hidden flex-col gap-2 mt-2 bg-red-950/20 border border-red-500/30 p-3 rounded-xl relative overflow-hidden">
-                            <div class="absolute inset-0 bg-red-500/5 animate-pulse"></div>
-                            <p class="text-[10px] text-red-400 font-bold uppercase tracking-widest text-center relative z-10">¿Confirmar abandono?</p>
-                            <p class="text-[9px] text-red-300/70 text-center mb-1 leading-tight relative z-10">Tu cajetín pasará a la zona de emergencia y se reasignará a tus superiores.</p>
-                            
-                            <div id="abandon-actions" class="flex gap-2 relative z-10">
-                                <button onclick="procesarAbandono()" class="w-1/2 bg-red-600/80 hover:bg-red-500 text-white py-2 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-colors shadow-lg shadow-red-500/20">Sí, Abandonar</button>
-                                <button onclick="cancelarAbandonoUI()" class="w-1/2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 py-2 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-colors">Cancelar</button>
-                            </div>
-                            
-                            <div id="abandon-loading" class="hidden flex-col items-center justify-center py-2 relative z-10">
-                                <svg class="animate-spin h-4 w-4 text-red-500 mb-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                <span class="text-[8px] text-red-400 uppercase tracking-widest font-mono">Procesando...</span>
-                            </div>
+                            <button disabled class="col-span-2 mt-1 bg-red-950/20 border border-red-900/50 text-red-700 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest cursor-not-allowed flex items-center justify-center gap-1.5 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                Abandonar Tarea 🔒
+                            </button>
                         </div>
                         
                         <div id="ai-loading" class="hidden flex-col items-center justify-center py-4 gap-2 text-slate-400">
@@ -576,11 +562,11 @@
 
                         <!-- ADMINISTRACION: EVALUACION -->
                         <div class="mt-4 pt-4 border-t border-slate-800">
-                            <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest mb-2 text-center">Evaluación Docente (Solo Admin)</p>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button onclick="adminEvaluar('perfecto')" class="bg-emerald-950/20 hover:bg-emerald-600/30 text-emerald-500 border border-emerald-500/20 hover:border-emerald-500/50 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all">✨ Perfecto</button>
-                                <button onclick="adminEvaluar('revisar')" class="bg-orange-950/20 hover:bg-orange-600/30 text-orange-500 border border-orange-500/20 hover:border-orange-500/50 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition-all">🔄 Revísalo</button>
-                                <button onclick="adminEvaluar('limpiar')" class="col-span-2 bg-slate-900 hover:bg-slate-800 text-slate-600 hover:text-slate-400 py-1.5 rounded-xl text-[8px] font-bold uppercase tracking-widest transition-all">Limpiar Estado</button>
+                            <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest mb-2 text-center">Evaluación Docente (Cerrada)</p>
+                            <div class="grid grid-cols-2 gap-2 opacity-50">
+                                <button disabled class="bg-emerald-950/20 text-emerald-500 border border-emerald-500/20 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest cursor-not-allowed">✨ Perfecto 🔒</button>
+                                <button disabled class="bg-orange-950/20 text-orange-500 border border-orange-500/20 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest cursor-not-allowed">🔄 Revísalo 🔒</button>
+                                <button disabled class="col-span-2 bg-slate-900 text-slate-600 py-1.5 rounded-xl text-[8px] font-bold uppercase tracking-widest cursor-not-allowed">Limpiar Estado 🔒</button>
                             </div>
                         </div>
                     </div>
@@ -589,79 +575,6 @@
 
             <div id="modal-svg-container" class="w-full md:w-1/2 bg-slate-950 rounded-2xl border border-slate-800 p-8 flex items-center justify-center min-h-[350px] shadow-inner relative overflow-hidden">
                 <p class="absolute top-4 left-6 text-[8px] text-slate-800 uppercase font-mono tracking-widest">Esquema Visual</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DE SUBIDA DE ARCHIVOS GITHUB KANBAN (DROPZONE ORIGINAL) -->
-    <div id="uploadModal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4">
-        <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="cancelUpload()"></div>
-        <div class="relative bg-slate-900 border border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.1)] rounded-3xl w-full max-w-xl p-8 z-10 fade-in text-center">
-            
-            <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 flex items-center justify-center text-3xl mx-auto mb-4">📤</div>
-            <h2 class="text-2xl font-bold text-slate-100 mb-2 font-['Urbanist'] tracking-tight">Entrega de Archivo CAD</h2>
-            <p class="text-sm text-slate-400 mb-6">Moviendo <strong id="upload-piece-name" class="text-emerald-400 font-mono font-medium">PIEZA</strong> a HECHO.</p>
-            
-            <div id="file-dropzone" class="border-2 border-dashed border-slate-600 rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-500/5 transition-all bg-slate-950 shadow-inner group">
-                <span class="text-4xl mb-4 group-hover:scale-110 transition-transform">📄</span>
-                <p class="text-sm font-bold text-slate-300">Arrastra tu archivo (.dwg) aquí</p>
-                <p class="text-xs text-slate-500 mt-2">o haz clic para explorar en tu ordenador</p>
-                <input type="file" id="file-input" class="hidden" accept=".dwg">
-            </div>
-
-            <div id="upload-form" class="hidden flex-col gap-4 text-left bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner">
-                <p class="text-sm text-slate-300 flex items-center gap-2"><span class="text-emerald-500">✓</span> Archivo: <span id="selected-file-name" class="font-mono text-emerald-400 truncate max-w-[250px]"></span></p>
-                
-                <div class="flex flex-col gap-2 mt-2">
-                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Firma tu entrega (Nombre y 1 Apellido)</label>
-                    <input type="text" id="upload-author-name" placeholder="Ej: Laura Garcia" class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:border-emerald-500 outline-none transition-colors">
-                    <p id="upload-error" class="text-xs text-red-500 hidden mt-1">⚠️ Debes introducir exactamente tu nombre y tu primer apellido (separados por un espacio).</p>
-                </div>
-                
-                <button id="btn-confirm-upload" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl mt-4 transition-colors uppercase tracking-widest text-xs shadow-lg shadow-emerald-500/20">Subir Archivo Definitivo</button>
-            </div>
-
-            <div id="upload-status" class="hidden flex-col items-center justify-center py-6 gap-3">
-                <svg class="animate-spin h-8 w-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                <p id="upload-msg" class="text-xs font-mono uppercase tracking-widest text-emerald-400">Verificando versiones y subiendo a GitHub...</p>
-            </div>
-
-            <div class="mt-6 flex justify-center gap-4">
-                <button id="btn-cancel-upload" onclick="cancelUpload()" class="px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400 bg-slate-800 hover:bg-slate-700 hover:text-white transition-colors border border-slate-700">Cancelar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DE SUBIDA DE ENSAMBLAJES (JEFES/DIRECTOR) -->
-    <div id="assemblyUploadModal" class="fixed inset-0 z-[250] hidden items-center justify-center p-4">
-        <div class="absolute inset-0 bg-slate-950/98 modal-backdrop" onclick="cancelAssemblyUpload()"></div>
-        <div class="relative bg-slate-900 border border-emerald-500/30 shadow-[0_0_50px_rgba(16,185,129,0.1)] rounded-3xl w-full max-w-xl p-8 z-10 fade-in text-center">
-            
-            <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 flex items-center justify-center text-3xl mx-auto mb-4">📦</div>
-            <h2 class="text-2xl font-bold text-slate-100 mb-2 font-['Urbanist'] tracking-tight">Subir Ensamblaje</h2>
-            <p class="text-sm text-slate-400 mb-6">Subiendo conjunto final para: <strong id="assembly-team-name" class="text-emerald-400 font-medium">Equipo</strong>.</p>
-            
-            <div id="assembly-dropzone" class="border-2 border-dashed border-slate-600 rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer hover:border-emerald-500 hover:bg-emerald-500/5 transition-all bg-slate-950 shadow-inner group">
-                <span class="text-4xl mb-4 group-hover:scale-110 transition-transform">🗂️</span>
-                <p class="text-sm font-bold text-slate-300">Arrastra tu archivo (.dwg o .zip) aquí</p>
-                <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest">Tamaño máximo recomendado: 25MB</p>
-                <input type="file" id="assembly-input" class="hidden" accept=".dwg,.zip">
-            </div>
-
-            <div id="assembly-upload-form" class="hidden flex-col gap-4 text-left bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner">
-                <p class="text-sm text-slate-300 flex items-center gap-2"><span class="text-emerald-500">✓</span> Archivo listo: <span id="selected-assembly-name" class="font-mono text-emerald-400 truncate max-w-[250px]"></span></p>
-                
-                <button id="btn-confirm-assembly-upload" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl mt-4 transition-colors uppercase tracking-widest text-xs shadow-lg shadow-emerald-500/20">Subir y Guardar Ensamblaje</button>
-            </div>
-
-            <div id="assembly-upload-status" class="hidden flex-col items-center justify-center py-6 gap-3">
-                <svg class="animate-spin h-8 w-8 text-emerald-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                <p class="text-xs font-mono uppercase tracking-widest text-emerald-400">Subiendo conjunto a GitHub...</p>
-                <p class="text-[10px] text-slate-500">Esto puede tardar dependiendo del peso del archivo.</p>
-            </div>
-
-            <div class="mt-6 flex justify-center gap-4">
-                <button onclick="cancelAssemblyUpload()" class="px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-slate-400 bg-slate-800 hover:bg-slate-700 hover:text-white transition-colors border border-slate-700">Cancelar</button>
             </div>
         </div>
     </div>
@@ -832,9 +745,7 @@
             { id: "3.7", name: "Pasador y eje transv.", search: "Xiaomi Scooter 4 folding pole pin bolt", subsys: "S6: Plegado", team: "PL 21", assigned: "Ingeniero/a 3.7", personName: "Mark Servera", zone: ["zone-plegado"], type: "Eje de Precisión", desc: "Perno técnico de pivotamiento del plegado. INCLUYE ADEMÁS: El eje pasante transversal de ajuste (tornillo para apretar horizontalmente el mecanismo)." }
         ];
 
-        // Guardamos los nombres originales al inicio para que el desplegable no pierda a los alumnos que abandonaron
         const ORIGINAL_NAMES = [...new Set(rawPartsData.map(p => p.personName).filter(n => n && n !== '-'))].sort();
-        
         const partsData = JSON.parse(JSON.stringify(rawPartsData));
 
         const teamsInfo = {
@@ -861,12 +772,12 @@
                                 <div class="text-slate-200 text-[10px] flex items-center font-bold italic truncate">
                                     <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mr-3 shrink-0"></span> ${s}
                                 </div>
-                                <div class="flex gap-2 shrink-0">
-                                    <button onclick="descargarEnsamblaje('${id}', '${s}')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition flex items-center justify-center shadow-md" title="Descargar ensamblaje">
-                                        ⬇️ Descargar
+                                <div class="flex flex-wrap gap-2 shrink-0 mt-2 sm:mt-0">
+                                    <button onclick="descargarEnsamblaje('${id}', '${s}', 'dwg')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-xl text-[9px] font-bold uppercase tracking-widest transition flex items-center justify-center shadow-md" title="Descargar ensamblaje DWG">
+                                        ⬇️ DWG
                                     </button>
-                                    <button onclick="openAssemblyUpload('${id}', '${s}')" class="bg-emerald-600/20 hover:bg-emerald-500 text-emerald-400 hover:text-slate-900 border border-emerald-500/30 px-3 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest transition shadow-[0_0_15px_rgba(16,185,129,0.15)] flex items-center gap-1.5">
-                                        📤 Subir
+                                    <button onclick="descargarEnsamblaje('${id}', '${s}', 'pdf')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-xl text-[9px] font-bold uppercase tracking-widest transition flex items-center justify-center shadow-md" title="Descargar planos PDF">
+                                        ⬇️ PDF
                                     </button>
                                 </div>
                             </div>
@@ -895,7 +806,6 @@
             document.getElementById('modal-subsys').innerText = part.subsys;
             document.getElementById('modal-assigned').innerText = part.assigned;
             
-            // Integración del sistema Admin de reasignación (Icono de lápiz) actualizado
             document.getElementById('modal-person').innerHTML = `${part.personName || '-'} <button onclick="openReassignModal('${part.id}')" class="text-[10px] ml-2 text-slate-500 hover:text-orange-500 transition-colors" title="Editar asignación (Admin)">✏️</button>`;
             
             document.getElementById('modal-desc').innerText = part.desc;
@@ -906,23 +816,6 @@
             document.getElementById('ai-loading').classList.add('hidden');
             document.getElementById('ai-loading').classList.remove('flex');
             document.getElementById('ai-result').classList.add('hidden');
-            
-            // Resetear interfaz y detectar si la pieza está abandonada (búsqueda flexible por ID o Nombre)
-            const issue = globalGithubIssues.find(i => i.title.includes(`[${part.id}]`) || i.title.toLowerCase().includes(part.name.toLowerCase()));
-            const isAbandoned = issue && issue.labels.some(l => l.name.toLowerCase() === 'abandonado');
-
-            if (isAbandoned) {
-                document.getElementById('btn-abandon').classList.add('hidden');
-                document.getElementById('btn-reincorporar').classList.remove('hidden');
-                document.getElementById('btn-reincorporar').classList.add('flex');
-            } else {
-                document.getElementById('btn-abandon').classList.remove('hidden');
-                document.getElementById('btn-reincorporar').classList.add('hidden');
-                document.getElementById('btn-reincorporar').classList.remove('flex');
-            }
-
-            document.getElementById('abandon-confirm-zone').classList.add('hidden');
-            document.getElementById('abandon-confirm-zone').classList.remove('flex');
 
             const svgTemplate = document.getElementById('scooter-svg-template').content.cloneNode(true);
             const svg = svgTemplate.querySelector('svg');
@@ -1017,27 +910,20 @@ Instruye al alumno respondiendo a lo siguiente:
                 return;
             }
 
-            const pass = prompt("Introduce la clave de acceso del equipo (3 letras):");
-            if (pass === "PEL" || pass === "pel") {
-                const p = "ghp_SOzWzGptF";
-                const e = "UMrxnNqG4aQ";
-                const l = "7FYYH7f5zv3zAi5V";
-                const tokenReal = p + e + l; 
-                localStorage.setItem('pel_gh_token', tokenReal);
-                alert("✅ Acceso concedido. Sincronizando tablero...");
-                initKanban();
-            } else if (pass !== null) {
-                alert("❌ Clave incorrecta. Acceso denegado.");
-            }
+            const p = "ghp_SOzWzGptF";
+            const e = "UMrxnNqG4aQ";
+            const l = "7FYYH7f5zv3zAi5V";
+            const tokenReal = p + e + l; 
+            localStorage.setItem('pel_gh_token', tokenReal);
+            alert("✅ Conectado al tablero en modo lectura. Sincronizando...");
+            initKanban();
         }
 
         function getGhToken() { return localStorage.getItem('pel_gh_token'); }
 
         let globalGithubIssues = [];
-        let pendingUploadData = null;
         let pendingReassignPartId = null;
 
-        // --- SISTEMA ADMIN: CAMBIAR ASIGNACIONES DE FORMA GLOBAL ---
         function openReassignModal(partId) {
             const pass = prompt("Introduce la contraseña de administrador:");
             if (pass !== "adminpel") {
@@ -1072,7 +958,6 @@ Instruye al alumno respondiendo a lo siguiente:
             const part = partsData.find(p => p.id === partId);
             if (part) part.personName = newName;
             
-            // Actualizar vista local
             document.getElementById('modal-person').innerHTML = `${newName} <button onclick="openReassignModal('${part.id}')" class="text-[10px] ml-2 text-slate-500 hover:text-orange-500 transition-colors" title="Editar asignación (Admin)">✏️</button>`;
 
             const token = getGhToken();
@@ -1082,11 +967,9 @@ Instruye al alumno respondiendo a lo siguiente:
                 return;
             }
             
-            // Búsqueda flexible en caso de que en GitHub tenga un ID antiguo
             const issue = globalGithubIssues.find(i => i.title.includes(`[${partId}]`) || i.title.toLowerCase().includes(part.name.toLowerCase()));
             if (issue) {
                 let newBody = issue.body || '';
-                // Borra overrides anteriores e inserta el nuevo al final del body de forma invisible
                 newBody = newBody.replace(/\n?<!-- ASIGNADO:.*?-->/g, '');
                 newBody += `\n<!-- ASIGNADO: ${newName} -->`;
                 
@@ -1108,384 +991,9 @@ Instruye al alumno respondiendo a lo siguiente:
             }
         }
 
-        function abandonarProyectoUI() {
-            if (!currentPartForAI) return;
-            const token = getGhToken();
-            if (!token) {
-                alert("🔐 Debes estar conectado para realizar esta acción.");
-                return;
-            }
-
-            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`) || i.title.toLowerCase().includes(currentPartForAI.name.toLowerCase()));
-            if (!issue) {
-                alert("❌ No se encontró la pieza activa en el repositorio.");
-                return;
-            }
-
-            const isAlreadyAbandoned = issue.labels.some(l => l.name.toLowerCase() === 'abandonado');
-            if (isAlreadyAbandoned) {
-                alert("⚠️ Esta pieza ya consta como abandonada y reasignada.");
-                return;
-            }
-
-            // Ocultar botón principal y mostrar zona de confirmación
-            document.getElementById('btn-abandon').classList.add('hidden');
-            document.getElementById('abandon-confirm-zone').classList.remove('hidden');
-            document.getElementById('abandon-confirm-zone').classList.add('flex');
-        }
-
-        function cancelarAbandonoUI() {
-            // Ocultar zona de confirmación y volver a mostrar el botón principal
-            document.getElementById('abandon-confirm-zone').classList.add('hidden');
-            document.getElementById('abandon-confirm-zone').classList.remove('flex');
-            document.getElementById('btn-abandon').classList.remove('hidden');
-        }
-
-        async function procesarAbandono() {
-            if (!currentPartForAI) return;
-            const token = getGhToken();
-            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`) || i.title.toLowerCase().includes(currentPartForAI.name.toLowerCase()));
-            if (!issue) return;
-
-            // Mostrar estado de carga
-            document.getElementById('abandon-actions').classList.add('hidden');
-            document.getElementById('abandon-loading').classList.remove('hidden');
-            document.getElementById('abandon-loading').classList.add('flex');
-
-            try {
-                const labelNames = issue.labels.map(l => l.name).filter(n => n !== 'sinhacer' && n !== 'enprogreso');
-                labelNames.push('abandonado');
-
-                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}`, {
-                    method: 'PATCH',
-                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ labels: labelNames })
-                });
-
-                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}/comments`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ body: `🚨 **ABANDONO REGISTRADO**\nEl responsable ha notificado el abandono de la tarea. Pendiente de reasignación manual por administración.` })
-                });
-
-                issue.labels = labelNames.map(n => ({name: n}));
-                alert(`✅ Se ha registrado el abandono. La pieza queda marcada y a la espera de reasignación manual.`);
-                closeModal();
-                renderKanban();
-            } catch (e) {
-                console.error(e);
-                alert("❌ Error de permisos o conexión. No se pudo registrar el abandono.");
-            } finally {
-                // Restaurar la interfaz por si falla o no se cierra el modal
-                document.getElementById('abandon-actions').classList.remove('hidden');
-                document.getElementById('abandon-loading').classList.add('hidden');
-                document.getElementById('abandon-loading').classList.remove('flex');
-                cancelarAbandonoUI();
-            }
-        }
-
-        async function reincorporarProyecto() {
-            if (!currentPartForAI) return;
-            const token = getGhToken();
-            if (!token) {
-                alert("🔐 Debes estar conectado para realizar esta acción.");
-                return;
-            }
-
-            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`) || i.title.toLowerCase().includes(currentPartForAI.name.toLowerCase()));
-            if (!issue) return;
-
-            const btn = document.getElementById('btn-reincorporar');
-            btn.innerHTML = `⏳ Procesando...`;
-            btn.disabled = true;
-
-            try {
-                let labelNames = issue.labels.map(l => l.name).filter(n => n.toLowerCase() !== 'abandonado');
-                if (!labelNames.includes('sinhacer') && !labelNames.includes('enprogreso') && !labelNames.includes('hecho')) {
-                    labelNames.push('sinhacer');
-                }
-
-                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}`, {
-                    method: 'PATCH',
-                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ labels: labelNames })
-                });
-
-                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}/comments`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ body: `♻️ **REINCORPORACIÓN REGISTRADA**\nEl responsable original ha retomado la tarea.` })
-                });
-
-                issue.labels = labelNames.map(n => ({name: n}));
-                alert(`✅ Te has reincorporado al proyecto con éxito.`);
-                closeModal();
-                renderKanban();
-            } catch (e) {
-                console.error(e);
-                alert("❌ Error de permisos o conexión. No se pudo registrar la reincorporación.");
-            } finally {
-                btn.innerHTML = `♻️ Reincorporarse al Proyecto`;
-                btn.disabled = false;
-            }
-        }
-
-        async function adminEvaluar(status) {
-            if (!currentPartForAI) return;
-            const pass = prompt("Introduce la contraseña de administrador:");
-            if (pass !== "adminpel") {
-                if (pass !== null) alert("❌ Contraseña incorrecta.");
-                return;
-            }
-
-            const token = getGhToken();
-            if (!token) {
-                alert("🔐 Debes estar conectado para evaluar.");
-                return;
-            }
-
-            const issue = globalGithubIssues.find(i => i.title.includes(`[${currentPartForAI.id}]`) || i.title.toLowerCase().includes(currentPartForAI.name.toLowerCase()));
-            if (!issue) return;
-
-            // Filtramos las etiquetas anteriores de evaluación para no duplicar
-            let labelNames = issue.labels.map(l => l.name).filter(n => n !== 'eval-perfecto' && n !== 'eval-revisar');
-
-            if (status === 'perfecto') labelNames.push('eval-perfecto');
-            else if (status === 'revisar') labelNames.push('eval-revisar');
-
-            try {
-                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}`, {
-                    method: 'PATCH',
-                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ labels: labelNames })
-                });
-
-                issue.labels = labelNames.map(n => ({name: n}));
-                renderKanban();
-                alert(status === 'limpiar' ? "🧹 Evaluación eliminada." : `✅ Estado '${status}' guardado correctamente.`);
-            } catch (error) {
-                console.error(error);
-                alert("❌ Error de permisos o conexión al guardar la evaluación.");
-            }
-        }
-
         document.getElementById('filter-team').addEventListener('change', () => { renderKanban(); });
         document.getElementById('filter-status').addEventListener('change', () => { renderKanban(); });
         document.getElementById('search-kanban').addEventListener('input', () => { renderKanban(); });
-
-        function allowDrop(ev) {
-            ev.preventDefault();
-            const col = ev.target.closest('div[id^="col-"]');
-            if(col) col.classList.add('dragover-active');
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.currentTarget.id);
-            ev.currentTarget.classList.add('opacity-40', 'scale-95');
-        }
-
-        function dragEnd(ev) {
-            ev.currentTarget.classList.remove('opacity-40', 'scale-95');
-            document.querySelectorAll('div[id^="col-"]').forEach(c => c.classList.remove('dragover-active'));
-        }
-
-        async function drop(ev, status) {
-            ev.preventDefault();
-            document.querySelectorAll('div[id^="col-"]').forEach(c => c.classList.remove('dragover-active'));
-            
-            const cardId = ev.dataTransfer.getData("text");
-            const card = document.getElementById(cardId);
-            const targetCol = document.getElementById('col-' + status);
-            
-            if(card && targetCol) {
-                const currentToken = getGhToken();
-                if (!currentToken) return;
-
-                const issueNumber = parseInt(cardId.split('-')[1]);
-                const issueData = globalGithubIssues.find(i => i.number === issueNumber);
-                
-                const issueIdMatch = issueData.title.match(/\[(.*?)\]/);
-                let partId = issueIdMatch ? issueIdMatch[1] : null;
-                let partInfo = partsData.find(p => p.id === partId);
-
-                // FIX: Búsqueda flexible si el ID de GitHub está desactualizado respecto a la web
-                if (!partInfo) {
-                    const cleanTitleSearch = issueData.title.replace(/\[.*?\]\s*/, '').trim().toLowerCase();
-                    partInfo = partsData.find(p => cleanTitleSearch.includes(p.name.toLowerCase()));
-                    if (partInfo) partId = partInfo.id;
-                }
-
-                // INTERCEPCIÓN
-                if (status === 'done') {
-                    pendingUploadData = { cardId, issueNumber, partInfo, targetCol };
-                    document.getElementById('upload-piece-name').innerText = `[${partInfo.id}] ${partInfo.name}`;
-                    document.getElementById('uploadModal').classList.replace('hidden', 'flex');
-                    return; 
-                }
-
-                targetCol.appendChild(card);
-                
-                const btnDescarga = card.querySelector('a[download]');
-                if (btnDescarga) btnDescarga.remove();
-
-                updateKanbanCounts();
-                
-                // Setear el nuevo estado arrastrado, PERO conservando la etiqueta 'abandonado' si la tenía
-                let newLabels = issueData.labels.map(l => l.name).filter(n => !['sinhacer', 'enprogreso', 'hecho'].includes(n.toLowerCase()));
-                
-                if (status === 'todo') newLabels.push('sinhacer');
-                else if (status === 'inprog') newLabels.push('enprogreso');
-
-                const issueIndex = globalGithubIssues.findIndex(i => i.number === issueNumber);
-                if (issueIndex > -1) globalGithubIssues[issueIndex].labels = newLabels.map(n => ({name: n}));
-
-                try {
-                    await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
-                        method: 'PATCH',
-                        headers: { 'Authorization': `token ${currentToken}`, 'Accept': 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ labels: newLabels })
-                    });
-                } catch (error) { console.error("❌ Error actualizando GitHub:", error); }
-            }
-        }
-        
-        // --- LÓGICA DE SUBIDA DE ARCHIVOS KANBAN (DROPZONE ORIGINAL) ---
-        const dropzone = document.getElementById('file-dropzone');
-        const fileInput = document.getElementById('file-input');
-
-        dropzone.addEventListener('click', () => fileInput.click());
-        dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-emerald-500', 'bg-emerald-500/5'); });
-        dropzone.addEventListener('dragleave', () => { dropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5'); });
-        dropzone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5');
-            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) handleFileUpload(e.dataTransfer.files[0]);
-        });
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files && e.target.files.length > 0) handleFileUpload(e.target.files[0]);
-        });
-
-        function cancelUpload() {
-            document.getElementById('uploadModal').classList.replace('flex', 'hidden');
-            document.getElementById('file-dropzone').classList.remove('hidden');
-            document.getElementById('upload-form').classList.replace('flex', 'hidden');
-            document.getElementById('upload-status').classList.replace('flex', 'hidden');
-            document.getElementById('upload-error').classList.add('hidden');
-            document.getElementById('upload-author-name').value = '';
-            document.getElementById('file-input').value = '';
-            pendingFile = null;
-            pendingUploadData = null;
-        }
-
-        function handleFileUpload(file) {
-            if (!pendingUploadData) return;
-            if (!file.name.toLowerCase().endsWith('.dwg')) {
-                alert("❌ Formato incorrecto. El sistema de entrega solo admite archivos de AutoCAD (.dwg).");
-                return;
-            }
-            if (file.size > 20 * 1024 * 1024) {
-                alert("⚠️ El archivo es demasiado grande (Máximo 20MB para subir por la web). Optimiza el dibujo.");
-                return;
-            }
-            pendingFile = file;
-            document.getElementById('file-dropzone').classList.add('hidden');
-            document.getElementById('upload-form').classList.replace('hidden', 'flex');
-            document.getElementById('selected-file-name').innerText = file.name;
-        }
-
-        document.getElementById('btn-confirm-upload').addEventListener('click', () => {
-            const nameInput = document.getElementById('upload-author-name').value.trim();
-            const words = nameInput.split(/\s+/);
-            if (words.length < 2) {
-                document.getElementById('upload-error').classList.remove('hidden');
-                return;
-            }
-            document.getElementById('upload-error').classList.add('hidden');
-            document.getElementById('upload-form').classList.replace('flex', 'hidden');
-            document.getElementById('upload-status').classList.replace('hidden', 'flex');
-            document.getElementById('btn-cancel-upload').disabled = true;
-
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const base64Content = e.target.result.split(',')[1];
-                await processGitHubUpload(words, base64Content);
-            };
-            reader.readAsDataURL(pendingFile);
-        });
-
-        async function processGitHubUpload(nameWords, base64Content) {
-            const token = getGhToken();
-            const { issueNumber, partInfo } = pendingUploadData;
-            const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, '');
-            
-            let teamFolder = partInfo.team.replace(/\s+/g, ''); 
-            if (teamFolder === 'Dirección') teamFolder = 'Direccion';
-            
-            const cleanPartName = normalizeText(partInfo.name);
-            const authorFormatted = normalizeText(nameWords[0]) + normalizeText(nameWords[1]); 
-            const finalFileName = `${partInfo.id}_${cleanPartName}_${authorFormatted}.dwg`;
-            const path = `${teamFolder}/${finalFileName}`; 
-
-            try {
-                let fileSha = undefined;
-                try {
-                    const checkRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, { headers: { 'Authorization': `token ${token}` }});
-                    if (checkRes.ok) {
-                        const existingFile = await checkRes.json();
-                        fileSha = existingFile.sha; 
-                    }
-                } catch (e) {}
-
-                const bodyData = { message: `🚀 Entrega CAD (Auto): ${finalFileName}`, content: base64Content };
-                if (fileSha) bodyData.sha = fileSha;
-
-                const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
-                    method: 'PUT',
-                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify(bodyData)
-                });
-
-                if (!uploadRes.ok) throw new Error("Error de permisos.");
-
-                const uploadData = await uploadRes.json();
-                const fileUrl = uploadData.content.html_url;
-                const downloadUrl = uploadData.content.download_url;
-
-                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}/comments`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ body: `✅ **Archivo CAD Entregado y Verificado:**\n[${finalFileName}](${fileUrl})` })
-                });
-
-                const issueDataForUpdate = globalGithubIssues.find(i => i.number === issueNumber);
-                let newBody = issueDataForUpdate.body || '';
-                newBody = newBody.replace(/\n<!-- DWG_URL:.*?-->/g, ''); 
-                newBody += `\n<!-- DWG_URL: ${downloadUrl} -->`;
-
-                // SOLUCIÓN BUG: Conservamos las etiquetas existentes (como abandonado) y le sumamos 'hecho'
-                // NUEVO: Limpiamos las etiquetas de evaluación docente al subir un nuevo archivo
-                let currentLabels = issueDataForUpdate.labels.map(l => l.name).filter(n => !['sinhacer', 'enprogreso', 'eval-perfecto', 'eval-revisar'].includes(n.toLowerCase()));
-                if (!currentLabels.includes('hecho')) currentLabels.push('hecho');
-
-                await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
-                    method: 'PATCH',
-                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ labels: currentLabels, body: newBody })
-                });
-                
-                const issueIndex = globalGithubIssues.findIndex(i => i.number === issueNumber);
-                if (issueIndex > -1) {
-                    globalGithubIssues[issueIndex].labels = currentLabels.map(n => ({name: n}));
-                    globalGithubIssues[issueIndex].body = newBody;
-                }
-                
-                renderKanban(); 
-                alert(`🎉 ¡Entrega verificada!\n\nEl archivo ha sido renombrado automáticamente y subido a ${teamFolder}/`);
-            } catch (error) {
-                console.error(error);
-                alert("❌ Hubo un error subiendo el archivo. Asegúrate de tener permisos.");
-            } finally { cancelUpload(); }
-        }
 
         function updateKanbanCounts() {
             document.getElementById('count-todo').innerText = document.getElementById('col-todo').children.length;
@@ -1524,14 +1032,12 @@ Instruye al alumno respondiendo a lo siguiente:
                 let partId = issueIdMatch ? issueIdMatch[1] : null;
                 let partInfo = partsData.find(p => p.id === partId);
 
-                // FIX: Búsqueda flexible en caso de desfase entre GitHub y la base de datos local
                 if (!partInfo) {
                     const cleanTitleSearch = issue.title.replace(/\[.*?\]\s*/, '').trim().toLowerCase();
                     partInfo = partsData.find(p => cleanTitleSearch.includes(p.name.toLowerCase()));
                     if (partInfo) partId = partInfo.id;
                 }
 
-                // LEER SISTEMA ADMIN: Si hay un override en GitHub, lo aplicamos al vuelo
                 if (partInfo && issue.body) {
                     const overrideMatch = issue.body.match(/<!-- ASIGNADO:\s*(.+?)\s*-->/);
                     if (overrideMatch) partInfo.personName = overrideMatch[1];
@@ -1542,12 +1048,10 @@ Instruye al alumno respondiendo a lo siguiente:
 
                 const labels = issue.labels.map(l => l.name.toLowerCase()); 
 
-                // --- CÁLCULO PARA EL MINIGRÁFICO ---
                 totalEval++;
                 if (labels.includes('eval-perfecto')) perfCount++;
                 else if (labels.includes('eval-revisar')) revCount++;
                 else sinCount++;
-                // ------------------------------------
 
                 if (filterStatusValue !== 'all') {
                     if (filterStatusValue === 'sin-estado') {
@@ -1574,15 +1078,11 @@ Instruye al alumno respondiendo a lo siguiente:
                 
                 const card = document.createElement('div');
                 card.id = `issue-${issue.number}`;
-                card.draggable = true;
-                card.ondragstart = drag;
-                card.ondragend = dragEnd;
-                card.className = `bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 cursor-grab active:cursor-grabbing hover:border-orange-500/50 hover:bg-slate-800 transition-all shadow-md select-none group relative overflow-hidden flex flex-col ${extraCardClass}`;
+                card.className = `bg-slate-800/80 p-3.5 rounded-xl border border-slate-700 cursor-pointer hover:border-orange-500/50 hover:bg-slate-800 transition-all shadow-md select-none group relative overflow-hidden flex flex-col ${extraCardClass}`;
                 
                 card.addEventListener('click', () => { if (partInfo) openModal(partInfo); });
 
                 let studentName = partInfo && partInfo.personName && partInfo.personName !== '-' ? partInfo.personName : 'Sin asignar';
-
                 const initials = studentName !== 'Sin asignar' ? studentName.substring(0, 2).toUpperCase() : '??';
 
                 const avatarHtml = isAbandoned 
@@ -1598,26 +1098,37 @@ Instruye al alumno respondiendo a lo siguiente:
                     : `<p class="mb-2.5"></p>`;
 
                 let downloadBtnHtml = '';
-                if (state === 'done') {
-                    const dwgMatch = issue.body ? issue.body.match(/<!-- DWG_URL:\s*(.+?)\s*-->/) : null;
+                const dwgMatch = issue.body ? issue.body.match(/<!-- DWG_URL:\s*(.+?)\s*-->/) : null;
+                const pdfMatches = issue.body ? [...issue.body.matchAll(/<!-- PDF_URL:\s*(.+?)\s*-->/g)] : [];
+                
+                if (dwgMatch || pdfMatches.length > 0) {
+                    downloadBtnHtml = '<div class="mt-1 mb-2 grid grid-cols-2 gap-1.5 z-20 relative">';
                     if (dwgMatch && dwgMatch[1]) {
-                        downloadBtnHtml = `
-                            <a href="${dwgMatch[1]}" download target="_blank" onclick="event.stopPropagation();" class="mt-1 mb-3 w-full bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-900 border border-emerald-500/30 px-2 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition text-center flex items-center justify-center gap-1 z-20 relative">
-                                ⬇️ Descargar DWG
+                        downloadBtnHtml += `
+                            <a href="${dwgMatch[1]}" download target="_blank" onclick="event.stopPropagation();" class="bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-900 border border-emerald-500/30 px-2 py-1.5 rounded-lg text-[8px] font-bold uppercase tracking-widest transition text-center flex items-center justify-center gap-1">
+                                ⬇️ DWG
                             </a>
                         `;
                     }
+                    if (pdfMatches.length > 0) {
+                        pdfMatches.forEach((m, idx) => {
+                            downloadBtnHtml += `
+                                <a href="${m[1]}" download target="_blank" onclick="event.stopPropagation();" class="bg-blue-500/10 hover:bg-blue-500 text-blue-400 hover:text-slate-900 border border-blue-500/30 px-2 py-1.5 rounded-lg text-[8px] font-bold uppercase tracking-widest transition text-center flex items-center justify-center gap-1">
+                                    ⬇️ PDF ${pdfMatches.length > 1 ? (idx + 1) : ''}
+                                </a>
+                            `;
+                        });
+                    }
+                    downloadBtnHtml += `</div>`;
                 }
 
                 let evalBadgeHtml = '';
-                // Abandonado ya no monopoliza este espacio. Solo Perfecto o Revísalo van aquí abajo.
                 if (labels.includes('eval-perfecto')) {
                     evalBadgeHtml = `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded flex items-center gap-1 text-[8px] font-bold uppercase tracking-widest ml-auto shadow-[0_0_8px_rgba(16,185,129,0.2)]">✨ Perfecto</span>`;
                 } else if (labels.includes('eval-revisar')) {
                     evalBadgeHtml = `<span class="bg-orange-500/10 text-orange-400 border border-orange-500/20 px-1.5 py-0.5 rounded flex items-center gap-1 text-[8px] font-bold uppercase tracking-widest ml-auto shadow-[0_0_8px_rgba(249,115,22,0.2)]">🔄 Revísalo</span>`;
                 }
 
-                // NUEVO: Etiqueta central superior para Abandonado con diseño estándar y sutil
                 let abandonedBadgeTop = '';
                 if (isAbandoned) {
                     abandonedBadgeTop = `<div class="flex justify-center mb-2 w-full"><span class="bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-widest shadow-sm">🚨 Abandonado</span></div>`;
@@ -1646,7 +1157,6 @@ Instruye al alumno respondiendo a lo siguiente:
                 else if(state === 'done') doneCol.appendChild(card);
             });
             
-            // --- ACTUALIZAR MINIGRÁFICO ---
             if (totalEval > 0) {
                 const perfPct = (perfCount / totalEval) * 100;
                 const revPct = (revCount / totalEval) * 100;
@@ -1679,11 +1189,10 @@ Instruye al alumno respondiendo a lo siguiente:
             const doneCol = document.getElementById('col-done');
 
             if (!currentToken) {
-                todoCol.innerHTML = '<div class="p-4 bg-slate-800/80 border border-slate-700 rounded-2xl text-slate-400 text-[11px] shadow-inner">🔐 Haz clic en el botón <strong class="text-white">🔑 Conectar</strong> arriba e introduce la clave del equipo para cargar las tareas.</div>';
+                todoCol.innerHTML = '<div class="p-4 bg-slate-800/80 border border-slate-700 rounded-2xl text-slate-400 text-[11px] shadow-inner">🔐 Haz clic en el botón <strong class="text-white">🔑 Conectar</strong> arriba para iniciar el modo de solo lectura.</div>';
                 return;
             }
 
-            // Llamar a cargar los vídeos automáticamente al iniciar sesión
             loadVideos();
 
             todoCol.innerHTML = '<p class="text-[10px] text-slate-500 font-mono animate-pulse">Sincronizando...</p>';
@@ -1702,7 +1211,50 @@ Instruye al alumno respondiendo a lo siguiente:
             }
         }
 
-        // --- LÓGICA DE LA SECCIÓN DE VÍDEOS (DUDAS) YOUTUBE ---
+        async function descargarEnsamblaje(teamId, subsysName, format = 'dwg') {
+            const token = getGhToken();
+            if (!token) { 
+                alert("🔐 Necesitas conectar el tablero primero usando el botón 🔑 Conectar."); 
+                return; 
+            }
+            
+            let folder = teamId === 'dir' ? 'Direccion' : 
+                         teamId === 'eq1' ? 'PL19' : 
+                         teamId === 'eq2' ? 'PL20' : 'PL21';
+            
+            const cleanSubsysName = subsysName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${folder}`, {
+                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+                });
+                
+                if (!res.ok) throw new Error("Carpeta no encontrada");
+                
+                const files = await res.json();
+                
+                let assemblyFiles = [];
+                if (format === 'dwg') {
+                    assemblyFiles = files
+                        .filter(f => f.name.startsWith(`ENSAMBLAJE_${cleanSubsysName}_`) || f.name.toLowerCase().endsWith('.dwg'))
+                        .sort((a, b) => b.name.localeCompare(a.name)); 
+                } else if (format === 'pdf') {
+                    assemblyFiles = files
+                        .filter(f => f.name.startsWith(`PLANO_${cleanSubsysName}_`) || f.name.toLowerCase().endsWith('.pdf'))
+                        .sort((a, b) => b.name.localeCompare(a.name)); 
+                }
+                    
+                if (assemblyFiles.length > 0) {
+                    window.open(assemblyFiles[0].download_url, '_blank');
+                } else {
+                    alert(`📂 Aún no se ha subido ningún archivo ${format.toUpperCase()} oficial para "${subsysName}".`);
+                }
+            } catch (e) {
+                console.error(e);
+                alert(`📂 Aún no se ha subido ningún archivo oficial para "${subsysName}".`);
+            }
+        }
+
         function openVideoUpload() {
             const pass = prompt("Introduce la contraseña de administrador:");
             if (pass !== "adminpel") {
@@ -1721,7 +1273,6 @@ Instruye al alumno respondiendo a lo siguiente:
             document.getElementById('video-url-input').value = '';
         }
 
-        // Función para extraer el ID del vídeo desde cualquier formato de enlace de YouTube
         function getYouTubeID(url) {
             const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
             const match = url.match(regExp);
@@ -1750,12 +1301,9 @@ Instruye al alumno respondiendo a lo siguiente:
             const cleanTitle = title.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_');
             const timestamp = Date.now();
             
-            // Usamos la extensión .yt para identificar que es un enlace de YouTube
-            // El formato es: [timestamp]_yt_[ID]_Titulo.yt
             const finalFileName = `${timestamp}_yt_${ytID}_${cleanTitle}.yt`;
             const path = `recursos/videos/${finalFileName}`;
 
-            // Ponemos un contenido base64 genérico porque no importa el contenido, solo el nombre del archivo
             const base64Content = btoa("youtube link file");
 
             try {
@@ -1772,156 +1320,11 @@ Instruye al alumno respondiendo a lo siguiente:
                 
                 alert("🎉 ¡Vídeo de YouTube vinculado correctamente!");
                 cancelVideoUpload();
-                loadVideos(); // Refrescar la galería de vídeos
+                loadVideos();
             } catch (error) {
                 console.error(error);
                 alert("❌ Hubo un error vinculando el vídeo. Revisa tu conexión.");
                 cancelVideoUpload();
-            }
-        }
-
-        // --- LÓGICA DE SUBIDA DE ENSAMBLAJES (JEFATURA/DIRECCIÓN) ---
-        let pendingAssemblyTeam = null;
-        let pendingAssemblySubsys = null;
-        let pendingAssemblyFile = null;
-
-        function openAssemblyUpload(teamId, subsysName) {
-            // Contraseña eliminada según solicitud
-            pendingAssemblyTeam = teamId;
-            pendingAssemblySubsys = subsysName;
-            
-            let teamName = teamId === 'dir' ? 'Dirección' : 
-                           teamId === 'eq1' ? 'PL 19' : 
-                           teamId === 'eq2' ? 'PL 20' : 'PL 21';
-            
-            document.getElementById('assembly-team-name').innerText = `${teamName} - ${subsysName}`;
-            document.getElementById('assemblyUploadModal').classList.replace('hidden', 'flex');
-        }
-
-        function cancelAssemblyUpload() {
-            document.getElementById('assemblyUploadModal').classList.replace('flex', 'hidden');
-            document.getElementById('assembly-dropzone').classList.remove('hidden');
-            document.getElementById('assembly-upload-form').classList.replace('flex', 'hidden');
-            document.getElementById('assembly-upload-status').classList.replace('flex', 'hidden');
-            document.getElementById('assembly-input').value = '';
-            pendingAssemblyFile = null;
-            pendingAssemblyTeam = null;
-            pendingAssemblySubsys = null;
-        }
-
-        const assemblyDropzone = document.getElementById('assembly-dropzone');
-        const assemblyInput = document.getElementById('assembly-input');
-
-        assemblyDropzone.addEventListener('click', () => assemblyInput.click());
-        assemblyDropzone.addEventListener('dragover', (e) => { e.preventDefault(); assemblyDropzone.classList.add('border-emerald-500', 'bg-emerald-500/5'); });
-        assemblyDropzone.addEventListener('dragleave', () => { assemblyDropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5'); });
-        assemblyDropzone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            assemblyDropzone.classList.remove('border-emerald-500', 'bg-emerald-500/5');
-            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) handleAssemblyUpload(e.dataTransfer.files[0]);
-        });
-        
-        assemblyInput.addEventListener('change', (e) => {
-            if (e.target.files && e.target.files.length > 0) handleAssemblyUpload(e.target.files[0]);
-        });
-
-        function handleAssemblyUpload(file) {
-            const validExt = file.name.toLowerCase().endsWith('.dwg') || file.name.toLowerCase().endsWith('.zip');
-            if (!validExt) {
-                alert("❌ Formato incorrecto. Por favor, sube el ensamblaje en formato .dwg o comprimido en .zip.");
-                return;
-            }
-            if (file.size > 25 * 1024 * 1024) {
-                alert("⚠️ El archivo es demasiado grande (Máximo 25MB para subir por la web). Comprímelo o alójalo externamente si es necesario.");
-                return;
-            }
-            pendingAssemblyFile = file;
-            document.getElementById('assembly-dropzone').classList.add('hidden');
-            document.getElementById('assembly-upload-form').classList.replace('hidden', 'flex');
-            document.getElementById('selected-assembly-name').innerText = file.name;
-        }
-
-        document.getElementById('btn-confirm-assembly-upload').addEventListener('click', () => {
-            document.getElementById('assembly-upload-form').classList.replace('flex', 'hidden');
-            document.getElementById('assembly-upload-status').classList.replace('hidden', 'flex');
-
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const base64Content = e.target.result.split(',')[1];
-                await processAssemblyToGitHub(base64Content);
-            };
-            reader.readAsDataURL(pendingAssemblyFile);
-        });
-
-        async function processAssemblyToGitHub(base64Content) {
-            const token = getGhToken();
-            let folder = pendingAssemblyTeam === 'dir' ? 'Direccion' : 
-                         pendingAssemblyTeam === 'eq1' ? 'PL19' : 
-                         pendingAssemblyTeam === 'eq2' ? 'PL20' : 'PL21';
-                         
-            // Normalizar y limpiar el nombre del subsistema para el archivo
-            const cleanSubsysName = pendingAssemblySubsys.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
-
-            const ext = pendingAssemblyFile.name.split('.').pop();
-            const finalFileName = `ENSAMBLAJE_${cleanSubsysName}_v${Date.now()}.${ext}`;
-            const path = `${folder}/${finalFileName}`; 
-
-            try {
-                const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
-                    method: 'PUT',
-                    headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: `📦 Nuevo Ensamblaje subido (${pendingAssemblySubsys}): ${finalFileName}`,
-                        content: base64Content
-                    })
-                });
-
-                if (!uploadRes.ok) throw new Error("Error subiendo el ensamblaje.");
-                
-                alert(`🎉 ¡Ensamblaje guardado con éxito!\n\nSe ha almacenado en la ruta: ${folder}/`);
-            } catch (error) {
-                console.error(error);
-                alert("❌ Hubo un error subiendo el ensamblaje. Es posible que sea demasiado grande o haya un fallo de conexión.");
-            } finally {
-                cancelAssemblyUpload();
-            }
-        }
-
-        async function descargarEnsamblaje(teamId, subsysName) {
-            const token = getGhToken();
-            if (!token) { 
-                alert("🔐 Necesitas conectar el tablero primero usando el botón 🔑 Conectar."); 
-                return; 
-            }
-            
-            let folder = teamId === 'dir' ? 'Direccion' : 
-                         teamId === 'eq1' ? 'PL19' : 
-                         teamId === 'eq2' ? 'PL20' : 'PL21';
-            
-            const cleanSubsysName = subsysName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
-
-            try {
-                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${folder}`, {
-                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
-                });
-                
-                if (!res.ok) throw new Error("Carpeta no encontrada");
-                
-                const files = await res.json();
-                
-                // Buscamos archivos de ese subsistema específico y cogemos el más reciente
-                const assemblyFiles = files
-                    .filter(f => f.name.startsWith(`ENSAMBLAJE_${cleanSubsysName}_`))
-                    .sort((a, b) => b.name.localeCompare(a.name)); 
-                    
-                if (assemblyFiles.length > 0) {
-                    window.open(assemblyFiles[0].download_url, '_blank');
-                } else {
-                    alert(`📂 Aún no se ha subido ningún ensamblaje oficial para "${subsysName}".`);
-                }
-            } catch (e) {
-                console.error(e);
-                alert(`📂 Aún no se ha subido ningún ensamblaje oficial para "${subsysName}".`);
             }
         }
 
@@ -1948,7 +1351,6 @@ Instruye al alumno respondiendo a lo siguiente:
                 
                 const files = await res.json();
                 
-                // Leemos los .yt (nuevos) y los .mp4/.webm (los antiguos que ya tenías)
                 const videos = files.filter(f => f.name.match(/\.(mp4|webm|yt)$/i)).sort((a, b) => b.name.localeCompare(a.name)); 
 
                 if (videos.length === 0) {
@@ -1962,12 +1364,10 @@ Instruye al alumno respondiendo a lo siguiente:
                     let mediaHtml = "";
 
                     if (isYouTube) {
-                        // Formato: timestamp_yt_ID_Titulo.yt
                         const parts = v.name.split('_');
                         const ytID = parts[2];
                         displayTitle = parts.slice(3).join(' ').replace(/\.yt$/i, "");
                         
-                        // Obtenemos la miniatura oficial de YouTube
                         const thumbnailUrl = `https://img.youtube.com/vi/${ytID}/hqdefault.jpg`;
 
                         mediaHtml = `
@@ -1984,7 +1384,6 @@ Instruye al alumno respondiendo a lo siguiente:
                             </div>
                         `;
                     } else {
-                        // Es un vídeo mp4 antiguo
                         displayTitle = v.name.split('_').slice(1).join(' ').replace(/\.[^/.]+$/, "");
                         mediaHtml = `
                             <video controls class="w-full h-full object-contain absolute inset-0" preload="metadata">
@@ -2009,6 +1408,29 @@ Instruye al alumno respondiendo a lo siguiente:
             } catch (e) {
                 console.error("Error cargando vídeos:", e);
                 container.innerHTML = '<div class="col-span-full p-4 bg-red-900/20 border border-red-500/30 text-red-400 text-sm rounded-2xl text-center">Hubo un problema al cargar los vídeos desde el servidor.</div>';
+            }
+        }
+
+        // --- LÓGICA DE DESCARGA DEL PDF MAESTRO ---
+        async function descargarMasterPdf() {
+            const token = getGhToken();
+            if (!token) { 
+                alert("🔐 Necesitas conectar el tablero primero."); 
+                return; 
+            }
+            
+            try {
+                const path = `recursos/ENTREGA_FINAL_PEL.pdf`;
+                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+                });
+                
+                if (!res.ok) throw new Error("No encontrado");
+                
+                const fileData = await res.json();
+                window.open(fileData.download_url, '_blank');
+            } catch (e) {
+                alert(`📂 Aún no se ha subido el PDF Maestro final a la plataforma.`);
             }
         }
 
