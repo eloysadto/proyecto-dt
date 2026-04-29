@@ -1168,7 +1168,7 @@ Instruye al alumno respondiendo a lo siguiente:
                     if (pdfMatches.length > 0) {
                         pdfMatches.forEach((m, idx) => {
                             downloadBtnHtml += `
-                                <a href="${m[1]}" download target="_blank" onclick="event.stopPropagation();" class="bg-blue-500/10 hover:bg-blue-500 text-blue-400 hover:text-slate-900 border border-blue-500/30 px-2 py-1.5 rounded-lg text-[8px] font-bold uppercase tracking-widest transition text-center flex items-center justify-center gap-1">
+                                <a href="${m[1]}?t=${Date.now()}" download target="_blank" onclick="event.stopPropagation();" class="bg-blue-500/10 hover:bg-blue-500 text-blue-400 hover:text-slate-900 border border-blue-500/30 px-2 py-1.5 rounded-lg text-[8px] font-bold uppercase tracking-widest transition text-center flex items-center justify-center gap-1">
                                     ⬇️ PDF ${pdfMatches.length > 1 ? (idx + 1) : ''}
                                 </a>
                             `;
@@ -1529,6 +1529,7 @@ Instruye al alumno respondiendo a lo siguiente:
                 const issue = globalGithubIssues.find(i => i.number === issueNumber);
                 if (issue) {
                     let newBody = issue.body || '';
+                    newBody = newBody.replace(/\n?<!-- PDF_URL:.*?-->/g, '');
                     newBody += `\n<!-- PDF_URL: ${fileData.content.download_url} -->`;
                     await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
                         method: 'PATCH', headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
@@ -1671,6 +1672,50 @@ Instruye al alumno respondiendo a lo siguiente:
             reader.readAsDataURL(file);
         });
 
+        async function descargarEnsamblaje(teamId, subsysName, format = 'dwg') {
+            const token = getGhToken();
+            if (!token) { 
+                alert("🔐 Necesitas conectar el tablero primero usando el botón 🔑 Conectar."); 
+                return; 
+            }
+            
+            let folder = teamId === 'dir' ? 'Direccion' : 
+                         teamId === 'eq1' ? 'PL19' : 
+                         teamId === 'eq2' ? 'PL20' : 'PL21';
+            
+            const cleanSubsysName = subsysName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+
+            try {
+                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${folder}?t=${Date.now()}`, {
+                    headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+                });
+                
+                if (!res.ok) throw new Error("Carpeta no encontrada");
+                
+                const files = await res.json();
+                
+                let assemblyFiles = [];
+                if (format === 'dwg') {
+                    assemblyFiles = files
+                        .filter(f => f.name.startsWith(`ENSAMBLAJE_${cleanSubsysName}_`) || f.name.toLowerCase().endsWith('.dwg'))
+                        .sort((a, b) => b.name.localeCompare(a.name)); 
+                } else if (format === 'pdf') {
+                    assemblyFiles = files
+                        .filter(f => f.name.startsWith(`PLANO_${cleanSubsysName}_`) || f.name.toLowerCase().endsWith('.pdf'))
+                        .sort((a, b) => b.name.localeCompare(a.name)); 
+                }
+                    
+                if (assemblyFiles.length > 0) {
+                    window.open(assemblyFiles[0].download_url + '?t=' + Date.now(), '_blank');
+                } else {
+                    alert(`📂 Aún no se ha subido ningún archivo ${format.toUpperCase()} oficial para "${subsysName}".`);
+                }
+            } catch (e) {
+                console.error(e);
+                alert(`📂 Aún no se ha subido ningún archivo oficial para "${subsysName}".`);
+            }
+        }
+        
         async function descargarMasterPdf() {
             const token = getGhToken();
             if (!token) { 
@@ -1680,14 +1725,14 @@ Instruye al alumno respondiendo a lo siguiente:
             
             try {
                 const path = `recursos/ENTREGA_FINAL_PEL.pdf`;
-                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}?t=${Date.now()}`, {
                     headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
                 });
                 
                 if (!res.ok) throw new Error("No encontrado");
                 
                 const fileData = await res.json();
-                window.open(fileData.download_url, '_blank');
+                window.open(fileData.download_url + '?t=' + Date.now(), '_blank');
             } catch (e) {
                 alert(`📂 Aún no se ha subido el PDF Maestro final a la plataforma.`);
             }
