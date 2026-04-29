@@ -112,6 +112,9 @@
                     <button onclick="descargarMasterPdf()" class="bg-slate-800/80 backdrop-blur hover:bg-slate-700 border border-slate-600 text-slate-100 px-8 py-4 rounded-xl text-sm font-bold uppercase tracking-widest transition-all shadow-xl flex items-center justify-center gap-2">
                         ⬇️ Descargar Trabajo Final
                     </button>
+                    <button id="btn-master-upload" onclick="subirMasterPdf()" class="admin-only-btn hidden bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700 px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 mt-1">
+                        ⬆️ Reemplazar PDF (Admin)
+                    </button>
                 </div>
             </div>
         </section>
@@ -345,6 +348,10 @@
                     <button onclick="configurarToken()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold transition shadow-lg border border-slate-700 flex items-center justify-center gap-2 w-full sm:w-auto shrink-0">
                         🔑 Conectar
                     </button>
+
+                    <button id="btn-bulk-upload" onclick="triggerBulkPdfUpload()" class="admin-only-btn hidden bg-purple-900/40 hover:bg-purple-800 text-purple-300 border border-purple-500/30 px-4 py-2 rounded-xl text-xs font-bold transition shadow-lg flex items-center justify-center gap-2 w-full sm:w-auto shrink-0" title="Subir todos los PDFs de golpe">
+                        📚 Subida Masiva
+                    </button>
                 </div>
             </div>
 
@@ -487,7 +494,7 @@
     <!-- FOOTER -->
     <footer class="bg-slate-950 border-t border-slate-800 py-12">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-6">
-            <p class="text-[10px] text-slate-500 tracking-[0.5em] uppercase font-bold">Documentación Técnica PEL</p>
+            <p onclick="toggleAdminMode()" class="text-[10px] text-slate-500 tracking-[0.5em] uppercase font-bold cursor-pointer hover:text-orange-500 transition-colors" title="Activar/Desactivar Modo Admin">Documentación Técnica PEL ⚙️</p>
             <div class="w-12 h-1 bg-orange-600 mx-auto rounded-full"></div>
             <p class="text-[11px] text-slate-400 max-w-xl mx-auto">Plataforma centralizada de ingeniería Xiaomi Electric Scooter 4.</p>
         </div>
@@ -634,6 +641,25 @@
         </div>
     </div>
 
+    <!-- MODAL DE SUBIDA MASIVA (LOADING) -->
+    <div id="bulkUploadProgressModal" class="fixed inset-0 z-[500] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-950/98 backdrop-blur-sm"></div>
+        <div class="relative bg-slate-900 border border-purple-500/30 shadow-[0_0_50px_rgba(147,51,234,0.2)] rounded-3xl w-full max-w-sm p-8 z-10 flex flex-col items-center text-center fade-in">
+            <svg class="animate-spin h-10 w-10 text-purple-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            <h3 class="text-xl font-bold text-slate-100 mb-2 font-['Urbanist']">Subida Masiva en Curso</h3>
+            <p id="bulk-progress-text" class="text-sm text-slate-400 mb-2">Procesando archivo 0 de 29...</p>
+            <div class="w-full bg-slate-800 rounded-full h-2 mb-2 shadow-inner">
+                <div id="bulk-progress-bar" class="bg-purple-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <p class="text-[10px] text-orange-400 mt-2 font-bold">Por favor, no cierres ni recargues esta ventana.</p>
+        </div>
+    </div>
+
+    <!-- FILE UPLOADS INVISIBLES -->
+    <input type="file" id="master-pdf-upload" accept=".pdf" class="hidden">
+    <input type="file" id="global-pdf-upload" accept=".pdf" class="hidden">
+    <input type="file" id="bulk-pdf-upload" accept=".pdf" multiple class="hidden">
+
     <!-- SHARED SVG TEMPLATE -->
     <template id="scooter-svg-template">
         <svg viewBox="0 0 800 600" class="scooter-svg w-full h-full">
@@ -756,6 +782,30 @@
         };
 
         let currentPartForAI = null;
+        let isAdminMode = false;
+
+        function toggleAdminMode() {
+            if (isAdminMode) {
+                isAdminMode = false;
+                document.querySelectorAll('.admin-only-btn').forEach(el => el.classList.add('hidden'));
+                const activeTab = document.querySelector('.tab-active');
+                if(activeTab) showTab(activeTab.id.replace('btn-', ''));
+                renderKanban();
+                alert("🔒 Modo administrador desactivado. Entorno limpio.");
+                return;
+            }
+            const pass = prompt("Introduce contraseña de administrador para habilitar edición de archivos:");
+            if (pass === "adminpel") {
+                isAdminMode = true;
+                document.querySelectorAll('.admin-only-btn').forEach(el => el.classList.remove('hidden'));
+                const activeTab = document.querySelector('.tab-active');
+                if(activeTab) showTab(activeTab.id.replace('btn-', ''));
+                renderKanban();
+                alert("🔓 Modo administrador habilitado. Se han revelado los botones de subida de archivos.");
+            } else if (pass !== null) {
+                alert("❌ Contraseña incorrecta.");
+            }
+        }
 
         function showTab(id) {
             document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn tab-inactive px-8 py-4 text-xs font-bold uppercase tracking-widest transition');
@@ -779,6 +829,11 @@
                                     <button onclick="descargarEnsamblaje('${id}', '${s}', 'pdf')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-xl text-[9px] font-bold uppercase tracking-widest transition flex items-center justify-center shadow-md" title="Descargar planos PDF">
                                         ⬇️ PDF
                                     </button>
+                                    ${isAdminMode ? `
+                                    <button onclick="triggerSubsysPdfUpload('${id}', '${s}')" class="bg-purple-900/40 hover:bg-purple-800 text-purple-300 border border-purple-500/30 px-3 py-1.5 rounded-xl text-[9px] font-bold uppercase tracking-widest transition flex items-center justify-center shadow-md" title="Subir plano PDF">
+                                        ⬆️ Subir
+                                    </button>
+                                    ` : ''}
                                 </div>
                             </div>
                         `).join('')}
@@ -1122,6 +1177,14 @@ Instruye al alumno respondiendo a lo siguiente:
                     downloadBtnHtml += `</div>`;
                 }
 
+                if (isAdminMode) {
+                    downloadBtnHtml += `
+                        <button onclick="event.stopPropagation(); triggerPiecePdfUpload(${issue.number}, '${partId || ''}')" class="mb-3 w-full bg-purple-500/10 hover:bg-purple-500/30 text-purple-400 border border-purple-500/30 px-2 py-1.5 rounded-lg text-[8px] font-bold uppercase tracking-widest transition text-center flex items-center justify-center gap-1 z-20 relative">
+                            ⬆️ Subir PDF
+                        </button>
+                    `;
+                }
+
                 let evalBadgeHtml = '';
                 if (labels.includes('eval-perfecto')) {
                     evalBadgeHtml = `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded flex items-center gap-1 text-[8px] font-bold uppercase tracking-widest ml-auto shadow-[0_0_8px_rgba(16,185,129,0.2)]">✨ Perfecto</span>`;
@@ -1411,7 +1474,203 @@ Instruye al alumno respondiendo a lo siguiente:
             }
         }
 
-        // --- LÓGICA DE DESCARGA DEL PDF MAESTRO ---
+        // --- LÓGICA DE SUBIDAS (ADMIN MODE) ---
+        let pendingUploadType = null; 
+        let pendingUploadData = null; 
+
+        function triggerPiecePdfUpload(issueNumber, partId) {
+            pendingUploadType = 'piece';
+            pendingUploadData = { issueNumber, partId };
+            document.getElementById('global-pdf-upload').click();
+        }
+
+        function triggerSubsysPdfUpload(teamId, subsysName) {
+            pendingUploadType = 'subsys';
+            pendingUploadData = { teamId, subsysName };
+            document.getElementById('global-pdf-upload').click();
+        }
+
+        document.getElementById('global-pdf-upload')?.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const token = getGhToken();
+            if (!token) {
+                alert("🔐 Necesitas conectar el tablero primero.");
+                e.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async function(event) {
+                const base64Content = event.target.result.split(',')[1];
+                if (pendingUploadType === 'piece') await uploadPiecePdf(file.name, base64Content);
+                else if (pendingUploadType === 'subsys') await uploadSubsysPdf(file.name, base64Content);
+                e.target.value = '';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        async function uploadPiecePdf(fileName, base64Content) {
+            const token = getGhToken();
+            const { issueNumber, partId } = pendingUploadData;
+            const cleanName = fileName.replace(/[^a-zA-Z0-9.-]/g, '_');
+            const path = `recursos/entregas_pdf/${Date.now()}_${cleanName}`;
+
+            alert("⏳ Subiendo PDF... Por favor, espera.");
+            try {
+                const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                    method: 'PUT', headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: `⬆️ Subida manual: PDF pieza ${partId || issueNumber}`, content: base64Content })
+                });
+
+                if (!uploadRes.ok) throw new Error("Error en la subida.");
+                const fileData = await uploadRes.json();
+                
+                const issue = globalGithubIssues.find(i => i.number === issueNumber);
+                if (issue) {
+                    let newBody = issue.body || '';
+                    newBody += `\n<!-- PDF_URL: ${fileData.content.download_url} -->`;
+                    await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issueNumber}`, {
+                        method: 'PATCH', headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ body: newBody })
+                    });
+                    issue.body = newBody;
+                }
+                alert("✅ PDF subido y enlazado.");
+                renderKanban();
+            } catch (e) { alert("❌ Error en la subida."); }
+        }
+
+        async function uploadSubsysPdf(fileName, base64Content) {
+            const token = getGhToken();
+            const { teamId, subsysName } = pendingUploadData;
+            let folder = teamId === 'dir' ? 'Direccion' : teamId === 'eq1' ? 'PL19' : teamId === 'eq2' ? 'PL20' : 'PL21';
+            const cleanSubsysName = subsysName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+            const path = `${folder}/PLANO_${cleanSubsysName}_${Date.now()}.pdf`;
+
+            alert("⏳ Subiendo PDF del subsistema...");
+            try {
+                const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                    method: 'PUT', headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: `⬆️ Subida de PDF subsistema ${subsysName}`, content: base64Content })
+                });
+                if (!uploadRes.ok) throw new Error("Error subiendo el PDF.");
+                alert("✅ PDF de subsistema subido correctamente.");
+            } catch (e) { alert("❌ Error en la subida."); }
+        }
+
+        function triggerBulkPdfUpload() {
+            document.getElementById('bulk-pdf-upload').click();
+        }
+
+        document.getElementById('bulk-pdf-upload')?.addEventListener('change', async (e) => {
+            const files = e.target.files;
+            if (!files || files.length === 0) return;
+            const token = getGhToken();
+            if (!token) { alert("🔐 Necesitas conectar el tablero primero."); e.target.value = ''; return; }
+
+            if(!confirm(`¿Iniciar subida masiva de ${files.length} archivos?`)) { e.target.value = ''; return; }
+
+            document.getElementById('bulkUploadProgressModal').classList.replace('hidden', 'flex');
+            const progressText = document.getElementById('bulk-progress-text');
+            const progressBar = document.getElementById('bulk-progress-bar');
+            let successCount = 0, failCount = 0, notFoundCount = 0;
+            const clearedIssues = new Set();
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                progressText.innerText = `Procesando ${i + 1} de ${files.length}:\n${file.name}`;
+                progressBar.style.width = `${((i) / files.length) * 100}%`;
+
+                const match = file.name.match(/^(\d+\.\d+)/);
+                if (!match) { notFoundCount++; continue; }
+                const partId = match[1];
+                const part = partsData.find(p => p.id === partId);
+                if(!part) { notFoundCount++; continue; }
+
+                const issue = globalGithubIssues.find(iss => iss.title.includes(`[${partId}]`) || iss.title.toLowerCase().includes(part.name.toLowerCase()));
+                if (!issue) { notFoundCount++; continue; }
+
+                try {
+                    const base64Content = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.onerror = error => reject(error);
+                        reader.readAsDataURL(file);
+                    });
+
+                    const path = `recursos/entregas_pdf/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+                    const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                        method: 'PUT', headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: `⬆️ Subida masiva: PDF ${partId}`, content: base64Content })
+                    });
+                    if (!uploadRes.ok) throw new Error("Error en push a repo");
+                    
+                    const fileData = await uploadRes.json();
+                    let newBody = issue.body || '';
+                    if (!clearedIssues.has(issue.number)) {
+                        newBody = newBody.replace(/\n?<!-- PDF_URL:.*?-->/g, '');
+                        clearedIssues.add(issue.number);
+                    }
+                    newBody += `\n<!-- PDF_URL: ${fileData.content.download_url} -->`;
+
+                    await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/issues/${issue.number}`, {
+                        method: 'PATCH', headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ body: newBody })
+                    });
+                    issue.body = newBody;
+                    successCount++;
+                } catch(err) { failCount++; }
+            }
+            
+            progressBar.style.width = `100%`;
+            progressText.innerText = "¡Completado!";
+            setTimeout(() => {
+                document.getElementById('bulkUploadProgressModal').classList.replace('flex', 'hidden');
+                alert(`✅ Subida masiva completada.\n\nResultados:\n- Éxitos: ${successCount}\n- Fallos: ${failCount}\n- Ignorados: ${notFoundCount}`);
+                e.target.value = '';
+                renderKanban();
+            }, 600);
+        });
+
+        // --- LÓGICA DE SUBIDA Y DESCARGA DEL PDF MAESTRO ---
+        function subirMasterPdf() {
+            document.getElementById('master-pdf-upload').click();
+        }
+
+        document.getElementById('master-pdf-upload')?.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const token = getGhToken();
+            if (!token) { alert("🔐 Necesitas conectar el tablero primero."); e.target.value = ''; return; }
+
+            const reader = new FileReader();
+            reader.onload = async function(event) {
+                const base64Content = event.target.result.split(',')[1];
+                alert("⏳ Subiendo PDF Maestro...");
+                try {
+                    const path = `recursos/ENTREGA_FINAL_PEL.pdf`;
+                    let sha = null;
+                    try {
+                        const getRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, { headers: { 'Authorization': `token ${token}` } });
+                        if (getRes.ok) sha = (await getRes.json()).sha;
+                    } catch (err) {} 
+
+                    const bodyData = { message: `🎓 Actualiza PDF Maestro Final`, content: base64Content };
+                    if (sha) bodyData.sha = sha;
+
+                    const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
+                        method: 'PUT', headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+                        body: JSON.stringify(bodyData)
+                    });
+                    if (!uploadRes.ok) throw new Error("Error subiendo.");
+                    alert("✅ ¡PDF Maestro subido y guardado correctamente!");
+                } catch (err) { alert("❌ Error en la subida del documento final."); }
+                e.target.value = '';
+            };
+            reader.readAsDataURL(file);
+        });
+
         async function descargarMasterPdf() {
             const token = getGhToken();
             if (!token) { 
