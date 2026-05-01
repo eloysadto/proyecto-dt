@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Proyecto PEL - Xiaomi Electric Scooter 4</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Añadimos JSZip para poder comprimir todos los PDFs en un solo archivo -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Urbanist:wght@400;700&family=JetBrains+Mono:wght@500;800&display=swap');
         
@@ -77,8 +79,11 @@
                     <a href="#kanban" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Matriz Kanban</a>
                     <a href="#dudas" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Dudas</a>
                     <a href="#protocolos" class="nav-link px-4 py-2 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800/80 hover:text-white transition-all">Normativa</a>
-                    <div class="pl-2 border-l border-slate-700/50 ml-2">
+                    <div class="pl-2 border-l border-slate-700/50 ml-2 flex items-center">
                         <a href="#bibliografia" class="block px-4 py-2 bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400 text-white rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all shadow-lg shadow-orange-500/25">Documentación</a>
+                        <button onclick="toggleAdminMode()" id="admin-mode-btn" class="ml-3 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold uppercase tracking-widest rounded-xl border border-slate-600 transition-colors flex items-center shadow-md" title="Acceso al panel de control">
+                            ⚙️ Admin
+                        </button>
                     </div>
                 </div>
             </div>
@@ -92,6 +97,9 @@
                 <a href="#dudas" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Dudas</a>
                 <a href="#protocolos" class="nav-link block px-4 py-3 rounded-xl text-[12px] font-bold uppercase tracking-wider text-slate-400 hover:bg-slate-800 hover:text-white transition-all">Normativa</a>
                 <a href="#bibliografia" class="block px-4 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white rounded-xl text-[12px] font-bold uppercase tracking-wider transition-all text-center mt-2">Documentación</a>
+                <button onclick="toggleAdminMode()" id="admin-mode-btn-mobile" class="w-full mt-2 px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[12px] font-bold uppercase tracking-wider rounded-xl border border-slate-600 transition-colors flex items-center justify-center gap-2">
+                    ⚙️ Modo Admin
+                </button>
             </div>
         </nav>
     </div>
@@ -114,6 +122,9 @@
                     </button>
                     <button id="btn-master-upload" onclick="subirMasterPdf()" class="admin-only-btn hidden bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700 px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 mt-1">
                         ⬆️ Reemplazar PDF (Admin)
+                    </button>
+                    <button onclick="descargarTodosZip()" class="bg-blue-900/40 hover:bg-blue-800 text-blue-300 border border-blue-500/30 px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 mt-1 shadow-md">
+                        📦 Descargar Todo en ZIP (Ordenado)
                     </button>
                 </div>
             </div>
@@ -312,10 +323,14 @@
         <section id="kanban" class="scroll-mt-24">
             <div class="reveal mb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
                 <div>
-                    <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight">
+                    <h2 class="text-3xl font-bold text-slate-100 font-['Urbanist'] uppercase tracking-tight flex items-center flex-wrap gap-3">
                         Matriz Interactiva Kanban 
+                        <span class="text-[10px] bg-red-950/40 text-red-400 border border-red-500/30 px-3 py-1.5 rounded-xl font-mono tracking-widest flex items-center gap-1 shadow-inner" title="El proyecto ha finalizado, no se pueden reordenar las tareas.">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            BLOQUEADA
+                        </span>
                     </h2>
-                    <p class="mt-2 text-slate-400 text-sm">Busca y filtra tareas de diseño del proyecto. <span class="text-orange-400 font-bold">Haz clic en una pieza para ver sus detalles</span>.</p>
+                    <p class="mt-2 text-slate-400 text-sm">Busca y filtra tareas de diseño del proyecto. <span class="text-orange-400 font-bold">Haz clic en una pieza para ver sus detalles</span>. <span class="italic text-slate-500 ml-1">(Edición drag \& drop deshabilitada)</span>.</p>
                 </div>
                 
                 <div class="flex flex-col sm:flex-row items-center gap-3 bg-slate-900/50 p-2.5 rounded-2xl border border-slate-800 w-full lg:w-auto">
@@ -494,7 +509,7 @@
     <!-- FOOTER -->
     <footer class="bg-slate-950 border-t border-slate-800 py-12">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-6">
-            <p onclick="toggleAdminMode()" class="text-[10px] text-slate-500 tracking-[0.5em] uppercase font-bold cursor-pointer hover:text-orange-500 transition-colors" title="Activar/Desactivar Modo Admin">Documentación Técnica PEL ⚙️</p>
+            <p class="text-[10px] text-slate-500 tracking-[0.5em] uppercase font-bold">Documentación Técnica PEL</p>
             <div class="w-12 h-1 bg-orange-600 mx-auto rounded-full"></div>
             <p class="text-[11px] text-slate-400 max-w-xl mx-auto">Plataforma centralizada de ingeniería Xiaomi Electric Scooter 4.</p>
         </div>
@@ -641,12 +656,12 @@
         </div>
     </div>
 
-    <!-- MODAL DE SUBIDA MASIVA (LOADING) -->
+    <!-- MODAL DE SUBIDA MASIVA / DESCARGA ZIP (LOADING) -->
     <div id="bulkUploadProgressModal" class="fixed inset-0 z-[500] hidden items-center justify-center p-4">
         <div class="absolute inset-0 bg-slate-950/98 backdrop-blur-sm"></div>
         <div class="relative bg-slate-900 border border-purple-500/30 shadow-[0_0_50px_rgba(147,51,234,0.2)] rounded-3xl w-full max-w-sm p-8 z-10 flex flex-col items-center text-center fade-in">
             <svg class="animate-spin h-10 w-10 text-purple-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-            <h3 class="text-xl font-bold text-slate-100 mb-2 font-['Urbanist']">Subida Masiva en Curso</h3>
+            <h3 id="bulk-modal-title" class="text-xl font-bold text-slate-100 mb-2 font-['Urbanist']">Subida Masiva en Curso</h3>
             <p id="bulk-progress-text" class="text-sm text-slate-400 mb-2">Procesando archivo 0 de 29...</p>
             <div class="w-full bg-slate-800 rounded-full h-2 mb-2 shadow-inner">
                 <div id="bulk-progress-bar" class="bg-purple-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
@@ -788,6 +803,10 @@
             if (isAdminMode) {
                 isAdminMode = false;
                 document.querySelectorAll('.admin-only-btn').forEach(el => el.classList.add('hidden'));
+                document.querySelectorAll('#admin-mode-btn, #admin-mode-btn-mobile').forEach(btn => {
+                    btn.classList.remove('bg-orange-600', 'text-white', 'border-orange-500');
+                    btn.classList.add('bg-slate-800', 'text-slate-300', 'border-slate-600');
+                });
                 const activeTab = document.querySelector('.tab-active');
                 if(activeTab) showTab(activeTab.id.replace('btn-', ''));
                 renderKanban();
@@ -798,10 +817,14 @@
             if (pass === "adminpel") {
                 isAdminMode = true;
                 document.querySelectorAll('.admin-only-btn').forEach(el => el.classList.remove('hidden'));
+                document.querySelectorAll('#admin-mode-btn, #admin-mode-btn-mobile').forEach(btn => {
+                    btn.classList.remove('bg-slate-800', 'text-slate-300', 'border-slate-600');
+                    btn.classList.add('bg-orange-600', 'text-white', 'border-orange-500');
+                });
                 const activeTab = document.querySelector('.tab-active');
                 if(activeTab) showTab(activeTab.id.replace('btn-', ''));
                 renderKanban();
-                alert("🔓 Modo administrador habilitado. Se han revelado los botones de subida de archivos.");
+                alert("🔓 Modo administrador habilitado. Se han revelado los controles de subida y gestión.");
             } else if (pass !== null) {
                 alert("❌ Contraseña incorrecta.");
             }
@@ -1572,6 +1595,7 @@ Instruye al alumno respondiendo a lo siguiente:
 
             if(!confirm(`¿Iniciar subida masiva de ${files.length} archivos?`)) { e.target.value = ''; return; }
 
+            document.getElementById('bulk-modal-title').innerText = "Subida Masiva en Curso";
             document.getElementById('bulkUploadProgressModal').classList.replace('hidden', 'flex');
             const progressText = document.getElementById('bulk-progress-text');
             const progressBar = document.getElementById('bulk-progress-bar');
@@ -1600,7 +1624,12 @@ Instruye al alumno respondiendo a lo siguiente:
                         reader.readAsDataURL(file);
                     });
 
-                    const path = `recursos/entregas_pdf/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+                    // Modificación: Renombrar automáticamente en GitHub
+                    let studentName = part.personName && part.personName !== '-' ? part.personName : 'Sin_Asignar';
+                    let cleanName = studentName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_');
+                    const newFileName = `${cleanName}_${partId}_${Date.now()}.pdf`;
+
+                    const path = `recursos/entregas_pdf/${newFileName}`;
                     const uploadRes = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${path}`, {
                         method: 'PUT', headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
                         body: JSON.stringify({ message: `⬆️ Subida masiva: PDF ${partId}`, content: base64Content })
@@ -1633,6 +1662,121 @@ Instruye al alumno respondiendo a lo siguiente:
                 renderKanban();
             }, 600);
         });
+
+        // --- LÓGICA DE DESCARGA MASIVA ZIP (ADMIN) ---
+        async function descargarTodosZip() {
+            const token = getGhToken();
+            if (!token) { alert("🔐 Necesitas conectar el tablero primero."); return; }
+
+            document.getElementById('bulk-modal-title').innerText = "Generando Archivo ZIP";
+            document.getElementById('bulkUploadProgressModal').classList.replace('hidden', 'flex');
+            const progressText = document.getElementById('bulk-progress-text');
+            const progressBar = document.getElementById('bulk-progress-bar');
+            
+            try {
+                const zip = new JSZip();
+                let pdfCount = 0;
+                
+                progressText.innerText = "Recopilando PDFs de las piezas individuales...";
+                progressBar.style.width = "10%";
+
+                let processed = 0;
+                for (const part of partsData) {
+                    processed++;
+                    progressBar.style.width = `${10 + (processed / partsData.length) * 50}%`;
+                    
+                    const issue = globalGithubIssues.find(iss => iss.title.includes(`[${part.id}]`) || iss.title.toLowerCase().includes(part.name.toLowerCase()));
+                    if (!issue || !issue.body) continue;
+
+                    const pdfMatches = [...issue.body.matchAll(/<!-- PDF_URL:\s*(.+?)\s*-->/g)];
+                    if (pdfMatches.length === 0) continue;
+
+                    let studentName = part.personName && part.personName !== '-' ? part.personName : 'Sin_Asignar';
+                    let cleanName = studentName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '_');
+                    
+                    for (let i = 0; i < pdfMatches.length; i++) {
+                        const pdfUrl = pdfMatches[i][1];
+                        try {
+                            const response = await fetch(pdfUrl + '?t=' + Date.now());
+                            const blob = await response.blob();
+                            
+                            let fileName = `Piezas/${cleanName}_${part.id}`;
+                            if (pdfMatches.length > 1) fileName += `_Parte${i+1}`;
+                            fileName += ".pdf";
+                            
+                            zip.file(fileName, blob);
+                            pdfCount++;
+                        } catch (err) {
+                            console.error(`Error descargando PDF de ${part.id}:`, err);
+                        }
+                    }
+                }
+
+                progressText.innerText = "Recopilando PDFs de Subsistemas...";
+                progressBar.style.width = "75%";
+
+                const folders = ['Direccion', 'PL19', 'PL20', 'PL21'];
+                
+                // Mapeo de Jefes de PL y Dirección según el organigrama
+                const jefesMap = {
+                    'Direccion': 'Eloy_Santos',
+                    'PL19': 'Marcos_Menendez',
+                    'PL20': 'Eloy_Santos',
+                    'PL21': 'Hugo_Ojeda'
+                };
+
+                for (const folder of folders) {
+                    try {
+                        const res = await fetch(`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${folder}?t=${Date.now()}`, {
+                            headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' }
+                        });
+                        if (res.ok) {
+                            const files = await res.json();
+                            const pdfFiles = files.filter(f => f.name.toLowerCase().endsWith('.pdf'));
+                            for (const f of pdfFiles) {
+                                const response = await fetch(f.download_url + '?t=' + Date.now());
+                                const blob = await response.blob();
+                                
+                                let nombreJefe = jefesMap[folder] || 'Sin_Asignar';
+                                let baseName = f.name;
+                                
+                                // Limpiamos el nombre si tiene el formato automático "PLANO_Nombre_Subsistema_123456789.pdf"
+                                const match = f.name.match(/^PLANO_(.+?)_\d+\.pdf$/i);
+                                if (match) {
+                                    baseName = match[1] + '.pdf';
+                                }
+                                
+                                zip.file(`Subsistemas/${nombreJefe}_${baseName}`, blob);
+                                pdfCount++;
+                            }
+                        }
+                    } catch (err) {}
+                }
+
+                progressText.innerText = "Comprimiendo archivo ZIP...";
+                progressBar.style.width = "90%";
+
+                if (pdfCount === 0) {
+                    document.getElementById('bulkUploadProgressModal').classList.replace('flex', 'hidden');
+                    alert("⚠️ No se encontraron PDFs para descargar.");
+                    return;
+                }
+
+                const content = await zip.generateAsync({type:"blob"});
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.download = "Entregas_PEL_Ordenadas.zip";
+                link.click();
+
+                document.getElementById('bulkUploadProgressModal').classList.replace('flex', 'hidden');
+                alert(`✅ ZIP descargado con éxito conteniendo ${pdfCount} PDFs ordenados alfabéticamente.`);
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('bulkUploadProgressModal').classList.replace('flex', 'hidden');
+                alert("❌ Ocurrió un error al generar el ZIP. Revisa tu conexión a internet.");
+            }
+        }
 
         // --- LÓGICA DE SUBIDA Y DESCARGA DEL PDF MAESTRO ---
         function subirMasterPdf() {
@@ -1678,6 +1822,10 @@ Instruye al alumno respondiendo a lo siguiente:
                 alert("🔐 Necesitas conectar el tablero primero usando el botón 🔑 Conectar."); 
                 return; 
             }
+
+            // TRUCO ANTI POP-UP BLOCKER PARA MÓVILES
+            const newTab = window.open('', '_blank');
+            if (newTab) newTab.document.write('<p style="font-family: sans-serif; padding: 20px; color: #475569;">Cargando documento...</p>');
             
             let folder = teamId === 'dir' ? 'Direccion' : 
                          teamId === 'eq1' ? 'PL19' : 
@@ -1706,12 +1854,19 @@ Instruye al alumno respondiendo a lo siguiente:
                 }
                     
                 if (assemblyFiles.length > 0) {
-                    window.open(assemblyFiles[0].download_url + '?t=' + Date.now(), '_blank');
+                    const targetUrl = assemblyFiles[0].download_url + '?t=' + Date.now();
+                    if (newTab) {
+                        newTab.location.href = targetUrl;
+                    } else {
+                        window.location.href = targetUrl; // Fallback
+                    }
                 } else {
+                    if (newTab) newTab.close();
                     alert(`📂 Aún no se ha subido ningún archivo ${format.toUpperCase()} oficial para "${subsysName}".`);
                 }
             } catch (e) {
                 console.error(e);
+                if (newTab) newTab.close();
                 alert(`📂 Aún no se ha subido ningún archivo oficial para "${subsysName}".`);
             }
         }
@@ -1722,6 +1877,10 @@ Instruye al alumno respondiendo a lo siguiente:
                 alert("🔐 Necesitas conectar el tablero primero."); 
                 return; 
             }
+
+            // TRUCO ANTI POP-UP BLOCKER PARA MÓVILES
+            const newTab = window.open('', '_blank');
+            if (newTab) newTab.document.write('<p style="font-family: sans-serif; padding: 20px; color: #475569;">Preparando descarga segura...</p>');
             
             try {
                 const path = `recursos/ENTREGA_FINAL_PEL.pdf`;
@@ -1732,8 +1891,15 @@ Instruye al alumno respondiendo a lo siguiente:
                 if (!res.ok) throw new Error("No encontrado");
                 
                 const fileData = await res.json();
-                window.open(fileData.download_url + '?t=' + Date.now(), '_blank');
+                const targetUrl = fileData.download_url + '?t=' + Date.now();
+
+                if (newTab) {
+                    newTab.location.href = targetUrl;
+                } else {
+                    window.location.href = targetUrl; // Fallback
+                }
             } catch (e) {
+                if (newTab) newTab.close();
                 alert(`📂 Aún no se ha subido el PDF Maestro final a la plataforma.`);
             }
         }
